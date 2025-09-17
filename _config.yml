@@ -4,10 +4,10 @@
 
 title: ARC # the website title (if blank, full name will be used instead)
 first_name: Arnav
-middle_name: 
+middle_name:
 last_name: Rastogi
 contact_note: >
-  Best way to reach me is through gmail 
+  Best way to reach me is through gmail
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
   A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 footer_text: >
