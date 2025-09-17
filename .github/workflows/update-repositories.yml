@@ -2,48 +2,34 @@ name: Update Pinned Repos
 
 on:
   schedule:
-    - cron: "0 0 * * 0"   # weekly
+    - cron: "0 0 * * 0" # every Sunday midnight UTC
   workflow_dispatch:
 
 jobs:
   update-pinned:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Install jq and yq
+        run: sudo apt-get update && sudo apt-get install -y jq yq
 
       - name: Fetch pinned repos
         run: |
-          # GraphQL query to get pinned repos
-          query='{
-            user(login: "ARC345") {
-              pinnedItems(first: 6, types: REPOSITORY) {
-                nodes {
-                  ... on Repository {
-                    nameWithOwner
-                  }
-                }
-              }
-            }
-          }'
-
-          # call GitHub GraphQL API
           curl -s -H "Authorization: bearer ${{ secrets.GH_TOKEN }}" \
-               -X POST -d "{\"query\":\"$query\"}" https://api.github.com/graphql \
-            | jq -r '.data.user.pinnedItems.nodes[].nameWithOwner' > pinned.txt
+               -H "Content-Type: application/json" \
+               -X POST \
+               -d '{"query":"{ user(login: \"ARC345\") { pinnedItems(first: 6, types: REPOSITORY) { nodes { ... on Repository { nameWithOwner } } } } }"}' \
+               https://api.github.com/graphql \
+          | jq -r '.data.user.pinnedItems.nodes[].nameWithOwner' > pinned.txt
 
       - name: Update github_repos in repositories.yml
         run: |
-          # generate YAML list for github_repos
           echo "github_repos:" > new_repos.yml
           sed 's/^/  - /' pinned.txt >> new_repos.yml
-
-          # replace github_repos section using yq
-          yq eval-all 'select(fileIndex==0) *+ select(fileIndex==1)' \
-            _data/repositories.yml new_repos.yml > tmp.yml
+          yq eval-all 'select(fileIndex==0) *+ select(fileIndex==1)' _data/repositories.yml new_repos.yml > tmp.yml
           mv tmp.yml _data/repositories.yml
 
       - name: Commit changes
