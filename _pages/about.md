@@ -2,14 +2,16 @@
 layout: about
 title: me
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc.
+subtitle: <a href="https://micromasters.mit.edu/">MIT MicroMasters</a> | <a href="https://iitj.ac.in">IIT Jodhpur</a> | AI & RL Enthusiast
 
 profile:
   align: right
   image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>FLoating around</p>
+    <p>Male</p>
+    <p>04/03/2005</p>
+    <p>Indian</p>
 
 selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
@@ -30,7 +32,7 @@ I’m currently pursuing MIT’s **MicroMasters in Data Science**, while also st
 
 Outside of research and coding, I’m passionate about staying active and exploring the world:  
 - I **work out regularly** and focus on strength and endurance.  
-- I **played football competitively** and represented at the **national level**.  
-- I’m a **certified Advanced Open Water Diver**, exploring underwater ecosystems whenever I get the chance.  
+- I **played football competitively** and represented at the **national level**.
+- I’m a **certified Advanced Open Water Diver**, exploring underwater ecosystems whenever I get the chance.
 
 When I’m not coding or training, I enjoy connecting with smart peers, working on side projects that stretch beyond traditional boundaries, and learning new skills. 

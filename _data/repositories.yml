@@ -1,14 +1,10 @@
 github_users:
-  - torvalds
-  - alshedivat
+  - ARC345
 
-repo_description_lines_max: 2
+repo_description_lines_max: 3
 
 github_repos:
-  - alshedivat/al-folio
-  - jekyll/jekyll
-  - twbs/bootstrap
-  - jquery/jquery
-  - FortAwesome/Font-Awesome
-  - mathjax/MathJax
-  - jpswalsh/academicons
+  ARC345/SudokuSolver
+  ARC345/ARC-SurvivalGame
+  ARC345/ARC-Engine
+  ARC345/bscollective
