@@ -2,7 +2,7 @@ name: Update Pinned Repos
 
 on:
   schedule:
-    - cron: "0 0 * * 0" # every Sunday midnight UTC
+    - cron: "0 0 * * 0" # weekly
   workflow_dispatch:
 
 jobs:
@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Install jq and yq
-        run: sudo apt-get update && sudo apt-get install -y jq yq
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Fetch pinned repos
         run: |
@@ -27,9 +27,14 @@ jobs:
 
       - name: Update github_repos in repositories.yml
         run: |
-          echo "github_repos:" > new_repos.yml
-          sed 's/^/  - /' pinned.txt >> new_repos.yml
-          yq eval-all 'select(fileIndex==0) *+ select(fileIndex==1)' _data/repositories.yml new_repos.yml > tmp.yml
+          # remove old github_repos section
+          awk '/^github_repos:/ {flag=1; next} /^$/ {flag=0} !flag {print}' _data/repositories.yml > tmp.yml
+
+          # append new github_repos section
+          echo "github_repos:" >> tmp.yml
+          sed 's/^/  - /' pinned.txt >> tmp.yml
+
+          # overwrite the original file
           mv tmp.yml _data/repositories.yml
 
       - name: Commit changes
