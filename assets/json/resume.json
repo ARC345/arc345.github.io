@@ -1,25 +1,20 @@
 {
   "basics": {
-    "name": "Albert Einstein",
+    "name": "Arnav Rastogi",
     "label": "Scientist",
     "image": "",
-    "email": "albert@einstein.de",
-    "phone": "(912) 123-4567",
-    "url": "https://alshedivat.github.io/al-folio/",
-    "summary": "A German-born theoretical physicist, widely ranked among the greatest and most influential scientists of all time",
+    "email": "arnavrastogi.543@gmail.com",
+    "phone": "91 7905708817",
+    "url": "https://arc345.github.io/al-folio/",
+    "summary": "",
     "location": {
-      "address": "2712 Broadway St",
-      "postalCode": "CA 94115",
-      "city": "San Francisco",
-      "countryCode": "US",
-      "region": "California"
+      "address": "256 A HIG RatanLalNagar",
+      "postalCode": "208022",
+      "city": "Kanpur",
+      "countryCode": "IN",
+      "region": "UP"
     },
     "profiles": [
-      {
-        "network": "Twitter",
-        "username": "AlbertEinstein",
-        "url": "https://twitter.com/AlbertEinstein"
-      }
     ]
   },
   "work": [
