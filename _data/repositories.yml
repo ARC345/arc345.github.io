@@ -4,7 +4,7 @@ github_users:
 repo_description_lines_max: 3
 
 github_repos:
-  ARC345/SudokuSolver
-  ARC345/ARC-SurvivalGame
-  ARC345/ARC-Engine
-  ARC345/bscollective
+  - ARC345/SudokuSolver
+  - ARC345/ARC-SurvivalGame
+  - ARC345/ARC-Engine
+  - ARC345/bscollective
