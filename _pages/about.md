@@ -1,6 +1,6 @@
 ---
 layout: about
-title: about
+title:
 nav: false
 permalink: /
 subtitle: <a href="https://micromasters.mit.edu/">MIT MicroMasters</a> | <a href="https://iitj.ac.in">IIT Jodhpur</a> | AI & RL Enthusiast
