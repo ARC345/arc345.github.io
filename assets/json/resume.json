@@ -1,5 +1,4 @@
 {
-  "$schema": "https://jsonresume.org/schema",
   "basics": {
     "name": "Arnav Rastogi",
     "image": "",
@@ -9,7 +8,8 @@
     "url": "https://arnav.rastogi.net.in/",
     "location": {
       "city": "Kanpur",
-      "country": "India"
+      "country": "India",
+      "countryCode": "IN"
     },
     "profiles": [
       {
@@ -94,11 +94,12 @@
     {
       "name": "Unreal Engine 5 C++ Developer: Learn C++ & Make Video Games",
       "issuer": "Udemy",
-      "url": "https://www.udemy.com/certificate/UC-cd8a7b34-0538-4764-8ae4-c950f48409f9/"
+      "url": "https://www.udemy.com/certificate/UC-fea889c4-20f2-4758-aeaa-72c459cfd7f5/"
     },
     {
       "name": "Unreal Engine 4 Mastery: Create Multiplayer Games with C++",
-      "issuer": "Udemy"
+      "issuer": "Udemy",
+      "url": "https://www.udemy.com/certificate/UC-cd8a7b34-0538-4764-8ae4-c950f48409f9/"
     }
   ],
   "projects": [
@@ -125,11 +126,7 @@
       "description": "A 2D game engine built in C++ and OpenGL",
       "keywords": ["C++", "OpenGL", "ImGui", "EnTT", "Premake"],
       "url": "https://github.com/ARC345/ARC-Engine",
-      "highlights": [
-        "Implemented ECS architecture using EnTT",
-        "Built real-time editor using ImGui",
-        "Created OpenGL rendering pipeline"
-      ]
+      "highlights": ["Implemented ECS architecture using EnTT", "Built real-time editor using ImGui", "Created OpenGL rendering pipeline"]
     },
     {
       "name": "Rush",
@@ -171,15 +168,9 @@
       "keywords": ["Adventure", "Cultural exploration"]
     },
     {
-    "name": "Football",
-    "icon": "fa-solid fa-futbol",
-    "keywords": ["Team play", "Strategy"]
+      "name": "Football",
+      "icon": "fa-solid fa-futbol",
+      "keywords": ["Team play", "Strategy"]
     }
-  ],
-  "meta": {
-    "canonical": "",
-    "version": "1.0.3",
-    "lastModified": "2025-11-02",
-    "author": "Arnav Rastogi"
-  }
+  ]
 }
