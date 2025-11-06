@@ -2,7 +2,7 @@
 # Site settings
 # -----------------------------------------------------------------------------
 
-title: Arnav Rastogi# the website title (if blank, full name will be used instead)
+title: Arnav Rastogi # the website title (if blank, full name will be used instead)
 first_name: Arnav
 middle_name:
 last_name: Rastogi
@@ -353,6 +353,7 @@ imagemagick:
     - 480
     - 800
     - 1400
+
   input_directories:
     - assets/img/
   input_formats:
