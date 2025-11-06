@@ -2,7 +2,7 @@
 # Site settings
 # -----------------------------------------------------------------------------
 
-title: # the website title (if blank, full name will be used instead)
+title: Arnav Rastogi# the website title (if blank, full name will be used instead)
 first_name: Arnav
 middle_name:
 last_name: Rastogi
@@ -54,7 +54,7 @@ posts_in_search: true
 bib_search: true
 
 # Dimensions
-max_width: 930px
+max_width: 1230px
 
 # TODO: add layout settings (single page vs. multi-page)
 
