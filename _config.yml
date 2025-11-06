@@ -628,7 +628,7 @@ third_party_libraries:
 
 jekyll_get_json:
   - data: resume
-    json: https://gist.github.com/ARC345/1803646216d876ace8dd25d5c769b328
+    json: https://gist.githubusercontent.com/ARC345/1803646216d876ace8dd25d5c769b328/raw/resume.json
 
 jsonresume:
   - basics
