@@ -33,8 +33,16 @@ body.sticky-bottom-footer {
 
 // Profile
 .profile {
+  margin-top: -100px;
   img {
     width: 100%;
+  }
+}
+
+// Move profile image up on mobile devices only
+@media (max-width: 576px) {
+  .profile {
+    margin-top: -0px;
   }
 }
 
