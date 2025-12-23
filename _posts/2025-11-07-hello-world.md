@@ -7,7 +7,7 @@ tags:
 categories: personal
 ---
 
-# Welcome to My Corner of the Web "arc-blog"
+# Welcome to My Corner of the Web **arc-blog**
 
 Welcome to arc-blog — my small corner of the internet. I’m studying Artificial Intelligence and Data Science, but this space isn’t just about code. It’s about learning, experimenting, and trying to make sense of things — both in technology and in life.
 
