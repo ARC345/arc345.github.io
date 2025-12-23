@@ -51,6 +51,7 @@ table.table a {
 
 .table-dark {
   background-color: transparent;
+
   &.table-bordered {
     border: 1px solid var(--global-divider-color) !important;
   }
@@ -135,7 +136,8 @@ blockquote {
 // Checklist
 
 ul.task-list {
-  list-style-type: none; /* Remove bullets from all levels */
+  list-style-type: none;
+  /* Remove bullets from all levels */
 }
 
 ul.task-list > li ul {
@@ -808,6 +810,7 @@ footer.sticky-bottom {
             border-color: var(--global-theme-color);
           }
         }
+
         a.award.btn {
           border-color: var(--global-highlight-color);
         }
@@ -815,6 +818,7 @@ footer.sticky-bottom {
 
       .badges {
         padding-bottom: 0.5rem;
+
         span {
           display: inline-block;
           color: $black-color;
@@ -868,9 +872,11 @@ footer.sticky-bottom {
         border-color: var(--global-text-color);
       }
     }
+
     div.award.hidden {
       border: dashed 1px var(--global-bg-color);
     }
+
     div.award.hidden.open {
       border-color: var(--global-highlight-color);
     }
@@ -1299,6 +1305,7 @@ ninja-keys::part(ninja-input-wrapper) {
   .newsletter-error {
     font-size: 16px !important;
   }
+
   .newsletter-form-container {
     margin-right: 20px;
     margin-left: 20px;
@@ -1353,7 +1360,8 @@ ninja-keys::part(ninja-input-wrapper) {
 figure.cover {
   display: inline-block;
   text-align: center;
-  margin: 0.5rem; /* adjust as needed */
+  margin: 0.5rem;
+  /* adjust as needed */
 
   img {
     vertical-align: bottom;

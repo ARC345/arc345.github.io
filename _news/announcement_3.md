@@ -1,8 +1,8 @@
 ---
 layout: post
-date: 2016-01-15 07:59:00-0400
+date: 2025-12-24 07:59:00-0500
 inline: true
-related_posts: false
+related_posts: true
 ---
 
-A simple inline announcement with Markdown emoji! :sparkles: :smile:
+Came back from Egypt :smile:
