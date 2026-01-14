@@ -85,6 +85,6 @@ While ReLU is competitive and slightly faster in conservative settings, it is br
 
 ## 4. Code Availability
 
-The code for these experiments is available in the following repository:
+The code for these experiments is available in the [`experiment/relu-vs-gelu`](https://github.com/ARC345/llm-lab/tree/experiment/relu-vs-gelu) branch of the following repository:
 
-{% include repository/repo.liquid repository="ARC345/gpt-from-scratch" %}
+{% include repository/repo.liquid repository="ARC345/llm-lab" %}
