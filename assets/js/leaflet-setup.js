@@ -15,7 +15,13 @@ document.addEventListener("readystatechange", () => {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }).addTo(map);
-      let geoJSON = L.geoJSON(JSON.parse(jsonData)).addTo(map);
+      let geoJSON = L.geoJSON(JSON.parse(jsonData), {
+        onEachFeature: function (feature, layer) {
+          if (feature.properties && feature.properties.popupContent) {
+            layer.bindPopup(feature.properties.popupContent);
+          }
+        },
+      }).addTo(map);
       map.fitBounds(geoJSON.getBounds());
     });
   }
