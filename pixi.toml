@@ -1,0 +1,22 @@
+[workspace]
+authors = ["ARC345 <arnavrastogi.543@gmail.com>"]
+channels = ["conda-forge"]
+name = "arc345.github.io"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+install = "gem install bundler && bundle install && npm install"
+dev = "bundle exec jekyll serve"
+build = "bundle exec jekyll build"
+clean = "bundle exec jekyll clean"
+
+[dependencies]
+ruby = ">=3.4.8,<4"
+nodejs = ">=25.2.1,<25.3"
+python = ">=3.14.2,<3.15"
+imagemagick = ">=7.1.2_12,<8"
+nbconvert = ">=7.16.6,<8"
+compilers = ">=1.11.0,<2"
+make = ">=4.4.1,<5"
+pkg-config = ">=0.29.2,<0.30"

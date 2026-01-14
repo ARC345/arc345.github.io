@@ -1,0 +1,486 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Travel Map Visual</title> <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""> <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script> <style>body,html{margin:0;padding:0;height:100%;width:100%;overflow:hidden}#map{height:100%;width:100%}</style> </head> <body> <div id="map"></div> <script>
+        var map = L.map('map').setView([20, 0], 2);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // Load Country Data
+        var countriesVisited = [
+            
+                "Egypt",
+            
+                "Egypt",
+            
+                "Egypt",
+            
+                "Egypt",
+            
+                "Egypt",
+            
+                "Egypt",
+            
+                "Indonesia",
+            
+                "Indonesia",
+            
+                "Indonesia",
+            
+                "Indonesia",
+            
+                "Indonesia",
+            
+                "Indonesia",
+            
+                "Indonesia",
+            
+                "Indonesia",
+            
+                "Indonesia",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "India",
+            
+                "Singapore",
+            
+                "Thailand",
+            
+                "Thailand",
+            
+                "United Arab Emirates",
+            
+                "United Arab Emirates",
+            
+        ];
+
+        // Fetch World GeoJSON and apply highlighting
+        fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
+            .then(response => response.json())
+            .then(data => {
+                L.geoJSON(data, {
+                    style: function(feature) {
+                        if (countriesVisited.includes(feature.properties.name)) {
+                            return {
+                                color: '#e74c3c', // Border color (red)
+                                fillColor: '#e74c3c', // Fill color (red)
+                                fillOpacity: 0.2,
+                                weight: 1
+                            };
+                        } else {
+                            return {
+                                color: 'transparent',
+                                fillColor: 'transparent',
+                                weight: 0
+                            };
+                        }
+                    }
+                }).addTo(map);
+            });
+
+        // Travel Marker Data
+        var travelData = [
+            
+            {
+                lat: 30.0444,
+                lng: 31.2357,
+                title: "Cairo, Egypt",
+                date: "2024-01-01",
+                desc: "Pyramids and History"
+            },
+            
+            {
+                lat: 24.0889,
+                lng: 32.8998,
+                title: "Aswan, Egypt",
+                date: "2024-01-05",
+                desc: "Nile splendor"
+            },
+            
+            {
+                lat: 25.6952,
+                lng: 32.6396,
+                title: "Luxor, Egypt",
+                date: "2024-01-08",
+                desc: "Valley of the Kings"
+            },
+            
+            {
+                lat: 24.9792,
+                lng: 32.8725,
+                title: "Edfu, Egypt",
+                date: "2024-01-06",
+                desc: "Temple of Horus"
+            },
+            
+            {
+                lat: 27.2579,
+                lng: 33.8116,
+                title: "Hurghada, Egypt",
+                date: "2024-01-12",
+                desc: "Red Sea diving"
+            },
+            
+            {
+                lat: 27.3942,
+                lng: 33.6782,
+                title: "El Gouna, Egypt",
+                date: "2024-01-15",
+                desc: "Resort town"
+            },
+            
+            {
+                lat: -8.8149,
+                lng: 115.0884,
+                title: "Uluwatu, Indonesia",
+                date: "2024-02-01",
+                desc: "Cliffs and Temple"
+            },
+            
+            {
+                lat: -8.7233,
+                lng: 115.1723,
+                title: "Kuta, Indonesia",
+                date: "2024-02-03",
+                desc: "Beaches"
+            },
+            
+            {
+                lat: -8.6829,
+                lng: 115.1611,
+                title: "Seminyak, Indonesia",
+                date: "2024-02-05",
+                desc: "Sunset"
+            },
+            
+            {
+                lat: -8.6478,
+                lng: 115.1385,
+                title: "Canggu, Indonesia",
+                date: "2024-02-07",
+                desc: "Surfing"
+            },
+            
+            {
+                lat: -8.2778,
+                lng: 115.5899,
+                title: "Tulamben, Indonesia",
+                date: "2024-02-10",
+                desc: "Shipwreck dive"
+            },
+            
+            {
+                lat: -8.5303,
+                lng: 115.5074,
+                title: "Padang Bai, Indonesia",
+                date: "2024-02-12",
+                desc: "Port town"
+            },
+            
+            {
+                lat: -8.6913,
+                lng: 115.4488,
+                title: "Nusa Lembongan, Indonesia",
+                date: "2024-02-14",
+                desc: "Island vibes"
+            },
+            
+            {
+                lat: -8.6705,
+                lng: 115.2602,
+                title: "Sanur, Indonesia",
+                date: "2024-02-16",
+                desc: "Sunrise beach"
+            },
+            
+            {
+                lat: -8.5069,
+                lng: 115.2625,
+                title: "Ubud, Indonesia",
+                date: "2024-02-18",
+                desc: "Culture and Rice Terraces"
+            },
+            
+            {
+                lat: 19.076,
+                lng: 72.8777,
+                title: "Mumbai (Bombay), India",
+                date: "2023-11-01",
+                desc: "Gateway of India"
+            },
+            
+            {
+                lat: 28.7041,
+                lng: 77.1025,
+                title: "Delhi, India",
+                date: "2023-11-05",
+                desc: "Capital City"
+            },
+            
+            {
+                lat: 28.5355,
+                lng: 77.391,
+                title: "Noida, India",
+                date: "2023-11-06",
+                desc: "Tech Hub"
+            },
+            
+            {
+                lat: 28.4595,
+                lng: 77.0266,
+                title: "Gurgaon, India",
+                date: "2023-11-07",
+                desc: "Cyber City"
+            },
+            
+            {
+                lat: 12.9716,
+                lng: 77.5946,
+                title: "Bangalore, India",
+                date: "2023-11-10",
+                desc: "Garden City"
+            },
+            
+            {
+                lat: 27.4924,
+                lng: 77.6737,
+                title: "Mathura, India",
+                date: "2023-11-15",
+                desc: "Temple City"
+            },
+            
+            {
+                lat: 26.7922,
+                lng: 82.1998,
+                title: "Ayodhya, India",
+                date: "2023-11-16",
+                desc: "Ram Mandir"
+            },
+            
+            {
+                lat: 26.9124,
+                lng: 75.7873,
+                title: "Jaipur, India",
+                date: "2023-11-18",
+                desc: "Pink City"
+            },
+            
+            {
+                lat: 26.2389,
+                lng: 73.0243,
+                title: "Jodhpur, India",
+                date: "2023-11-20",
+                desc: "Blue City"
+            },
+            
+            {
+                lat: 27.5255,
+                lng: 79.34,
+                title: "Kayamganj, India",
+                date: "2023-11-22",
+                desc: "Hometown Visit"
+            },
+            
+            {
+                lat: 25.3176,
+                lng: 82.9739,
+                title: "Varanasi (Banaras), India",
+                date: "2023-11-25",
+                desc: "Ghats of Ganges"
+            },
+            
+            {
+                lat: 30.4599,
+                lng: 78.0664,
+                title: "Mussoorie, India",
+                date: "2023-12-01",
+                desc: "Queen of Hills"
+            },
+            
+            {
+                lat: 30.3165,
+                lng: 78.0322,
+                title: "Dehradun, India",
+                date: "2023-12-03",
+                desc: "Valley City"
+            },
+            
+            {
+                lat: 15.2993,
+                lng: 74.124,
+                title: "Goa, India",
+                date: "2023-12-10",
+                desc: "Beaches and Sun"
+            },
+            
+            {
+                lat: 29.7044,
+                lng: 79.7554,
+                title: "Binsar, India",
+                date: "2023-12-15",
+                desc: "Wildlife Sanctuary"
+            },
+            
+            {
+                lat: 29.3803,
+                lng: 79.4637,
+                title: "Nainital, India",
+                date: "2023-12-18",
+                desc: "Lake District"
+            },
+            
+            {
+                lat: 26.8467,
+                lng: 80.9462,
+                title: "Lucknow, India",
+                date: "2023-12-20",
+                desc: "City of Nawabs"
+            },
+            
+            {
+                lat: 30.7046,
+                lng: 76.7179,
+                title: "Mohali, India",
+                date: "2023-12-25",
+                desc: "Cricket Stadium"
+            },
+            
+            {
+                lat: 27.1767,
+                lng: 78.0081,
+                title: "Agra, India",
+                date: "2023-12-28",
+                desc: "Taj Mahal"
+            },
+            
+            {
+                lat: 20.5992,
+                lng: 72.9342,
+                title: "Valsad, India",
+                date: "2024-01-05",
+                desc: "Coastal City"
+            },
+            
+            {
+                lat: 20.3974,
+                lng: 72.8328,
+                title: "Daman and Diu, India",
+                date: "2024-01-07",
+                desc: "Forts and Beaches"
+            },
+            
+            {
+                lat: 26.9157,
+                lng: 70.9083,
+                title: "Jaisalmer, India",
+                date: "2024-01-10",
+                desc: "Golden City"
+            },
+            
+            {
+                lat: 24.7191,
+                lng: 80.1837,
+                title: "Panna, India",
+                date: "2024-01-15",
+                desc: "Tiger Reserve"
+            },
+            
+            {
+                lat: 24.8318,
+                lng: 79.9199,
+                title: "Khajuraho, India",
+                date: "2024-01-17",
+                desc: "Ancient Temples"
+            },
+            
+            {
+                lat: 1.3521,
+                lng: 103.8198,
+                title: "Singapore, Singapore",
+                date: "2024-02-20",
+                desc: "Lion City"
+            },
+            
+            {
+                lat: 7.9519,
+                lng: 98.3381,
+                title: "Phuket, Thailand",
+                date: "2024-02-25",
+                desc: "Island Paradise"
+            },
+            
+            {
+                lat: 13.7563,
+                lng: 100.5018,
+                title: "Bangkok, Thailand",
+                date: "2024-02-28",
+                desc: "Street Life and Shrines"
+            },
+            
+            {
+                lat: 25.2048,
+                lng: 55.2708,
+                title: "Dubai, UAE",
+                date: "2024-03-05",
+                desc: "Futuristic City"
+            },
+            
+            {
+                lat: 24.4539,
+                lng: 54.3773,
+                title: "Abu Dhabi, UAE",
+                date: "2024-03-08",
+                desc: "Grand Mosque"
+            }
+            
+        ];
+
+        travelData.forEach(function(trip) {
+            L.marker([trip.lat, trip.lng]).addTo(map)
+                .bindPopup("<b>" + trip.title + "</b><br>" + trip.date + "<br>" + trip.desc);
+        });
+    </script> </body> </html>
