@@ -30,7 +30,25 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-hello-blog",
+        },{id: "nav-travel",
+          title: "travel",
+          description: "",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/travel/";
+          },
+        },{id: "post-relu-vs-gelu",
+        
+          title: "relu vs gelu",
+        
+        description: "Impact of Activation Curvature on Transformer Stability: GELU vs. ReLU",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/relu-vs-gelu/";
+          
+        },
+      },{id: "post-hello-blog",
         
           title: "hello blog",
         
@@ -48,6 +66,9 @@ ninja.data = [{
               window.location.href = "/books/the_godfather/";
             },},{id: "news-came-back-from-egypt-smile",
           title: 'Came back from Egypt :smile:',
+          description: "",
+          section: "News",},{id: "news-working-on-tailor-llm-lab-ags",
+          title: 'working on:    Tailor   LLM Lab   AGS',
           description: "",
           section: "News",},{id: "projects-project-1",
           title: 'project 1',
