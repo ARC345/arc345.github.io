@@ -10,4 +10,11 @@ Gemfile.lock
 assets/libs/
 node_modules/
 vendor
-.idea
+.idea# pixi environments
+.pixi/*
+!.pixi/config.toml
+INSTALL.md
+CUSTOMIZE.md
+FAQ.md
+CONTRIBUTING.md
+README.md
