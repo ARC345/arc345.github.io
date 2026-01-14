@@ -7,7 +7,7 @@ first_name: Arnav
 middle_name:
 last_name: Rastogi
 contact_note: >
-  Best way to reach me is gmail
+  Best way to reach me is gmail. Founder of <a href="https://agslab.ceo.in/">AGS Lab</a>.
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
   A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 footer_text: >

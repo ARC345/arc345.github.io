@@ -1,0 +1,313 @@
+# Egypt
+- location: "Cairo, Egypt"
+  latitude: 30.0444
+  longitude: 31.2357
+  date: "2024-01-01"
+  description: "Pyramids and History"
+  country: "Egypt"
+
+- location: "Aswan, Egypt"
+  latitude: 24.0889
+  longitude: 32.8998
+  date: "2024-01-05"
+  description: "Nile splendor"
+  country: "Egypt"
+
+- location: "Luxor, Egypt"
+  latitude: 25.6952
+  longitude: 32.6396
+  date: "2024-01-08"
+  description: "Valley of the Kings"
+  country: "Egypt"
+
+- location: "Edfu, Egypt"
+  latitude: 24.9792
+  longitude: 32.8725
+  date: "2024-01-06"
+  description: "Temple of Horus"
+  country: "Egypt"
+
+- location: "Hurghada, Egypt"
+  latitude: 27.2579
+  longitude: 33.8116
+  date: "2024-01-12"
+  description: "Red Sea diving"
+  country: "Egypt"
+
+- location: "El Gouna, Egypt"
+  latitude: 27.3942
+  longitude: 33.6782
+  date: "2024-01-15"
+  description: "Resort town"
+  country: "Egypt"
+
+# Indonesia (Bali)
+- location: "Uluwatu, Indonesia"
+  latitude: -8.8149
+  longitude: 115.0884
+  date: "2024-02-01"
+  description: "Cliffs and Temple"
+  country: "Indonesia"
+
+- location: "Kuta, Indonesia"
+  latitude: -8.7233
+  longitude: 115.1723
+  date: "2024-02-03"
+  description: "Beaches"
+  country: "Indonesia"
+
+- location: "Seminyak, Indonesia"
+  latitude: -8.6829
+  longitude: 115.1611
+  date: "2024-02-05"
+  description: "Sunset"
+  country: "Indonesia"
+
+- location: "Canggu, Indonesia"
+  latitude: -8.6478
+  longitude: 115.1385
+  date: "2024-02-07"
+  description: "Surfing"
+  country: "Indonesia"
+
+- location: "Tulamben, Indonesia"
+  latitude: -8.2778
+  longitude: 115.5899
+  date: "2024-02-10"
+  description: "Shipwreck dive"
+  country: "Indonesia"
+
+- location: "Padang Bai, Indonesia"
+  latitude: -8.5303
+  longitude: 115.5074
+  date: "2024-02-12"
+  description: "Port town"
+  country: "Indonesia"
+
+- location: "Nusa Lembongan, Indonesia"
+  latitude: -8.6913
+  longitude: 115.4488
+  date: "2024-02-14"
+  description: "Island vibes"
+  country: "Indonesia"
+
+- location: "Sanur, Indonesia"
+  latitude: -8.6705
+  longitude: 115.2602
+  date: "2024-02-16"
+  description: "Sunrise beach"
+  country: "Indonesia"
+
+- location: "Ubud, Indonesia"
+  latitude: -8.5069
+  longitude: 115.2625
+  date: "2024-02-18"
+  description: "Culture and Rice Terraces"
+  country: "Indonesia"
+
+# India
+- location: "Mumbai (Bombay), India"
+  latitude: 19.0760
+  longitude: 72.8777
+  date: "2023-11-01"
+  description: "Gateway of India"
+  country: "India"
+
+- location: "Delhi, India"
+  latitude: 28.7041
+  longitude: 77.1025
+  date: "2023-11-05"
+  description: "Capital City"
+  country: "India"
+
+- location: "Noida, India"
+  latitude: 28.5355
+  longitude: 77.3910
+  date: "2023-11-06"
+  description: "Tech Hub"
+  country: "India"
+
+- location: "Gurgaon, India"
+  latitude: 28.4595
+  longitude: 77.0266
+  date: "2023-11-07"
+  description: "Cyber City"
+  country: "India"
+
+- location: "Bangalore, India"
+  latitude: 12.9716
+  longitude: 77.5946
+  date: "2023-11-10"
+  description: "Garden City"
+  country: "India"
+
+- location: "Mathura, India"
+  latitude: 27.4924
+  longitude: 77.6737
+  date: "2023-11-15"
+  description: "Temple City"
+  country: "India"
+
+- location: "Ayodhya, India"
+  latitude: 26.7922
+  longitude: 82.1998
+  date: "2023-11-16"
+  description: "Ram Mandir"
+  country: "India"
+
+- location: "Jaipur, India"
+  latitude: 26.9124
+  longitude: 75.7873
+  date: "2023-11-18"
+  description: "Pink City"
+  country: "India"
+
+- location: "Jodhpur, India"
+  latitude: 26.2389
+  longitude: 73.0243
+  date: "2023-11-20"
+  description: "Blue City"
+  country: "India"
+
+- location: "Kayamganj, India"
+  latitude: 27.5255
+  longitude: 79.3400
+  date: "2023-11-22"
+  description: "Hometown Visit"
+  country: "India"
+
+- location: "Varanasi (Banaras), India"
+  latitude: 25.3176
+  longitude: 82.9739
+  date: "2023-11-25"
+  description: "Ghats of Ganges"
+  country: "India"
+
+- location: "Mussoorie, India"
+  latitude: 30.4599
+  longitude: 78.0664
+  date: "2023-12-01"
+  description: "Queen of Hills"
+  country: "India"
+
+- location: "Dehradun, India"
+  latitude: 30.3165
+  longitude: 78.0322
+  date: "2023-12-03"
+  description: "Valley City"
+  country: "India"
+
+- location: "Goa, India"
+  latitude: 15.2993
+  longitude: 74.1240
+  date: "2023-12-10"
+  description: "Beaches and Sun"
+  country: "India"
+
+- location: "Binsar, India"
+  latitude: 29.7044
+  longitude: 79.7554
+  date: "2023-12-15"
+  description: "Wildlife Sanctuary"
+  country: "India"
+
+- location: "Nainital, India"
+  latitude: 29.3803
+  longitude: 79.4637
+  date: "2023-12-18"
+  description: "Lake District"
+  country: "India"
+
+- location: "Lucknow, India"
+  latitude: 26.8467
+  longitude: 80.9462
+  date: "2023-12-20"
+  description: "City of Nawabs"
+  country: "India"
+
+- location: "Mohali, India"
+  latitude: 30.7046
+  longitude: 76.7179
+  date: "2023-12-25"
+  description: "Cricket Stadium"
+  country: "India"
+
+- location: "Agra, India"
+  latitude: 27.1767
+  longitude: 78.0081
+  date: "2023-12-28"
+  description: "Taj Mahal"
+  country: "India"
+
+- location: "Valsad, India"
+  latitude: 20.5992
+  longitude: 72.9342
+  date: "2024-01-05"
+  description: "Coastal City"
+  country: "India"
+
+- location: "Daman and Diu, India"
+  latitude: 20.3974
+  longitude: 72.8328
+  date: "2024-01-07"
+  description: "Forts and Beaches"
+  country: "India"
+
+- location: "Jaisalmer, India"
+  latitude: 26.9157
+  longitude: 70.9083
+  date: "2024-01-10"
+  description: "Golden City"
+  country: "India"
+
+- location: "Panna, India"
+  latitude: 24.7191
+  longitude: 80.1837
+  date: "2024-01-15"
+  description: "Tiger Reserve"
+  country: "India"
+
+- location: "Khajuraho, India"
+  latitude: 24.8318
+  longitude: 79.9199
+  date: "2024-01-17"
+  description: "Ancient Temples"
+  country: "India"
+
+# Singapore
+- location: "Singapore, Singapore"
+  latitude: 1.3521
+  longitude: 103.8198
+  date: "2024-02-20"
+  description: "Lion City"
+  country: "Singapore"
+
+# Thailand
+- location: "Phuket, Thailand"
+  latitude: 7.9519
+  longitude: 98.3381
+  date: "2024-02-25"
+  description: "Island Paradise"
+  country: "Thailand"
+
+- location: "Bangkok, Thailand"
+  latitude: 13.7563
+  longitude: 100.5018
+  date: "2024-02-28"
+  description: "Street Life and Shrines"
+  country: "Thailand"
+
+# UAE
+- location: "Dubai, UAE"
+  latitude: 25.2048
+  longitude: 55.2708
+  date: "2024-03-05"
+  description: "Futuristic City"
+  country: "United Arab Emirates"
+
+- location: "Abu Dhabi, UAE"
+  latitude: 24.4539
+  longitude: 54.3773
+  date: "2024-03-08"
+  description: "Grand Mosque"
+  country: "United Arab Emirates"
