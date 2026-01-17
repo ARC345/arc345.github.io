@@ -10,6 +10,8 @@ install = "gem install bundler && bundle install && npm install"
 dev = "bundle exec jekyll serve"
 build = "bundle exec jekyll build"
 clean = "bundle exec jekyll clean"
+export-requirements = "pixi run pip freeze > requirements.txt"
+purgecss = "npx purgecss -c purgecss.config.js"
 
 [dependencies]
 ruby = ">=3.4.8,<4"
