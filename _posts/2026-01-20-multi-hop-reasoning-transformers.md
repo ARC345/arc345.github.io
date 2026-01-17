@@ -633,7 +633,6 @@ Because sometimes the problem isn't that your model can't learn. It's that you g
 - **Training/validation loss**: Standard cross-entropy loss
 
 ![Error type breakdown](/assets/img/blog_embeds/multi-hop-reasoning-in-transformers-11.png)
-
 *Breakdown of error types across models. This diagnostic information helps understand failure modes - whether models fail on intermediate steps, query parsing, or random guessing.*
 
 *Last updated: January 20, 2026*
