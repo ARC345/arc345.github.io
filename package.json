@@ -2,7 +2,7 @@
   "devDependencies": {
     "@shopify/prettier-plugin-liquid": "1.4.0",
     "prettier": "^3.1.1",
-    "purgecss": "^6.1.0"
+    "purgecss": "^6.0.0"
   },
   "dependencies": {
     "jsonresume-theme-elegant": "^1.16.1"
