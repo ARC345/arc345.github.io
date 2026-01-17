@@ -22,7 +22,7 @@ jobs:
       - name: Install pixi 🦊
         uses: prefix-dev/setup-pixi@v0.9.3
         with:
-          pixi-version: v0.20.0
+          pixi-version: latest
       - name: Export requirements.txt 📝
         run: pixi run export-requirements
       - name: Check for changes
