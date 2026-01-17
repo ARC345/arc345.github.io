@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Multi-Hop Reasoning in Transformers
-date: 2026-01-20 02:00
+date: 2026-01-17 04:00
 description: "A Journey From Confidence to Confusion to Clarity: How RoPE Position Embeddings Enable Length Generalization in Transformer Reasoning"
 tags: ai, llm, transformers, rope, reasoning, mechanistic-interpretability, position-embeddings
 categories: ai
