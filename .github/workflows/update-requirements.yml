@@ -1,0 +1,43 @@
+name: Update requirements.txt
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths:
+      - "pixi.toml"
+      - "pixi.lock"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-requirements:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+      - name: Install pixi 🦊
+        uses: prefix-dev/setup-pixi@v0.10.0
+        with:
+          pixi-version: v0.20.0
+      - name: Export requirements.txt 📝
+        run: pixi run export-requirements
+      - name: Check for changes
+        id: verify-changed
+        run: |
+          if [ -n "$(git status --porcelain requirements.txt)" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Commit changes
+        if: steps.verify-changed.outputs.changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add requirements.txt
+          git commit -m "chore: auto-update requirements.txt from pixi.toml" || exit 0
+          git push
