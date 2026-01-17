@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/travel/";
           },
-        },{id: "post-relu-vs-gelu",
+        },{id: "post-multi-hop-reasoning-in-transformers",
+        
+          title: "Multi-Hop Reasoning in Transformers",
+        
+        description: "A Journey From Confidence to Confusion to Clarity: How RoPE Position Embeddings Enable Length Generalization in Transformer Reasoning",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/multi-hop-reasoning-transformers/";
+          
+        },
+      },{id: "post-relu-vs-gelu",
         
           title: "relu vs gelu",
         
