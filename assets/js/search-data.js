@@ -50,7 +50,7 @@ ninja.data = [{
         },
       },{id: "post-relu-vs-gelu",
         
-          title: "relu vs gelu",
+          title: "ReLU vs GELU",
         
         description: "Impact of Activation Curvature on Transformer Stability: GELU vs. ReLU",
         section: "Posts",
