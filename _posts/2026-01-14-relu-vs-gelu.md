@@ -1,6 +1,6 @@
 ---
 layout: post
-title: relu vs gelu
+title: ReLU vs GELU
 date: 2026-01-07 02:12
 description: "Impact of Activation Curvature on Transformer Stability: GELU vs. ReLU"
 tags: ai, llm, gpt, gelu, relu
