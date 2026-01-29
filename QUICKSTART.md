@@ -41,7 +41,6 @@
    title: My Website
    first_name: Your
    last_name: Name
-   email: your.email@example.com
    url: https://your-username.github.io # or your custom domain
    baseurl: # Leave this empty (do NOT delete it)
    ```
