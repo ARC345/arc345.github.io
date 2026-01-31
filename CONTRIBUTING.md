@@ -12,7 +12,15 @@ Note that since [#2048](https://github.com/alshedivat/al-folio/pull/2048) al-fol
 
 ## GitHub Copilot Agents
 
-This repository includes two specialized GitHub Copilot agents to assist with development and documentation:
+This repository includes specialized GitHub Copilot agents and files to assist with development and documentation:
+
+### CLAUDE.md
+
+The `CLAUDE.md` file serves as an entry point for Claude (Anthropic's AI assistant) when working with this repository. It uses Claude's `@path/to/import` syntax (as described in [Claude's best practices](https://code.claude.com/docs/en/best-practices#write-an-effective-claude-md)) to dynamically import the `AGENTS.md` file. This approach keeps documentation centralized while providing a convenient entry point for AI assistants. The file simply contains:
+
+```
+@AGENTS.md
+```
 
 ### Customization Agent
 
