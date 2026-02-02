@@ -41,6 +41,11 @@ Here we will give you some tips on how to customize the website. One important t
       - [Required fields](#required-fields)
       - [Optional fields](#optional-fields)
     - [Collections with categories and tags](#collections-with-categories-and-tags)
+    - [Creating custom metadata groups and archive pages](#creating-custom-metadata-groups-and-archive-pages)
+      - [Understanding Jekyll's special handling of fields](#understanding-jekylls-special-handling-of-fields)
+      - [Example: Adding a custom "adaptations" field](#example-adding-a-custom-adaptations-field)
+      - [Field naming best practices](#field-naming-best-practices)
+      - [Complete example: Book reviews with custom adaptations field](#complete-example-book-reviews-with-custom-adaptations-field)
   - [Adding a new publication](#adding-a-new-publication)
     - [Author annotation](#author-annotation)
     - [Buttons (through custom bibtex keywords)](#buttons-through-custom-bibtex-keywords)
@@ -567,6 +572,150 @@ Additional course content, information, or resources can be added here as markdo
 ### Collections with categories and tags
 
 If you want to add category and tag support (like the blog posts have), you need to configure the `jekyll-archives` section in [\_config.yml](_config.yml). See how this is done with the `books` collection for reference. For more details, check the [jekyll-archives-v2 documentation](https://george-gca.github.io/jekyll-archives-v2/).
+
+### Creating custom metadata groups and archive pages
+
+Beyond the built-in `categories` and `tags` fields, you can create custom metadata fields for your collections to organize content in new ways. For example, if you have a book review collection, you might want to organize books by their **adaptations** (movies, TV shows, video games, etc.).
+
+#### Understanding Jekyll's special handling of fields
+
+Jekyll has **special built-in support** for only two fields:
+
+- **`categories`** – Automatically splits space-separated values into arrays
+- **`tags`** – Automatically splits space-separated values into arrays
+
+Custom fields (any field name you create) remain as **strings** and require explicit handling in your Liquid templates.
+
+#### Example: Adding a custom "adaptations" field
+
+1. **Add the field to your collection frontmatter**
+
+   In your collection item (e.g., `_books/the_godfather.md`):
+
+   ```yaml
+   ---
+   layout: book-review
+   title: The Godfather
+   author: Mario Puzo
+   categories: classics crime historical-fiction
+   adaptations: movie TV-series video-game novel-adaptation
+   ---
+   ```
+
+2. **Handle the custom field in your layout template**
+
+   In your layout file (e.g., `_layouts/book-review.liquid`), custom fields must be **split** into arrays before you can loop over them:
+
+   ```liquid
+   {% if page.adaptations %}
+     {% assign page_adaptations = page.adaptations | split: ' ' %}
+     {% for adaptation in page_adaptations %}
+       <a href="{{ adaptation | slugify | prepend: '/books/adaptation/' | relative_url }}">
+         <i class="fa-solid fa-film fa-sm"></i> {{ adaptation }}
+       </a>
+     {% endfor %}
+   {% endif %}
+   ```
+
+   **Why the `split: ' '` filter?** Because `adaptations` is a custom field, Jekyll doesn't automatically convert it to an array like it does for `categories` and `tags`. The `split: ' '` filter breaks the space-separated string into individual items.
+
+3. **Enable archive pages for your custom field**
+
+   Add your custom field to the `jekyll-archives` configuration in [\_config.yml](_config.yml):
+
+   ```yaml
+   jekyll-archives:
+     posts:
+       enabled:
+         - year
+         - tags
+         - categories
+     books:
+       enabled:
+         - year
+         - tags
+         - categories
+         - adaptations # Add your custom field here
+       permalinks:
+         year: "/:collection/:year/"
+         tags: "/:collection/:type/:name/"
+         categories: "/:collection/:type/:name/"
+         adaptations: "/:collection/:type/:name/" # Add permalink pattern here
+   ```
+
+4. **Test your archive pages**
+
+   After configuration, rebuild your site:
+
+   ```bash
+   docker compose down
+   docker compose up
+   ```
+
+   Your archive pages will be generated at:
+   - `/books/adaptations/movie/`
+   - `/books/adaptations/tv-series/` (slugified from `TV-series`)
+   - `/books/adaptations/video-game/` (slugified from `video-game`)
+
+   Each page will automatically display all items with that adaptation value.
+
+#### Field naming best practices
+
+- Use **lowercase** words separated by **hyphens** for multi-word values: `live-action`, `video-game`, `TV-series`
+- Choose **meaningful names** that describe the grouping: `genres`, `adaptations`, `media-types`, `settings`, etc.
+- Keep field values **short and consistent** across all items in your collection
+- Document custom fields in a README or comments for other contributors to understand
+
+#### Complete example: Book reviews with custom adaptations field
+
+**File: `_books/the_godfather.md`**
+
+```yaml
+---
+layout: book-review
+title: The Godfather
+author: Mario Puzo
+categories: classics crime historical-fiction
+tags: top-100
+adaptations: movie TV-series video-game
+---
+```
+
+**File: `_layouts/book-review.liquid` (partial)**
+
+```liquid
+{% if page.adaptations %}
+  <div class="adaptations">
+    <strong>Adaptations:</strong>
+    {% assign page_adaptations = page.adaptations | split: ' ' %}
+    {% for adaptation in page_adaptations %}
+      <a href="{{ adaptation | slugify | prepend: '/books/adaptation/' | relative_url }}">
+        {{ adaptation }}
+      </a>
+      {% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  </div>
+{% endif %}
+```
+
+**File: `_config.yml` (jekyll-archives section)**
+
+```yaml
+jekyll-archives:
+  books:
+    enabled:
+      - year
+      - categories
+      - tags
+      - adaptations
+    permalinks:
+      year: "/:collection/:year/"
+      categories: "/:collection/:type/:name/"
+      tags: "/:collection/:type/:name/"
+      adaptations: "/:collection/:type/:name/"
+```
+
+After rebuilding, users can browse books by adaptation at `/books/adaptations/movie/`, etc.
 
 ## Adding a new publication
 
