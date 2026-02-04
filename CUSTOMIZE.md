@@ -54,6 +54,15 @@ Here we will give you some tips on how to customize the website. One important t
   - [Adding social media information](#adding-social-media-information)
   - [Adding a newsletter](#adding-a-newsletter)
   - [Configuring search features](#configuring-search-features)
+  - [Social media previews](#social-media-previews)
+    - [How to enable](#how-to-enable)
+    - [Configuring preview images](#configuring-preview-images)
+    - [Preview image best practices](#preview-image-best-practices)
+  - [Related posts](#related-posts)
+    - [How it works](#how-it-works)
+    - [Configuration](#configuration-1)
+    - [Disable related posts for a specific post](#disable-related-posts-for-a-specific-post)
+    - [Additional configuration in \_config.yml](#additional-configuration-in-_configyml)
   - [Managing publication display](#managing-publication-display)
   - [Adding a Google Calendar](#adding-a-google-calendar)
     - [Basic usage](#basic-usage)
@@ -73,6 +82,14 @@ Here we will give you some tips on how to customize the website. One important t
   - [Scheduled Posts](#scheduled-posts)
     - [Name Format](#name-format)
     - [Important Notes](#important-notes)
+  - [GDPR Cookie Consent Dialog](#gdpr-cookie-consent-dialog)
+    - [How it works](#how-it-works-1)
+    - [When to use](#when-to-use)
+    - [How to enable](#how-to-enable-1)
+    - [Customizing the consent dialog](#customizing-the-consent-dialog)
+    - [Supported analytics providers](#supported-analytics-providers)
+    - [How it integrates with analytics](#how-it-integrates-with-analytics)
+    - [For developers](#for-developers)
   - [Setting up a Personal Access Token (PAT) for Google Scholar Citation Updates](#setting-up-a-personal-access-token-pat-for-google-scholar-citation-updates)
     - [Why is a PAT required?](#why-is-a-pat-required)
     - [How to set up the PAT](#how-to-set-up-the-pat)
@@ -845,6 +862,129 @@ socials_in_search: true
 
 All these search features work in real-time and do not require a page reload.
 
+## Social media previews
+
+**al-folio** supports Open Graph (OG) meta tags, which create rich preview objects when your pages are shared on social media platforms like Twitter, Facebook, LinkedIn, and others. These previews include your site's image, title, and description.
+
+### How to enable
+
+To enable social media previews:
+
+1. Open `_config.yml` and set:
+
+   ```yaml
+   serve_og_meta: true
+   ```
+
+2. Rebuild your site:
+   ```bash
+   docker compose down && docker compose up
+   # or
+   bundle exec jekyll serve
+   ```
+
+Once enabled, all your site's pages will automatically include Open Graph meta tags in the HTML head element.
+
+### Configuring preview images
+
+You can configure what image displays in social media previews on a per-page or site-wide basis.
+
+**Site-wide default image:**
+
+Add the following to `_config.yml`:
+
+```yaml
+og_image: /assets/img/your-default-preview-image.png
+```
+
+Replace the path with your actual image location in `assets/img/`.
+
+**Per-page custom image:**
+
+To override the site-wide default for a specific page, add `og_image` to the page's frontmatter:
+
+```yaml
+---
+layout: page
+title: My Page
+og_image: /assets/img/custom-preview-image.png
+---
+```
+
+### Preview image best practices
+
+- **Dimensions:** Use 1200×630 pixels for optimal display on most social media platforms
+- **Format:** PNG or JPG formats work best
+- **Size:** Keep file size under 5MB
+- **Content:** Ensure the image clearly represents your page content
+
+When a page is shared on social media, the platform will display your configured image along with the page title, description (from your site title or page description), and URL.
+
+---
+
+## Related posts
+
+The theme can automatically display related posts at the bottom of each blog post. These are selected by finding the most recent posts that share common tags with the current post.
+
+### How it works
+
+- By default, the most recent posts that share at least one tag with the current post are displayed
+- You can customize how many posts are shown and how many tags must match
+- You can disable related posts for individual posts or across your entire site
+
+### Configuration
+
+To customize related posts behavior, edit the `related_blog_posts` section in `_config.yml`:
+
+```yaml
+related_blog_posts:
+  enabled: true
+  max_related: 5
+```
+
+- `enabled`: Set to `true` (default) to show related posts, or `false` to disable them site-wide
+- `max_related`: Maximum number of related posts to display (default: 5)
+
+The theme also uses tags to find related content. Make sure your blog posts include relevant tags in their frontmatter:
+
+```yaml
+---
+layout: post
+title: My Blog Post
+tags: machine-learning python
+---
+```
+
+### Disable related posts for a specific post
+
+To hide related posts on an individual blog post, add this to the post's frontmatter:
+
+```yaml
+---
+layout: post
+title: My Blog Post
+related_posts: false
+---
+```
+
+### Additional configuration in \_config.yml
+
+You can also customize related posts behavior with these settings:
+
+```yaml
+related_blog_posts:
+  enabled: true
+  max_related: 5
+```
+
+These settings control:
+
+- Which posts are considered "related" (based on shared tags)
+- How many related posts to display
+- The algorithm used to calculate post similarity (uses the `classifier-reborn` gem)
+
+---
+
 ## Managing publication display
 
 The theme offers several options for customizing how publications are displayed:
@@ -1113,6 +1253,111 @@ In this folder you need to store your file in the same format as you would in `_
   - `2025-08-27-file2.md` will be posted exactly on 27-August-2025
   - `File3.md` will not be posted at all
   - `2026-02-31-file4.md` is supposed to be posted on 31-February-2026, but there is no 31st in February hence this file will never be posted either
+
+## GDPR Cookie Consent Dialog
+
+**al-folio** includes a built-in GDPR-compliant cookie consent dialog to help you respect visitor privacy and comply with privacy regulations (GDPR, CCPA, etc.). The feature is powered by [Vanilla Cookie Consent](https://cookieconsent.orestbida.com/) and integrates with all analytics providers.
+
+### How it works
+
+- A consent dialog appears on the visitor's first visit to your site
+- Visitors can **accept all**, **reject all**, or **customize preferences** for analytics cookies
+- Analytics scripts (Google Analytics, Cronitor, Pirsch, Openpanel) are **blocked by default** and only run after explicit consent
+- Google Consent Mode ensures Google services operate in privacy mode before consent is granted
+- User preferences are saved in their browser and respected on subsequent visits
+- The dialog is mobile-responsive and supports multiple languages
+
+### When to use
+
+- ✅ **Required** if your site serves EU visitors and uses any analytics
+- ✅ Recommended for any website using analytics, tracking, or marketing tools
+- ❌ Not needed if your site doesn't use any analytics providers
+
+### How to enable
+
+1. Open `_config.yml` and locate the following line:
+
+   ```yaml
+   enable_cookie_consent: false
+   ```
+
+2. Change it to:
+
+   ```yaml
+   enable_cookie_consent: true
+   ```
+
+3. Rebuild your site:
+
+   ```bash
+   docker compose down && docker compose up
+   # or
+   bundle exec jekyll serve
+   ```
+
+4. The consent dialog will automatically appear on your site's homepage on first visit
+
+### Customizing the consent dialog
+
+The consent dialog configuration and messages are defined in [`_scripts/cookie-consent-setup.js`](_scripts/cookie-consent-setup.js). You can customize:
+
+- Dialog titles and button labels
+- Cookie categories and descriptions
+- Contact information links (points to `#contact` by default)
+- Language translations
+
+To modify the dialog, edit the `language.translations.en` section in `_scripts/cookie-consent-setup.js`. For example, to change the consent dialog title:
+
+```javascript
+consentModal: {
+  title: 'Your custom title here',
+  description: 'Your custom description...',
+  // ... other options
+}
+```
+
+### Supported analytics providers
+
+When cookie consent is enabled, these analytics providers are automatically blocked until the user consents:
+
+- **Google Analytics (GA4)** – Uses Google Consent Mode for privacy-first operation before consent
+- **Cronitor RUM** – Real User Monitoring for performance tracking
+- **Pirsch Analytics** – GDPR-compliant analytics alternative
+- **Openpanel Analytics** – Privacy-focused analytics platform
+
+Each provider only collects data if:
+
+1. It's enabled in `_config.yml` (e.g., `enable_google_analytics: true`)
+2. The user has granted consent to the "analytics" category in the consent dialog
+
+### How it integrates with analytics
+
+When `enable_cookie_consent: true`, the template automatically:
+
+1. Adds `type="text/plain" data-category="analytics"` to all analytics script tags
+2. This tells the cookie consent library to block these scripts until consent is granted
+3. Loads the consent library and initializes Google Consent Mode
+4. Updates consent preferences when the user changes them in the dialog
+
+You don't need to modify any analytics configuration—it works automatically.
+
+### For developers
+
+If you want to programmatically check consent status or react to consent changes, the library exposes the following:
+
+```javascript
+// Check if user has granted analytics consent
+window.CookieConsent.getCategories().analytics; // returns true or false
+
+// Listen for consent changes
+window.CookieConsent.onChange(function (consentData) {
+  // Handle consent change
+});
+```
+
+For more API details, see [Vanilla Cookie Consent documentation](https://cookieconsent.orestbida.com/).
+
+---
 
 ## Setting up a Personal Access Token (PAT) for Google Scholar Citation Updates
 
