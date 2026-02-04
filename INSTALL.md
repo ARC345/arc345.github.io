@@ -4,6 +4,7 @@
 
 - [Installing and Deploying](#installing-and-deploying)
   - [Recommended Approach](#recommended-approach)
+    - [Template vs. Fork: Which Should I Use?](#template-vs-fork-which-should-i-use)
     - [Important Notes for GitHub Pages Sites](#important-notes-for-github-pages-sites)
     - [Automatic Deployment](#automatic-deployment)
     - [Local Development](#local-development)
