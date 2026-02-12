@@ -1,4 +1,436 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://arnav.rastogi.net.in/feed.xml" rel="self" type="application/atom+xml"/><link href="https://arnav.rastogi.net.in/" rel="alternate" type="text/html" hreflang="en"/><updated>2026-01-21T09:31:26+00:00</updated><id>https://arnav.rastogi.net.in/feed.xml</id><title type="html">Arnav Rastogi</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Multi-Hop Reasoning in Transformers</title><link href="https://arnav.rastogi.net.in/blog/2026/multi-hop-reasoning-transformers/" rel="alternate" type="text/html" title="Multi-Hop Reasoning in Transformers"/><published>2026-01-17T04:00:00+00:00</published><updated>2026-01-17T04:00:00+00:00</updated><id>https://arnav.rastogi.net.in/blog/2026/multi-hop-reasoning-transformers</id><content type="html" xml:base="https://arnav.rastogi.net.in/blog/2026/multi-hop-reasoning-transformers/"><![CDATA[<h1 id="multi-hop-reasoning-in-transformers-a-journey-from-confidence-to-confusion-to-clarity">Multi-Hop Reasoning in Transformers: A Journey From Confidence to Confusion to Clarity</h1> <p><em>Part of my ASI Architect learning journey - documenting my experiments in mechanistic interpretability</em></p> <hr/> <h2 id="the-question-that-started-everything">The Question That Started Everything</h2> <p>Can a small transformer learn to reason through chains?</p> <p>I wanted to test something simple: given facts like “A leads to B” and “B leads to C”, can a model infer that “A leads to C”? This is transitive reasoning - following a chain of logical steps.</p> <p><strong>I thought this would be easy.</strong> Turns out I was wrong in interesting ways.</p> <hr/> <h2 id="week-11-building-the-experiment">Week 1.1: Building the Experiment</h2> <h3 id="the-task">The Task</h3> <p>I designed a simple 2-hop reasoning task to test transitive reasoning:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Training examples:
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://arnav.rastogi.net.in/feed.xml" rel="self" type="application/atom+xml"/><link href="https://arnav.rastogi.net.in/" rel="alternate" type="text/html" hreflang="en"/><updated>2026-02-12T16:12:07+00:00</updated><id>https://arnav.rastogi.net.in/feed.xml</id><title type="html">Arnav Rastogi</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Can Mamba Learn, Unlearn, and Retain Noise?</title><link href="https://arnav.rastogi.net.in/blog/2026/mamba-noise-learning-unlearning/" rel="alternate" type="text/html" title="Can Mamba Learn, Unlearn, and Retain Noise?"/><published>2026-02-12T00:00:00+00:00</published><updated>2026-02-12T00:00:00+00:00</updated><id>https://arnav.rastogi.net.in/blog/2026/mamba-noise-learning-unlearning</id><content type="html" xml:base="https://arnav.rastogi.net.in/blog/2026/mamba-noise-learning-unlearning/"><![CDATA[<h1 id="can-mamba-learn-unlearn-and-retain-noise-extending-the-slm-noise-study-to-state-space-models">Can Mamba Learn, Unlearn, and Retain Noise? Extending the SLM Noise Study to State Space Models</h1> <p><em>Part of my research into SSM architectures — documenting experiments extending transformer noise robustness studies to Mamba</em></p> <hr/> <h2 id="the-question-that-started-this">The Question That Started This</h2> <p>Can a state space model handle noise the same way a transformer does?</p> <p>I’d been reading <a href="https://arxiv.org/abs/2407.00996"><em>Can Small Language Models Learn, Unlearn, and Retain Noise Patterns?</em></a> — a paper that puts four instruction-tuned transformers (Olmo, Qwen, Gemma, Phi2) through a three-phase stress test: finetune on clean QA data, train on noisy data, then retrain on clean data. The results are clean — transformers absorb noise, and clean retraining mostly undoes the damage.</p> <p>But nobody tested SSMs. Mamba processes sequences through a compressed recurrent state instead of attention. No key-value lookups, no position-independent token access. I wanted to know: does that fundamentally change how noise gets absorbed and released?</p> <p><strong>I expected Mamba to behave roughly like the transformers, maybe with some quantitative differences.</strong> I was wrong in interesting ways.</p> <hr/> <h2 id="the-setup">The Setup</h2> <h3 id="three-phase-pipeline">Three-Phase Pipeline</h3> <p>Same protocol as the paper:</p> <ol> <li><strong>Phase 1 (Finetune):</strong> Train on clean SQuAD data to establish baseline QA accuracy</li> <li><strong>Phase 2 (Noise Train):</strong> Continue training on noise-corrupted answers</li> <li><strong>Phase 3 (Unlearn):</strong> Retrain on clean data — see how much recovers</li> </ol> <h3 id="four-noise-types">Four Noise Types</h3> <p>Each targets a different linguistic level:</p> <ul> <li><strong>Charflip:</strong> Random character substitutions (“Paris” → “Pxris”)</li> <li><strong>Wordflip:</strong> Word permutations (“the capital city” → “city the capital”)</li> <li><strong>Transliteration:</strong> Roman → Devanagari script conversion</li> <li><strong>Counterfactual:</strong> Replace correct answers with plausible wrong ones</li> </ul> <h3 id="training-config">Training Config</h3> <p>Matched the paper’s Appendix C: LR 3e-6, AdamW (betas 0.9/0.95), cosine schedule, 100 warmup steps, bf16, 5 epochs per phase. Batch size 2 (paper doesn’t specify theirs).</p> <hr/> <h2 id="where-my-setup-differs-from-the-paper">Where My Setup Differs From the Paper</h2> <p>I want to be upfront about this because it affects everything.</p> <p><strong>Evaluation method.</strong> The paper uses Gemma-based LLM judging — more lenient with paraphrased answers. I use fuzzy string matching, which is stricter. My accuracy numbers are deflated across the board.</p> <p><strong>Base model vs. instruction-tuned.</strong> This is the big one. Mamba-1.4B is a <em>base</em> language model. No instruction tuning. The paper’s models are all instruction-tuned — they already know how to follow instructions and format answers before the experiment even starts. Mamba has to learn all of that from scratch during Phase 1. This is why Mamba’s baseline is <strong>29.4%</strong> while the transformers sit at <strong>72–96%</strong>.</p> <p><strong>Architecture.</strong> Mamba 1.4B sits between Olmo 1B and Qwen 1.8B in parameter count, but SSM vs Transformer makes direct size comparison meaningless. Different architectures, different information processing.</p> <hr/> <h2 id="results">Results</h2> <h3 id="the-full-picture">The Full Picture</h3> <table> <thead> <tr> <th>Model</th> <th>Arch</th> <th>Charflip P1</th> <th>Charflip P2</th> <th>Charflip P3</th> <th>Wordflip P1</th> <th>Wordflip P2</th> <th>Wordflip P3</th> <th>Translit P1</th> <th>Translit P2</th> <th>Translit P3</th> <th>Counter P1</th> <th>Counter P2</th> <th>Counter P3</th> </tr> </thead> <tbody> <tr> <td>Olmo 1B</td> <td>Transformer</td> <td>72.2</td> <td>2.7</td> <td>65.2</td> <td>72.2</td> <td>45.0</td> <td>70.4</td> <td>72.2</td> <td>67.6</td> <td>73.1</td> <td>39.8</td> <td>32.6</td> <td>41.4</td> </tr> <tr> <td>Qwen 1.8B</td> <td>Transformer</td> <td>82.3</td> <td>2.5</td> <td>79.7</td> <td>82.3</td> <td>57.7</td> <td>81.9</td> <td>82.3</td> <td>81.1</td> <td>82.7</td> <td>66.5</td> <td>54.2</td> <td>65.7</td> </tr> <tr> <td>Gemma 2B</td> <td>Transformer</td> <td>89.1</td> <td>3.8</td> <td>85.9</td> <td>89.1</td> <td>64.1</td> <td>82.8</td> <td>89.1</td> <td>85.0</td> <td>87.5</td> <td>49.6</td> <td>40.8</td> <td>49.0</td> </tr> <tr> <td>Phi2 2.7B</td> <td>Transformer</td> <td>95.7</td> <td>0.5</td> <td>90.7</td> <td>95.7</td> <td>69.7</td> <td>93.1</td> <td>95.7</td> <td>93.2</td> <td>93.6</td> <td>66.5</td> <td>57.5</td> <td>69.5</td> </tr> <tr> <td><strong>Mamba 1.4B</strong></td> <td><strong>SSM</strong></td> <td><strong>29.4</strong></td> <td><strong>1.6</strong></td> <td><strong>37.0</strong></td> <td><strong>29.4</strong></td> <td><strong>8.5</strong></td> <td><strong>36.3</strong></td> <td><strong>29.4</strong></td> <td><strong>26.3</strong></td> <td><strong>29.8</strong></td> <td><strong>29.4</strong></td> <td><strong>37.6</strong></td> <td><strong>39.2</strong></td> </tr> </tbody> </table> <p>All values are D_ad_train accuracy (%).</p> <p>Here’s what Mamba’s journey looks like in isolation — the three phases across all four noise types:</p> <pre><code class="language-chartjs">{
+  "type": "bar",
+  "data": {
+    "labels": ["Charflip", "Wordflip", "Transliteration", "Counterfactual"],
+    "datasets": [
+      {
+        "label": "Phase 1 (Finetune)",
+        "data": [29.4, 29.4, 29.4, 29.4],
+        "backgroundColor": "rgba(74, 144, 217, 0.8)",
+        "borderColor": "rgba(74, 144, 217, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Phase 2 (Noise)",
+        "data": [1.6, 8.5, 26.3, 37.6],
+        "backgroundColor": "rgba(231, 76, 60, 0.8)",
+        "borderColor": "rgba(231, 76, 60, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Phase 3 (Unlearn)",
+        "data": [37.0, 36.3, 29.8, 39.2],
+        "backgroundColor": "rgba(46, 204, 113, 0.8)",
+        "borderColor": "rgba(46, 204, 113, 1)",
+        "borderWidth": 1
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Mamba 1.4B: Accuracy Across Phases"
+      },
+      "legend": {
+        "position": "top"
+      }
+    },
+    "scales": {
+      "y": {
+        "beginAtZero": true,
+        "max": 50,
+        "title": {
+          "display": true,
+          "text": "Accuracy (%)"
+        }
+      }
+    }
+  }
+}
+</code></pre> <p><em>The counterfactual green bar exceeding Phase 1 blue was the first sign something unexpected was happening.</em></p> <h3 id="noise-absorption-relative-accuracy-drop-in-phase-2">Noise Absorption (Relative Accuracy Drop in Phase 2)</h3> <p>How much did accuracy drop when noise was introduced? Higher = more absorbed.</p> <table> <thead> <tr> <th>Model</th> <th>Charflip</th> <th>Wordflip</th> <th>Transliteration</th> <th>Counterfactual</th> </tr> </thead> <tbody> <tr> <td>Olmo 1B</td> <td>96.3%</td> <td>37.7%</td> <td>6.4%</td> <td>18.1%</td> </tr> <tr> <td>Qwen 1.8B</td> <td>97.0%</td> <td>29.9%</td> <td>1.5%</td> <td>18.5%</td> </tr> <tr> <td>Gemma 2B</td> <td>95.7%</td> <td>28.1%</td> <td>4.6%</td> <td>17.7%</td> </tr> <tr> <td>Phi2 2.7B</td> <td>99.5%</td> <td>27.2%</td> <td>2.6%</td> <td>13.5%</td> </tr> <tr> <td><strong>Mamba 1.4B</strong></td> <td><strong>94.6%</strong></td> <td><strong>71.1%</strong></td> <td><strong>10.5%</strong></td> <td><strong>-27.9%</strong></td> </tr> </tbody> </table> <p>That negative counterfactual value? Mamba’s accuracy <em>went up</em> during noise training. More on that below.</p> <pre><code class="language-chartjs">{
+  "type": "bar",
+  "data": {
+    "labels": ["Charflip", "Wordflip", "Transliteration", "Counterfactual"],
+    "datasets": [
+      {
+        "label": "Olmo 1B",
+        "data": [96.3, 37.7, 6.4, 18.1],
+        "backgroundColor": "rgba(126, 176, 213, 0.7)",
+        "borderColor": "rgba(126, 176, 213, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Qwen 1.8B",
+        "data": [97.0, 29.9, 1.5, 18.5],
+        "backgroundColor": "rgba(178, 224, 97, 0.7)",
+        "borderColor": "rgba(178, 224, 97, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Gemma 2B",
+        "data": [95.7, 28.1, 4.6, 17.7],
+        "backgroundColor": "rgba(253, 127, 111, 0.7)",
+        "borderColor": "rgba(253, 127, 111, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Phi2 2.7B",
+        "data": [99.5, 27.2, 2.6, 13.5],
+        "backgroundColor": "rgba(189, 126, 190, 0.7)",
+        "borderColor": "rgba(189, 126, 190, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Mamba 1.4B",
+        "data": [94.6, 71.1, 10.5, -27.9],
+        "backgroundColor": "rgba(255, 181, 90, 0.85)",
+        "borderColor": "rgba(255, 181, 90, 1)",
+        "borderWidth": 2
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Noise Absorption: Relative Accuracy Drop in Phase 2"
+      },
+      "legend": {
+        "position": "top"
+      }
+    },
+    "scales": {
+      "y": {
+        "title": {
+          "display": true,
+          "text": "Noise Absorption (%)"
+        }
+      }
+    }
+  }
+}
+</code></pre> <p><em>Mamba’s wordflip bar towers over the transformers. The counterfactual bar going negative is unique to Mamba — no transformer saw accuracy increase during noise training.</em></p> <h3 id="unlearning-recovery-phase-3-as--of-phase-1">Unlearning Recovery (Phase 3 as % of Phase 1)</h3> <p>How much accuracy was recovered after clean retraining?</p> <table> <thead> <tr> <th>Model</th> <th>Charflip</th> <th>Wordflip</th> <th>Transliteration</th> <th>Counterfactual</th> </tr> </thead> <tbody> <tr> <td>Olmo 1B</td> <td>90.3%</td> <td>97.5%</td> <td>101.2%</td> <td>104.0%</td> </tr> <tr> <td>Qwen 1.8B</td> <td>96.8%</td> <td>99.5%</td> <td>100.5%</td> <td>98.8%</td> </tr> <tr> <td>Gemma 2B</td> <td>96.4%</td> <td>92.9%</td> <td>98.2%</td> <td>98.8%</td> </tr> <tr> <td>Phi2 2.7B</td> <td>94.8%</td> <td>97.3%</td> <td>97.8%</td> <td>104.5%</td> </tr> <tr> <td><strong>Mamba 1.4B</strong></td> <td><strong>125.9%</strong></td> <td><strong>123.5%</strong></td> <td><strong>101.4%</strong></td> <td><strong>133.3%</strong></td> </tr> </tbody> </table> <p>Values &gt;100% mean Phase 3 <em>exceeded</em> Phase 1. Mamba does this consistently. The transformers never do.</p> <pre><code class="language-chartjs">{
+  "type": "bar",
+  "data": {
+    "labels": ["Charflip", "Wordflip", "Transliteration", "Counterfactual"],
+    "datasets": [
+      {
+        "label": "Olmo 1B",
+        "data": [90.3, 97.5, 101.2, 104.0],
+        "backgroundColor": "rgba(126, 176, 213, 0.7)",
+        "borderColor": "rgba(126, 176, 213, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Qwen 1.8B",
+        "data": [96.8, 99.5, 100.5, 98.8],
+        "backgroundColor": "rgba(178, 224, 97, 0.7)",
+        "borderColor": "rgba(178, 224, 97, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Gemma 2B",
+        "data": [96.4, 92.9, 98.2, 98.8],
+        "backgroundColor": "rgba(253, 127, 111, 0.7)",
+        "borderColor": "rgba(253, 127, 111, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Phi2 2.7B",
+        "data": [94.8, 97.3, 97.8, 104.5],
+        "backgroundColor": "rgba(189, 126, 190, 0.7)",
+        "borderColor": "rgba(189, 126, 190, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Mamba 1.4B",
+        "data": [125.9, 123.5, 101.4, 133.3],
+        "backgroundColor": "rgba(255, 181, 90, 0.85)",
+        "borderColor": "rgba(255, 181, 90, 1)",
+        "borderWidth": 2
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Unlearning Recovery: Phase 3 Accuracy as % of Phase 1"
+      },
+      "legend": {
+        "position": "top"
+      },
+      "annotation": {
+        "annotations": {
+          "baseline": {
+            "type": "line",
+            "yMin": 100,
+            "yMax": 100,
+            "borderColor": "rgba(150, 150, 150, 0.8)",
+            "borderWidth": 2,
+            "borderDash": [6, 4],
+            "label": {
+              "display": true,
+              "content": "100% baseline",
+              "position": "end"
+            }
+          }
+        }
+      }
+    },
+    "scales": {
+      "y": {
+        "beginAtZero": true,
+        "title": {
+          "display": true,
+          "text": "Recovery (% of Phase 1)"
+        }
+      }
+    }
+  }
+}
+</code></pre> <p><em>Transformers cluster around 100%. Mamba shoots past it.</em></p> <hr/> <h2 id="what-i-found">What I Found</h2> <p>Before diving into per-noise-type analysis, here’s the big picture — Mamba’s trajectory vs the transformer average across all phases and noise types:</p> <pre><code class="language-chartjs">{
+  "type": "line",
+  "data": {
+    "labels": ["Phase 1 (Finetune)", "Phase 2 (Noise)", "Phase 3 (Unlearn)"],
+    "datasets": [
+      {
+        "label": "Transformers Avg — Charflip",
+        "data": [84.8, 2.4, 80.4],
+        "borderColor": "rgba(150, 150, 150, 0.5)",
+        "backgroundColor": "rgba(150, 150, 150, 0.05)",
+        "borderWidth": 1.5,
+        "borderDash": [5, 5],
+        "pointRadius": 3,
+        "fill": false
+      },
+      {
+        "label": "Transformers Avg — Wordflip",
+        "data": [84.8, 59.1, 82.1],
+        "borderColor": "rgba(150, 150, 150, 0.5)",
+        "backgroundColor": "rgba(150, 150, 150, 0.05)",
+        "borderWidth": 1.5,
+        "borderDash": [5, 5],
+        "pointRadius": 3,
+        "fill": false
+      },
+      {
+        "label": "Mamba — Charflip",
+        "data": [29.4, 1.6, 37.0],
+        "borderColor": "rgba(231, 76, 60, 1)",
+        "backgroundColor": "rgba(231, 76, 60, 0.1)",
+        "borderWidth": 2.5,
+        "pointRadius": 5,
+        "pointStyle": "crossRot",
+        "fill": false
+      },
+      {
+        "label": "Mamba — Wordflip",
+        "data": [29.4, 8.5, 36.3],
+        "borderColor": "rgba(255, 181, 90, 1)",
+        "backgroundColor": "rgba(255, 181, 90, 0.1)",
+        "borderWidth": 2.5,
+        "pointRadius": 5,
+        "pointStyle": "crossRot",
+        "fill": false
+      },
+      {
+        "label": "Mamba — Transliteration",
+        "data": [29.4, 26.3, 29.8],
+        "borderColor": "rgba(46, 204, 113, 1)",
+        "backgroundColor": "rgba(46, 204, 113, 0.1)",
+        "borderWidth": 2.5,
+        "pointRadius": 5,
+        "pointStyle": "crossRot",
+        "fill": false
+      },
+      {
+        "label": "Mamba — Counterfactual",
+        "data": [29.4, 37.6, 39.2],
+        "borderColor": "rgba(74, 144, 217, 1)",
+        "backgroundColor": "rgba(74, 144, 217, 0.1)",
+        "borderWidth": 2.5,
+        "pointRadius": 5,
+        "pointStyle": "crossRot",
+        "fill": false
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Phase Trajectory: Mamba 1.4B vs Transformer Average"
+      },
+      "legend": {
+        "position": "top"
+      }
+    },
+    "scales": {
+      "y": {
+        "beginAtZero": true,
+        "title": {
+          "display": true,
+          "text": "Accuracy (%)"
+        }
+      }
+    }
+  }
+}
+</code></pre> <p><em>The dashed gray lines show transformer averages for charflip and wordflip — both follow the classic V-shape (drop then recover). Mamba’s charflip and wordflip lines show a steeper V that overshoots Phase 1 on recovery. Counterfactual (blue) just goes up the whole time.</em></p> <h3 id="charflip-same-absorption-completely-different-failure">Charflip: Same Absorption, Completely Different Failure</h3> <p>I expected Mamba to absorb charflip similarly to transformers. It did — <strong>94.6%</strong> relative drop, right in the transformer range (95–99%).</p> <p>But the <em>way</em> it failed was nothing like transformers.</p> <p>After charflip training, transformers produce char-flipped text that resembles the noisy training data. Mamba instead produced degenerate repetitive outputs — strings like <code class="language-plaintext highlighter-rouge">.sagitare .sagitare .sagitare...</code> over and over.</p> <p><strong>It didn’t learn the noise pattern. It lost the ability to generate coherent text entirely.</strong></p> <p>This suggests character-level corruption doesn’t teach Mamba a new pattern — it destroys the recurrent state’s ability to maintain coherent generation. The SSM’s compressed hidden state might be more fragile to character-level noise than attention.</p> <h3 id="wordflip-mamba-is-way-more-vulnerable">Wordflip: Mamba Is Way More Vulnerable</h3> <p>This was the starkest difference.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Wordflip absorption (relative accuracy drop):
+Transformers:  27-38%
+Mamba:         71.1%
+</code></pre></div></div> <p><strong>Nearly double the impact.</strong> Word-level permutation hits Mamba much harder than any transformer.</p> <p>This makes architectural sense. Transformers can attend to any token regardless of position — word reordering doesn’t fundamentally change what attention can access. SSMs process left-to-right through a compressed state. Word reordering changes what information is available in the hidden state at each step. The sequential compression is more sensitive to word order than parallel attention.</p> <h3 id="transliteration-nobody-cares">Transliteration: Nobody Cares</h3> <p>Both architectures mostly shrug this off.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Transliteration absorption:
+Mamba:        10.5%  (29.4 → 26.3)
+Transformers:  1.5-6.4%
+</code></pre></div></div> <p>Script changes don’t meaningfully disrupt either architecture. The slightly larger Mamba drop could be noise, or could reflect the base model’s weaker grasp of answer formatting. Either way — not interesting.</p> <h3 id="counterfactual-this-one-surprised-me">Counterfactual: This One Surprised Me</h3> <p>I expected counterfactual noise to hurt Mamba like it hurts transformers. Instead:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Mamba counterfactual trajectory:
+Phase 1: 29.4%  →  Phase 2: 37.6%  →  Phase 3: 39.2%
+
+Accuracy went UP through the entire experiment.
+</code></pre></div></div> <p><strong>The counterfactual data wasn’t noise for Mamba. It was a free tutorial.</strong></p> <p>The “wrong” answers are syntactically and semantically well-formed — they’re just factually incorrect. For instruction-tuned transformers that already know how to answer questions, this is pure corruption. For a base model still learning how to do QA at all, these well-formed answers teach answer formatting and extraction patterns even though the content is wrong.</p> <p>This was the result I least expected. It reframes what “noise” even means — it’s relative to what the model already knows.</p> <h3 id="unlearning-mamba-overshoots-every-time">Unlearning: Mamba Overshoots Every Time</h3> <p>The most consistent pattern across all noise types:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Phase 3 vs Phase 1 (Mamba):
+Charflip:       37.0% vs 29.4%  (+25.9%)
+Wordflip:       36.3% vs 29.4%  (+23.5%)
+Transliteration: 29.8% vs 29.4%  (+1.4%)
+Counterfactual:  39.2% vs 29.4%  (+33.3%)
+</code></pre></div></div> <p><strong>Phase 3 accuracy exceeds Phase 1 in almost every case.</strong> Transformers recover <em>to</em> their baseline. Mamba blows past it.</p> <p>The explanation is probably simple: Mamba’s Phase 1 baseline is low (29.4%) because it’s a base model doing 5 epochs of finetuning. It’s still climbing the learning curve. Phases 2 and 3 each add 5 more epochs. Even if Phase 2 introduces garbage, Phase 3’s clean data gives Mamba 10 additional epochs of QA-format training compared to Phase 1’s 5. More training = better performance when you’re starting from a low baseline.</p> <p>The noise/unlearn framework assumes a saturated baseline. Instruction-tuned models provide that. Base models don’t.</p> <hr/> <h2 id="the-radar-view">The Radar View</h2> <p>Noise absorption and unlearning recovery side by side. The radar chart makes it easy to see how each model’s profile looks across all four noise types at once:</p> <pre><code class="language-chartjs">{
+  "type": "radar",
+  "data": {
+    "labels": ["Charflip", "Wordflip", "Transliteration", "Counterfactual"],
+    "datasets": [
+      {
+        "label": "Olmo 1B",
+        "data": [96.3, 37.7, 6.4, 18.1],
+        "borderColor": "rgba(126, 176, 213, 0.8)",
+        "backgroundColor": "rgba(126, 176, 213, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Qwen 1.8B",
+        "data": [97.0, 29.9, 1.5, 18.5],
+        "borderColor": "rgba(178, 224, 97, 0.8)",
+        "backgroundColor": "rgba(178, 224, 97, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Gemma 2B",
+        "data": [95.7, 28.1, 4.6, 17.7],
+        "borderColor": "rgba(253, 127, 111, 0.8)",
+        "backgroundColor": "rgba(253, 127, 111, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Phi2 2.7B",
+        "data": [99.5, 27.2, 2.6, 13.5],
+        "borderColor": "rgba(189, 126, 190, 0.8)",
+        "backgroundColor": "rgba(189, 126, 190, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Mamba 1.4B",
+        "data": [94.6, 71.1, 10.5, -27.9],
+        "borderColor": "rgba(255, 181, 90, 1)",
+        "backgroundColor": "rgba(255, 181, 90, 0.15)",
+        "borderWidth": 2.5,
+        "pointRadius": 5
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Noise Absorption (Relative Accuracy Drop in Phase 2)"
+      },
+      "legend": {
+        "position": "top"
+      }
+    },
+    "scales": {
+      "r": {
+        "beginAtZero": false,
+        "suggestedMin": -30,
+        "suggestedMax": 100
+      }
+    }
+  }
+}
+</code></pre> <pre><code class="language-chartjs">{
+  "type": "radar",
+  "data": {
+    "labels": ["Charflip", "Wordflip", "Transliteration", "Counterfactual"],
+    "datasets": [
+      {
+        "label": "Olmo 1B",
+        "data": [90.3, 97.5, 101.2, 104.0],
+        "borderColor": "rgba(126, 176, 213, 0.8)",
+        "backgroundColor": "rgba(126, 176, 213, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Qwen 1.8B",
+        "data": [96.8, 99.5, 100.5, 98.8],
+        "borderColor": "rgba(178, 224, 97, 0.8)",
+        "backgroundColor": "rgba(178, 224, 97, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Gemma 2B",
+        "data": [96.4, 92.9, 98.2, 98.8],
+        "borderColor": "rgba(253, 127, 111, 0.8)",
+        "backgroundColor": "rgba(253, 127, 111, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Phi2 2.7B",
+        "data": [94.8, 97.3, 97.8, 104.5],
+        "borderColor": "rgba(189, 126, 190, 0.8)",
+        "backgroundColor": "rgba(189, 126, 190, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Mamba 1.4B",
+        "data": [125.9, 123.5, 101.4, 133.3],
+        "borderColor": "rgba(255, 181, 90, 1)",
+        "backgroundColor": "rgba(255, 181, 90, 0.15)",
+        "borderWidth": 2.5,
+        "pointRadius": 5
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Unlearning Recovery (Phase 3 as % of Phase 1)"
+      },
+      "legend": {
+        "position": "top"
+      }
+    },
+    "scales": {
+      "r": {
+        "beginAtZero": true,
+        "suggestedMax": 140
+      }
+    }
+  }
+}
+</code></pre> <p><em>Top: Mamba’s wordflip spike stands out — far more absorbed than any transformer. The counterfactual dip below zero is unique. Bottom: Mamba’s polygon extends well beyond the transformer cluster, reflecting the &gt;100% recovery overshoot.</em></p> <hr/> <h2 id="what-surprised-me">What Surprised Me</h2> <h3 id="1-the-degenerate-outputs">1. The Degenerate Outputs</h3> <p>I expected Mamba to learn charflip patterns like transformers do. Instead it produced repetitive garbage. The recurrent state appears more fragile to character-level corruption than I assumed.</p> <h3 id="2-counterfactual-as-training-signal">2. Counterfactual As Training Signal</h3> <p>I didn’t anticipate that “wrong” answers could be helpful. In retrospect it’s obvious — a base model learning QA benefits from any well-formed answer examples — but I didn’t see it coming.</p> <h3 id="3-the-unlearning-overshoot">3. The Unlearning Overshoot</h3> <p>I expected Phase 3 to recover <em>toward</em> Phase 1, not blow past it. This completely reframes the experiment — for a base model, the three-phase pipeline isn’t “learn → damage → repair.” It’s “learn a little → learn more (with noise) → learn even more (clean).”</p> <h3 id="4-how-misleading-absolute-numbers-are">4. How Misleading Absolute Numbers Are</h3> <p>Mamba at 29.4% vs Phi2 at 95.7% looks like Mamba is terrible. It’s not — it’s a base model being compared to instruction-tuned models on an instruction-following task. The interesting story is in relative patterns, not absolute accuracy.</p> <hr/> <h2 id="open-questions">Open Questions</h2> <h3 id="1-what-would-instruction-tuned-mamba-look-like">1. What Would Instruction-Tuned Mamba Look Like?</h3> <p>If Mamba had instruction tuning, would the patterns look more like transformers? Would the unlearning overshoot disappear? Would counterfactual data become actual noise?</p> <h3 id="2-is-the-degenerate-output-problem-ssm-specific">2. Is the Degenerate Output Problem SSM-Specific?</h3> <p>Would a base transformer also produce repetitive garbage under charflip, or is this unique to how SSMs maintain hidden state?</p> <h3 id="3-does-wordflip-vulnerability-scale-with-model-size">3. Does Wordflip Vulnerability Scale With Model Size?</h3> <p>Mamba-1.4B is much more wordflip-vulnerable than transformers. Would a larger Mamba (e.g., Mamba-2.8B) close the gap, or is this an architectural constant?</p> <h3 id="4-whats-happening-inside-the-state">4. What’s Happening Inside the State?</h3> <p>The recurrent hidden state is what makes Mamba different. Probing that state during noisy vs clean generation could reveal <em>why</em> word reordering is more disruptive to SSMs — similar to probing transformer attention patterns but for selective state space dynamics.</p> <hr/> <h2 id="conclusion">Conclusion</h2> <p>Mamba handles noise differently from transformers. Not better, not worse — <em>differently</em>.</p> <p>It’s more vulnerable to word-level permutation. It absorbs character noise through degeneration rather than pattern learning. It treats counterfactual data as useful signal rather than corruption. And the “unlearning” framing doesn’t quite apply — Mamba’s low baseline means the noise→clean cycle is more like extended training than damage repair.</p> <p>These results come with heavy caveats — base vs instruction-tuned, fuzzy matching vs LLM judging — so they’re directional observations, not definitive architecture comparisons. A fairer test would use an instruction-tuned Mamba variant, or apply the same base-model treatment to the transformers.</p> <p>But even with the caveats, the pattern differences are real. SSMs and transformers don’t just differ in speed — they differ in how they absorb and release learned patterns.</p> <hr/> <p><em>Previous: <a href="/blog/2026/multi-hop-reasoning-transformers/">Multi-Hop Reasoning in Transformers</a></em></p> <hr/> <h2 id="references">References</h2> <ul> <li>Original Paper: <a href="https://arxiv.org/abs/2407.00996">Can Small Language Models Learn, Unlearn, and Retain Noise Patterns?</a></li> <li>Mamba Paper: <a href="https://arxiv.org/abs/2312.00752">Mamba: Linear-Time Sequence Modeling with Selective State Spaces</a></li> <li><a href="https://github.com/ARC345/learn-unlearn-mamba/blob/main/mamba/RESULTS.md">Full results and data</a></li> </ul>]]></content><author><name></name></author><category term="ai"/><category term="ai,"/><category term="mamba,"/><category term="ssm,"/><category term="transformers,"/><category term="noise,"/><category term="unlearning"/><summary type="html"><![CDATA[Extending the SLM Noise Study to State Space Models — Mamba 1.4B vs Transformers across 4 noise types]]></summary></entry><entry><title type="html">Multi-Hop Reasoning in Transformers</title><link href="https://arnav.rastogi.net.in/blog/2026/multi-hop-reasoning-transformers/" rel="alternate" type="text/html" title="Multi-Hop Reasoning in Transformers"/><published>2026-01-17T04:00:00+00:00</published><updated>2026-01-17T04:00:00+00:00</updated><id>https://arnav.rastogi.net.in/blog/2026/multi-hop-reasoning-transformers</id><content type="html" xml:base="https://arnav.rastogi.net.in/blog/2026/multi-hop-reasoning-transformers/"><![CDATA[<h1 id="multi-hop-reasoning-in-transformers-a-journey-from-confidence-to-confusion-to-clarity">Multi-Hop Reasoning in Transformers: A Journey From Confidence to Confusion to Clarity</h1> <p><em>Part of my ASI Architect learning journey - documenting my experiments in mechanistic interpretability</em></p> <hr/> <h2 id="the-question-that-started-everything">The Question That Started Everything</h2> <p>Can a small transformer learn to reason through chains?</p> <p>I wanted to test something simple: given facts like “A leads to B” and “B leads to C”, can a model infer that “A leads to C”? This is transitive reasoning - following a chain of logical steps.</p> <p><strong>I thought this would be easy.</strong> Turns out I was wrong in interesting ways.</p> <hr/> <h2 id="week-11-building-the-experiment">Week 1.1: Building the Experiment</h2> <h3 id="the-task">The Task</h3> <p>I designed a simple 2-hop reasoning task to test transitive reasoning:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Training examples:
 Input:  A→B. B→C. Q:A? →
 Target: C
 
