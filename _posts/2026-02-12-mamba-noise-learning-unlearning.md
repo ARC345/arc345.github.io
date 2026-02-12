@@ -20,7 +20,7 @@ chart:
 
 Can a state space model handle noise the same way a transformer does?
 
-I'd been reading [*Can Small Language Models Learn, Unlearn, and Retain Noise Patterns?*](https://arxiv.org/abs/2407.00996) — a paper that puts four instruction-tuned transformers (Olmo, Qwen, Gemma, Phi2) through a three-phase stress test: finetune on clean QA data, train on noisy data, then retrain on clean data. The results are clean — transformers absorb noise, and clean retraining mostly undoes the damage.
+This work is an extension of [*Can Small Language Models Learn, Unlearn, and Retain Noise Patterns?*](https://arxiv.org/abs/2407.00996) by Scaria, Kennedy, and Subramani from [QUEST Lab, IISc Bangalore](https://github.com/quest-lab-iisc). Their paper puts four instruction-tuned transformers (Olmo, Qwen, Gemma, Phi2) through a three-phase stress test: finetune on clean QA data, train on noisy data, then retrain on clean data. The results are clean — transformers absorb noise, and clean retraining mostly undoes the damage. The experimental pipeline, datasets, noise types, and training protocol used here are all from their work.
 
 But nobody tested SSMs. Mamba processes sequences through a compressed recurrent state instead of attention. No key-value lookups, no position-independent token access. I wanted to know: does that fundamentally change how noise gets absorbed and released?
 
@@ -689,8 +689,13 @@ But even with the caveats, the pattern differences are real. SSMs and transforme
 
 ---
 
+## Acknowledgments
+
+This project builds entirely on the work by [QUEST Lab, IISc Bangalore](https://github.com/quest-lab-iisc). The experimental pipeline, datasets, noise generation, evaluation protocol, and transformer baseline results are all from their paper. I only added the Mamba extension.
+
 ## References
 
-- Original Paper: [Can Small Language Models Learn, Unlearn, and Retain Noise Patterns?](https://arxiv.org/abs/2407.00996)
-- Mamba Paper: [Mamba: Linear-Time Sequence Modeling with Selective State Spaces](https://arxiv.org/abs/2312.00752)
+- Scaria, N., Kennedy, S.J.J., & Subramani, D. (2024). [Can Small Language Models Learn, Unlearn, and Retain Noise Patterns?](https://arxiv.org/abs/2407.00996) — QUEST Lab, IISc Bangalore
+- [Original codebase](https://github.com/quest-lab-iisc/Learn-Unlearn-Relearn-Noise-SLMs)
+- Gu, A. & Dao, T. (2023). [Mamba: Linear-Time Sequence Modeling with Selective State Spaces](https://arxiv.org/abs/2312.00752)
 - [Full results and data](https://github.com/ARC345/learn-unlearn-mamba/blob/main/mamba/RESULTS.md)
