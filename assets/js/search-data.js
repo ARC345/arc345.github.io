@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/travel/";
           },
-        },{id: "post-multi-hop-reasoning-in-transformers",
+        },{id: "post-can-mamba-learn-unlearn-and-retain-noise",
+        
+          title: "Can Mamba Learn, Unlearn, and Retain Noise?",
+        
+        description: "Extending the SLM Noise Study to State Space Models — Mamba 1.4B vs Transformers across 4 noise types",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/mamba-noise-learning-unlearning/";
+          
+        },
+      },{id: "post-multi-hop-reasoning-in-transformers",
         
           title: "Multi-Hop Reasoning in Transformers",
         
