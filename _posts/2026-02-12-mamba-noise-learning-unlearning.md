@@ -698,4 +698,4 @@ This project builds entirely on the work by [QUEST Lab, IISc Bangalore](https://
 - Scaria, N., Kennedy, S.J.J., & Subramani, D. (2024). [Can Small Language Models Learn, Unlearn, and Retain Noise Patterns?](https://arxiv.org/abs/2407.00996) — QUEST Lab, IISc Bangalore
 - [Original codebase](https://github.com/quest-lab-iisc/Learn-Unlearn-Relearn-Noise-SLMs)
 - Gu, A. & Dao, T. (2023). [Mamba: Linear-Time Sequence Modeling with Selective State Spaces](https://arxiv.org/abs/2312.00752)
-- [Full results and data](https://github.com/ARC345/learn-unlearn-mamba/blob/main/mamba/RESULTS.md)
+- [Our Mamba extension repo](https://github.com/ARC345/learn-unlearn-mamba) — [full results](https://github.com/ARC345/learn-unlearn-mamba/blob/main/mamba/RESULTS.md)
