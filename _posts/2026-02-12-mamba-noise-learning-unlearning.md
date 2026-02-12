@@ -6,6 +6,8 @@ description: "Extending the SLM Noise Study to State Space Models — Mamba 1.4B
 tags: ai, mamba, ssm, transformers, noise, unlearning
 categories: ai
 giscus_comments: true
+chart:
+  chartjs: true
 ---
 
 # Can Mamba Learn, Unlearn, and Retain Noise? Extending the SLM Noise Study to State Space Models
@@ -79,7 +81,59 @@ All values are D_ad_train accuracy (%).
 
 Here's what Mamba's journey looks like in isolation — the three phases across all four noise types:
 
-{% include figure.liquid path="assets/img/blog_embeds/mamba-noise-learning-unlearning-2.png" title="Mamba 1.4B: Accuracy Across Phases" class="img-fluid rounded z-depth-1" %}
+```chartjs
+{
+  "type": "bar",
+  "data": {
+    "labels": ["Charflip", "Wordflip", "Transliteration", "Counterfactual"],
+    "datasets": [
+      {
+        "label": "Phase 1 (Finetune)",
+        "data": [29.4, 29.4, 29.4, 29.4],
+        "backgroundColor": "rgba(74, 144, 217, 0.8)",
+        "borderColor": "rgba(74, 144, 217, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Phase 2 (Noise)",
+        "data": [1.6, 8.5, 26.3, 37.6],
+        "backgroundColor": "rgba(231, 76, 60, 0.8)",
+        "borderColor": "rgba(231, 76, 60, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Phase 3 (Unlearn)",
+        "data": [37.0, 36.3, 29.8, 39.2],
+        "backgroundColor": "rgba(46, 204, 113, 0.8)",
+        "borderColor": "rgba(46, 204, 113, 1)",
+        "borderWidth": 1
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Mamba 1.4B: Accuracy Across Phases"
+      },
+      "legend": {
+        "position": "top"
+      }
+    },
+    "scales": {
+      "y": {
+        "beginAtZero": true,
+        "max": 50,
+        "title": {
+          "display": true,
+          "text": "Accuracy (%)"
+        }
+      }
+    }
+  }
+}
+```
 
 *The counterfactual green bar exceeding Phase 1 blue was the first sign something unexpected was happening.*
 
@@ -97,7 +151,71 @@ How much did accuracy drop when noise was introduced? Higher = more absorbed.
 
 That negative counterfactual value? Mamba's accuracy *went up* during noise training. More on that below.
 
-{% include figure.liquid path="assets/img/blog_embeds/mamba-noise-learning-unlearning-3.png" title="Noise Absorption: Relative Accuracy Drop in Phase 2" class="img-fluid rounded z-depth-1" %}
+```chartjs
+{
+  "type": "bar",
+  "data": {
+    "labels": ["Charflip", "Wordflip", "Transliteration", "Counterfactual"],
+    "datasets": [
+      {
+        "label": "Olmo 1B",
+        "data": [96.3, 37.7, 6.4, 18.1],
+        "backgroundColor": "rgba(126, 176, 213, 0.7)",
+        "borderColor": "rgba(126, 176, 213, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Qwen 1.8B",
+        "data": [97.0, 29.9, 1.5, 18.5],
+        "backgroundColor": "rgba(178, 224, 97, 0.7)",
+        "borderColor": "rgba(178, 224, 97, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Gemma 2B",
+        "data": [95.7, 28.1, 4.6, 17.7],
+        "backgroundColor": "rgba(253, 127, 111, 0.7)",
+        "borderColor": "rgba(253, 127, 111, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Phi2 2.7B",
+        "data": [99.5, 27.2, 2.6, 13.5],
+        "backgroundColor": "rgba(189, 126, 190, 0.7)",
+        "borderColor": "rgba(189, 126, 190, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Mamba 1.4B",
+        "data": [94.6, 71.1, 10.5, -27.9],
+        "backgroundColor": "rgba(255, 181, 90, 0.85)",
+        "borderColor": "rgba(255, 181, 90, 1)",
+        "borderWidth": 2
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Noise Absorption: Relative Accuracy Drop in Phase 2"
+      },
+      "legend": {
+        "position": "top"
+      }
+    },
+    "scales": {
+      "y": {
+        "title": {
+          "display": true,
+          "text": "Noise Absorption (%)"
+        }
+      }
+    }
+  }
+}
+```
 
 *Mamba's wordflip bar towers over the transformers. The counterfactual bar going negative is unique to Mamba — no transformer saw accuracy increase during noise training.*
 
@@ -115,19 +233,191 @@ How much accuracy was recovered after clean retraining?
 
 Values >100% mean Phase 3 *exceeded* Phase 1. Mamba does this consistently. The transformers never do.
 
-{% include figure.liquid path="assets/img/blog_embeds/mamba-noise-learning-unlearning-4.png" title="Unlearning Recovery: Phase 3 Accuracy as % of Phase 1" class="img-fluid rounded z-depth-1" %}
+```chartjs
+{
+  "type": "bar",
+  "data": {
+    "labels": ["Charflip", "Wordflip", "Transliteration", "Counterfactual"],
+    "datasets": [
+      {
+        "label": "Olmo 1B",
+        "data": [90.3, 97.5, 101.2, 104.0],
+        "backgroundColor": "rgba(126, 176, 213, 0.7)",
+        "borderColor": "rgba(126, 176, 213, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Qwen 1.8B",
+        "data": [96.8, 99.5, 100.5, 98.8],
+        "backgroundColor": "rgba(178, 224, 97, 0.7)",
+        "borderColor": "rgba(178, 224, 97, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Gemma 2B",
+        "data": [96.4, 92.9, 98.2, 98.8],
+        "backgroundColor": "rgba(253, 127, 111, 0.7)",
+        "borderColor": "rgba(253, 127, 111, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Phi2 2.7B",
+        "data": [94.8, 97.3, 97.8, 104.5],
+        "backgroundColor": "rgba(189, 126, 190, 0.7)",
+        "borderColor": "rgba(189, 126, 190, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Mamba 1.4B",
+        "data": [125.9, 123.5, 101.4, 133.3],
+        "backgroundColor": "rgba(255, 181, 90, 0.85)",
+        "borderColor": "rgba(255, 181, 90, 1)",
+        "borderWidth": 2
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Unlearning Recovery: Phase 3 Accuracy as % of Phase 1"
+      },
+      "legend": {
+        "position": "top"
+      },
+      "annotation": {
+        "annotations": {
+          "baseline": {
+            "type": "line",
+            "yMin": 100,
+            "yMax": 100,
+            "borderColor": "rgba(150, 150, 150, 0.8)",
+            "borderWidth": 2,
+            "borderDash": [6, 4],
+            "label": {
+              "display": true,
+              "content": "100% baseline",
+              "position": "end"
+            }
+          }
+        }
+      }
+    },
+    "scales": {
+      "y": {
+        "beginAtZero": true,
+        "title": {
+          "display": true,
+          "text": "Recovery (% of Phase 1)"
+        }
+      }
+    }
+  }
+}
+```
 
-*The dashed 100% baseline tells the story — transformers cluster around it, Mamba shoots past it.*
+*Transformers cluster around 100%. Mamba shoots past it.*
 
 ---
 
 ## What I Found
 
-Before diving into per-noise-type analysis, here's the big picture — Mamba's trajectory (orange) vs the transformer range (gray band) across all phases:
+Before diving into per-noise-type analysis, here's the big picture — Mamba's trajectory vs the transformer average across all phases and noise types:
 
-{% include figure.liquid path="assets/img/blog_embeds/mamba-noise-learning-unlearning-5.png" title="Phase Trajectory: Mamba 1.4B vs Transformer Range" class="img-fluid rounded z-depth-1" %}
+```chartjs
+{
+  "type": "line",
+  "data": {
+    "labels": ["Phase 1 (Finetune)", "Phase 2 (Noise)", "Phase 3 (Unlearn)"],
+    "datasets": [
+      {
+        "label": "Transformers Avg — Charflip",
+        "data": [84.8, 2.4, 80.4],
+        "borderColor": "rgba(150, 150, 150, 0.5)",
+        "backgroundColor": "rgba(150, 150, 150, 0.05)",
+        "borderWidth": 1.5,
+        "borderDash": [5, 5],
+        "pointRadius": 3,
+        "fill": false
+      },
+      {
+        "label": "Transformers Avg — Wordflip",
+        "data": [84.8, 59.1, 82.1],
+        "borderColor": "rgba(150, 150, 150, 0.5)",
+        "backgroundColor": "rgba(150, 150, 150, 0.05)",
+        "borderWidth": 1.5,
+        "borderDash": [5, 5],
+        "pointRadius": 3,
+        "fill": false
+      },
+      {
+        "label": "Mamba — Charflip",
+        "data": [29.4, 1.6, 37.0],
+        "borderColor": "rgba(231, 76, 60, 1)",
+        "backgroundColor": "rgba(231, 76, 60, 0.1)",
+        "borderWidth": 2.5,
+        "pointRadius": 5,
+        "pointStyle": "crossRot",
+        "fill": false
+      },
+      {
+        "label": "Mamba — Wordflip",
+        "data": [29.4, 8.5, 36.3],
+        "borderColor": "rgba(255, 181, 90, 1)",
+        "backgroundColor": "rgba(255, 181, 90, 0.1)",
+        "borderWidth": 2.5,
+        "pointRadius": 5,
+        "pointStyle": "crossRot",
+        "fill": false
+      },
+      {
+        "label": "Mamba — Transliteration",
+        "data": [29.4, 26.3, 29.8],
+        "borderColor": "rgba(46, 204, 113, 1)",
+        "backgroundColor": "rgba(46, 204, 113, 0.1)",
+        "borderWidth": 2.5,
+        "pointRadius": 5,
+        "pointStyle": "crossRot",
+        "fill": false
+      },
+      {
+        "label": "Mamba — Counterfactual",
+        "data": [29.4, 37.6, 39.2],
+        "borderColor": "rgba(74, 144, 217, 1)",
+        "backgroundColor": "rgba(74, 144, 217, 0.1)",
+        "borderWidth": 2.5,
+        "pointRadius": 5,
+        "pointStyle": "crossRot",
+        "fill": false
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Phase Trajectory: Mamba 1.4B vs Transformer Average"
+      },
+      "legend": {
+        "position": "top"
+      }
+    },
+    "scales": {
+      "y": {
+        "beginAtZero": true,
+        "title": {
+          "display": true,
+          "text": "Accuracy (%)"
+        }
+      }
+    }
+  }
+}
+```
 
-*The absolute gap is the base-vs-instruction-tuned difference. The interesting part is the shape — Mamba's V-shape on charflip and wordflip is steeper, and on counterfactual it trends upward while transformers stay flat.*
+*The dashed gray lines show transformer averages for charflip and wordflip — both follow the classic V-shape (drop then recover). Mamba's charflip and wordflip lines show a steeper V that overshoots Phase 1 on recovery. Counterfactual (blue) just goes up the whole time.*
 
 ### Charflip: Same Absorption, Completely Different Failure
 
@@ -204,13 +494,150 @@ The noise/unlearn framework assumes a saturated baseline. Instruction-tuned mode
 
 ---
 
-## The Radar Charts
+## The Radar View
 
-Noise absorption (left) and unlearning recovery (right) across all four noise types. Mamba 1.4B in orange against the paper's four transformers.
+Noise absorption and unlearning recovery side by side. The radar chart makes it easy to see how each model's profile looks across all four noise types at once:
 
-{% include figure.liquid path="assets/img/blog_embeds/mamba-noise-learning-unlearning-1.png" title="Mamba 1.4B vs Transformers: Noise Absorption and Unlearning Recovery" class="img-fluid rounded z-depth-1" %}
+```chartjs
+{
+  "type": "radar",
+  "data": {
+    "labels": ["Charflip", "Wordflip", "Transliteration", "Counterfactual"],
+    "datasets": [
+      {
+        "label": "Olmo 1B",
+        "data": [96.3, 37.7, 6.4, 18.1],
+        "borderColor": "rgba(126, 176, 213, 0.8)",
+        "backgroundColor": "rgba(126, 176, 213, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Qwen 1.8B",
+        "data": [97.0, 29.9, 1.5, 18.5],
+        "borderColor": "rgba(178, 224, 97, 0.8)",
+        "backgroundColor": "rgba(178, 224, 97, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Gemma 2B",
+        "data": [95.7, 28.1, 4.6, 17.7],
+        "borderColor": "rgba(253, 127, 111, 0.8)",
+        "backgroundColor": "rgba(253, 127, 111, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Phi2 2.7B",
+        "data": [99.5, 27.2, 2.6, 13.5],
+        "borderColor": "rgba(189, 126, 190, 0.8)",
+        "backgroundColor": "rgba(189, 126, 190, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Mamba 1.4B",
+        "data": [94.6, 71.1, 10.5, -27.9],
+        "borderColor": "rgba(255, 181, 90, 1)",
+        "backgroundColor": "rgba(255, 181, 90, 0.15)",
+        "borderWidth": 2.5,
+        "pointRadius": 5
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Noise Absorption (Relative Accuracy Drop in Phase 2)"
+      },
+      "legend": {
+        "position": "top"
+      }
+    },
+    "scales": {
+      "r": {
+        "beginAtZero": false,
+        "suggestedMin": -30,
+        "suggestedMax": 100
+      }
+    }
+  }
+}
+```
 
-*Left: Mamba's wordflip spike stands out — far more absorbed than any transformer. The counterfactual dip below zero is unique to Mamba. Right: Mamba's polygon extends well beyond the transformer cluster, reflecting >100% recovery across most noise types.*
+```chartjs
+{
+  "type": "radar",
+  "data": {
+    "labels": ["Charflip", "Wordflip", "Transliteration", "Counterfactual"],
+    "datasets": [
+      {
+        "label": "Olmo 1B",
+        "data": [90.3, 97.5, 101.2, 104.0],
+        "borderColor": "rgba(126, 176, 213, 0.8)",
+        "backgroundColor": "rgba(126, 176, 213, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Qwen 1.8B",
+        "data": [96.8, 99.5, 100.5, 98.8],
+        "borderColor": "rgba(178, 224, 97, 0.8)",
+        "backgroundColor": "rgba(178, 224, 97, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Gemma 2B",
+        "data": [96.4, 92.9, 98.2, 98.8],
+        "borderColor": "rgba(253, 127, 111, 0.8)",
+        "backgroundColor": "rgba(253, 127, 111, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Phi2 2.7B",
+        "data": [94.8, 97.3, 97.8, 104.5],
+        "borderColor": "rgba(189, 126, 190, 0.8)",
+        "backgroundColor": "rgba(189, 126, 190, 0.1)",
+        "borderWidth": 1.5,
+        "pointRadius": 3
+      },
+      {
+        "label": "Mamba 1.4B",
+        "data": [125.9, 123.5, 101.4, 133.3],
+        "borderColor": "rgba(255, 181, 90, 1)",
+        "backgroundColor": "rgba(255, 181, 90, 0.15)",
+        "borderWidth": 2.5,
+        "pointRadius": 5
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "plugins": {
+      "title": {
+        "display": true,
+        "text": "Unlearning Recovery (Phase 3 as % of Phase 1)"
+      },
+      "legend": {
+        "position": "top"
+      }
+    },
+    "scales": {
+      "r": {
+        "beginAtZero": true,
+        "suggestedMax": 140
+      }
+    }
+  }
+}
+```
+
+*Top: Mamba's wordflip spike stands out — far more absorbed than any transformer. The counterfactual dip below zero is unique. Bottom: Mamba's polygon extends well beyond the transformer cluster, reflecting the >100% recovery overshoot.*
 
 ---
 
