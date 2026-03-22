@@ -31,6 +31,13 @@ body.sticky-bottom-footer {
   max-width: $max-content-width;
 }
 
+// Site note (copyright on about page)
+.site-note {
+  margin-top: 2rem;
+  font-size: 0.75rem;
+  color: var(--global-text-color-light);
+}
+
 // Profile
 .profile {
   margin-top: -100px;
@@ -43,6 +50,44 @@ body.sticky-bottom-footer {
 @media (max-width: 576px) {
   .profile {
     margin-top: -0px;
+  }
+}
+
+// About page flex layout
+.about-flex {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: flex-start;
+
+  .about-content {
+    flex: 1;
+    min-width: 0;
+
+    > p:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .about-profile {
+    flex: 0 0 30%;
+    margin-top: -100px;
+    float: none;
+    position: sticky;
+    top: 70px;
+    order: 1;
+  }
+
+  @media (max-width: 576px) {
+    flex-direction: column;
+
+    .about-profile {
+      position: static;
+      width: 50%;
+      margin-top: 0;
+      align-self: center;
+      order: 0;
+    }
   }
 }
 
