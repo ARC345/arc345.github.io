@@ -9,7 +9,7 @@ version = "0.1.0"
 install = "gem install bundler && bundle install && npm install"
 update-resume = "bash -c 'cp \"$(ls -t ~/Documents/resume/rendercv_output/*.pdf | head -n 1)\" assets/pdf/Arnav_Rastogi_CV.pdf && echo Resume PDF updated.'"
 dev = { cmd = "bundle exec jekyll serve", depends-on = ["update-resume"] }
-build = { cmd = "bundle exec jekyll build", depends-on = ["update-resume"] }
+build = "bundle exec jekyll build"
 clean = "bundle exec jekyll clean"
 export-requirements = "pixi run pip freeze > requirements.txt"
 purgecss = "npx purgecss -c purgecss.config.js"
