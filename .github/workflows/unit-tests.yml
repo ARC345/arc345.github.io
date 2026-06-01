@@ -88,3 +88,6 @@ jobs:
 
       - name: Run upgrade CLI integration test ⬆️
         run: bash test/integration_upgrade_cli.sh
+
+      - name: Run CSS minify integration test 🎨
+        run: bash test/integration_css_minify.sh
