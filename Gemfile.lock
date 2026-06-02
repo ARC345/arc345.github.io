@@ -47,7 +47,7 @@ GEM
     al_folio_bootstrap_compat (1.0.0)
       jekyll (>= 3.9, < 5.0)
       liquid (>= 4.0, < 6.0)
-    al_folio_core (1.0.10)
+    al_folio_core (1.0.11)
       jekyll (>= 3.9, < 5.0)
       liquid (>= 4.0, < 6.0)
     al_folio_cv (1.0.0)
@@ -352,7 +352,7 @@ DEPENDENCIES
   al_cookie (= 1.0.0)
   al_ext_posts (= 1.0.1)
   al_folio_bootstrap_compat (= 1.0.0)
-  al_folio_core (= 1.0.10)
+  al_folio_core (= 1.0.11)
   al_folio_cv (= 1.0.0)
   al_folio_distill (= 1.0.2)
   al_folio_upgrade (= 1.0.3)
@@ -397,7 +397,7 @@ CHECKSUMS
   al_cookie (1.0.0) sha256=0b36310f84c88e758fb18f2217e8fca8a282b8bd7f5ee9793c6d38ca0cc97348
   al_ext_posts (1.0.1) sha256=432730bcf032e9da0277beded65511a6e836d4888bda19c9e0f58f9bc6cd2a1d
   al_folio_bootstrap_compat (1.0.0) sha256=c210ff3087f17344dc864fa9594c737e947b23c6cae9fab3dbd37a87090b98a8
-  al_folio_core (1.0.10) sha256=13620d361f43e3bc8842f3655025e9688a6e494abb85770f085377bf60cdd678
+  al_folio_core (1.0.11) sha256=0792345ede34af0e685f575520fb8c588fdb8f0207a6a743cc7760d880e49871
   al_folio_cv (1.0.0) sha256=aa54c6efb38f46c5da09e09b82b4b050b5ce3b384f808922dc4fd665e10a840e
   al_folio_distill (1.0.2) sha256=14075b8654a85f76e5e1d8adf8e6c7abcf7b618a4f83a622fa4d5054cd64c709
   al_folio_upgrade (1.0.3) sha256=434ffddb27705852eae0bcaa01a8d007e0ef65472a989d1a33ae759f910f4709
