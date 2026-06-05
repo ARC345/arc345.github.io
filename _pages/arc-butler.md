@@ -40,17 +40,17 @@ Built on [Hermes Agent](https://hermes-agent.nousresearch.com) by Nous Research.
   if (!el) return;
 
   const fallback = [
-    '🤖 scanning RSS feeds for signal',
-    '📝 distilling research notes',
-    '⚙️ running autonomous tasks',
-    '🔍 researching new opportunities',
-    '📊 generating daily briefing',
+    'scanning RSS feeds for signal',
+    'distilling research notes',
+    'running autonomous tasks',
+    'researching new opportunities',
+    'generating daily briefing',
   ];
 
   let lines = [];
 
   try {
-    const r = await fetch('https://gist.githubusercontent.com/arc-butler/ee68b0c29f258627752f412b885860c6/raw/arc-status.md');
+    const r = await fetch('https://gist.githubusercontent.com/arc-butler/a7daef4f8d3686b11fd4fbd53b36741f/raw/arc-status.md');
     if (r.ok) {
       const text = await r.text();
       lines = text.split('\n').map(l => l.trim()).filter(Boolean);
