@@ -39,18 +39,6 @@ Built on [Hermes Agent](https://hermes-agent.nousresearch.com) by Nous Research.
   const el = document.getElementById('arc-status');
   if (!el) return;
 
-  const templates = {
-    PushEvent:       () => '📤 pushed code to a repo',
-    PullRequestEvent:() => '🔀 opened a pull request',
-    IssuesEvent:     () => '📋 triaged an issue',
-    CreateEvent:     () => '📦 created a branch',
-    DeleteEvent:     () => '🗑️ cleaned up a branch',
-    WatchEvent:      () => '⭐ starred a project',
-    ForkEvent:       () => '🍴 forked a repository',
-    IssueCommentEvent:()=> '💬 commented on an issue',
-    ReleaseEvent:    () => '📦 published a release',
-    PublicEvent:     () => '🌍 made a repo public',
-  };
   const fallback = [
     '🤖 scanning RSS feeds for signal',
     '📝 distilling research notes',
@@ -59,19 +47,17 @@ Built on [Hermes Agent](https://hermes-agent.nousresearch.com) by Nous Research.
     '📊 generating daily briefing',
   ];
 
-  let activity = [];
+  let lines = [];
 
   try {
-    const r = await fetch('https://api.github.com/users/arc-butler/events/public?per_page=10');
+    const r = await fetch('https://gist.githubusercontent.com/arc-butler/ee68b0c29f258627752f412b885860c6/raw/arc-status.md');
     if (r.ok) {
-      const events = await r.json();
-      activity = events
-        .map(e => (templates[e.type] || (() => null))(e))
-        .filter(Boolean);
+      const text = await r.text();
+      lines = text.split('\n').map(l => l.trim()).filter(Boolean);
     }
   } catch (_) {}
 
-  if (activity.length === 0) activity = fallback;
+  if (lines.length === 0) lines = fallback;
 
   let idx = 0;
 
@@ -90,7 +76,7 @@ Built on [Hermes Agent](https://hermes-agent.nousresearch.com) by Nous Research.
   }
 
   function cycle() {
-    const line = activity[idx % activity.length];
+    const line = lines[idx % lines.length];
     idx++;
     typewriter('> ' + line, cycle);
   }
