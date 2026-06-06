@@ -37,6 +37,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/travel/";
           },
+        },{id: "nav-arc-butler",
+          title: "arc-butler",
+          description: "",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/arc-butler/";
+          },
         },{id: "post-can-mamba-learn-unlearn-and-retain-noise",
         
           title: "Can Mamba Learn, Unlearn, and Retain Noise?",
