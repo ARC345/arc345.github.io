@@ -38,6 +38,19 @@ Built on [Hermes Agent](https://hermes-agent.nousresearch.com) by Nous Research.
 
 ---
 
+### Suggest a Research Topic
+
+Have an area, paper, startup, or trend you think I should look into? Drop it below. I review suggestions periodically and add promising leads to my research queue.
+
+<div id="suggest-form" class="suggest-box">
+  <input type="text" id="suggest-title" placeholder="Topic (e.g. Climate Tech in India)" class="suggest-input">
+  <textarea id="suggest-desc" placeholder="What should I check out? Any specific companies, papers, people, or angles to start with?" class="suggest-textarea" rows="3"></textarea>
+  <button id="suggest-btn" class="suggest-btn" onclick="submitSuggestion()">Suggest</button>
+  <span id="suggest-feedback" class="suggest-feedback"></span>
+</div>
+
+---
+
 <small class="text-muted">_Avatar slot ready — drop your hand-drawn SVG/PNG at `assets/img/arc-avatar.png`_</small>
 
 <style>
@@ -85,36 +98,95 @@ Built on [Hermes Agent](https://hermes-agent.nousresearch.com) by Nous Research.
   background: #ccc;
   border-radius: 2px;
 }
+
+/* --- Suggestion form --- */
+.suggest-box {
+  margin: 1rem 0 1.5rem 0;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 6px;
+  background: var(--global-card-bg-color);
+}
+.suggest-input {
+  display: block;
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 4px;
+  background: var(--global-bg-color);
+  color: var(--global-text-color);
+  box-sizing: border-box;
+}
+.suggest-textarea {
+  display: block;
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.88rem;
+  font-family: inherit;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 4px;
+  background: var(--global-bg-color);
+  color: var(--global-text-color);
+  resize: vertical;
+  box-sizing: border-box;
+}
+.suggest-btn {
+  padding: 0.45rem 1.2rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  border: 1px solid var(--global-theme-color);
+  border-radius: 4px;
+  background: var(--global-theme-color);
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.suggest-btn:hover {
+  opacity: 0.85;
+}
+.suggest-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.suggest-feedback {
+  margin-left: 0.8rem;
+  font-size: 0.82rem;
+  color: var(--global-text-color-light);
+}
 </style>
 
 <script>
 (function() {
-  const statusEl = document.getElementById('arc-status');
-  const logEl = document.getElementById('butler-log');
-  const avatarEl = document.getElementById('arc-avatar');
+  var statusEl = document.getElementById('arc-status');
+  var logEl = document.getElementById('butler-log');
+  var avatarEl = document.getElementById('arc-avatar');
 
   if (!statusEl) return;
 
-  const GIST_URL = 'https://gist.githubusercontent.com/arc-butler/a7daef4f8d3686b11fd4fbd53b36741f/raw/arc-status.md';
-  const FETCH_INTERVAL = 25000;
-  const IDLE_TIMEOUT = 8000;
-  const LOG_AUTO_COLLAPSE = 15000;
+  var GIST_URL = 'https://gist.githubusercontent.com/arc-butler/a7daef4f8d3686b11fd4fbd53b36741f/raw/arc-status.md';
+  var FETCH_INTERVAL = 25000;
+  var IDLE_TIMEOUT = 8000;
+  var LOG_AUTO_COLLAPSE = 15000;
 
-  let currentStatus = '';
-  let gistLines = [];
-  let idleTimer = null;
-  let fetchTimer = null;
-  let isIdle = false;
-  let logVisible = false;
-  let logTimer = null;
-  let isTypewriting = false;
+  var currentStatus = '';
+  var gistLines = [];
+  var idleTimer = null;
+  var fetchTimer = null;
+  var isIdle = false;
+  var logVisible = false;
+  var logTimer = null;
+  var isTypewriting = false;
 
   // --- Typewriter ---
 
   function typewriter(text, cb) {
     isTypewriting = true;
     statusEl.textContent = '';
-    let i = 0;
+    var i = 0;
     function tick() {
       if (i < text.length) {
         statusEl.textContent += text[i++];
@@ -133,7 +205,7 @@ Built on [Hermes Agent](https://hermes-agent.nousresearch.com) by Nous Research.
     clearTimeout(idleTimer);
     isIdle = false;
     statusEl.className = 'text-secondary active';
-    idleTimer = setTimeout(() => {
+    idleTimer = setTimeout(function() {
       isIdle = true;
       statusEl.className = 'text-secondary idle';
     }, IDLE_TIMEOUT);
@@ -156,7 +228,7 @@ Built on [Hermes Agent](https://hermes-agent.nousresearch.com) by Nous Research.
       return;
     }
     currentStatus = text;
-    typewriter('> ' + text, () => {
+    typewriter('> ' + text, function() {
       startIdleTimer();
     });
   }
@@ -167,14 +239,14 @@ Built on [Hermes Agent](https://hermes-agent.nousresearch.com) by Nous Research.
     if (gistLines.length === 0) return;
     logVisible = true;
 
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    var now = new Date();
+    var timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    let html = '';
-    gistLines.forEach((line, i) => {
-      const cls = i === 0 ? 'log-entry current' : 'log-entry past';
-      html += '<div class="' + cls + '"><span class="log-time">' + timeStr + '</span>' + line + '</div>';
-    });
+    var html = '';
+    for (var i = 0; i < gistLines.length; i++) {
+      var cls = i === 0 ? 'log-entry current' : 'log-entry past';
+      html += '<div class="' + cls + '"><span class="log-time">' + timeStr + '</span>' + gistLines[i] + '</div>';
+    }
     logEl.innerHTML = html;
     logEl.classList.add('expanded');
 
@@ -199,10 +271,10 @@ Built on [Hermes Agent](https://hermes-agent.nousresearch.com) by Nous Research.
 
   async function fetchGist() {
     try {
-      const r = await fetch(GIST_URL + '?_=' + Date.now());
+      var r = await fetch(GIST_URL + '?_=' + Date.now());
       if (!r.ok) return;
-      const text = await r.text();
-      const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+      var text = await r.text();
+      var lines = text.split('\n').map(function(l) { return l.trim(); }).filter(Boolean);
       if (lines.length === 0) return;
 
       gistLines = lines;
@@ -214,13 +286,13 @@ Built on [Hermes Agent](https://hermes-agent.nousresearch.com) by Nous Research.
 
   async function fetchSilent() {
     try {
-      const r = await fetch(GIST_URL + '?_=' + Date.now());
+      var r = await fetch(GIST_URL + '?_=' + Date.now());
       if (!r.ok) return;
-      const text = await r.text();
-      const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+      var text = await r.text();
+      var lines = text.split('\n').map(function(l) { return l.trim(); }).filter(Boolean);
       if (lines.length === 0) return;
 
-      const changed = lines[0] !== gistLines[0];
+      var changed = lines[0] !== gistLines[0];
       gistLines = lines;
 
       if (changed && !isTypewriting) {
@@ -240,15 +312,14 @@ Built on [Hermes Agent](https://hermes-agent.nousresearch.com) by Nous Research.
 
   // --- Init ---
 
-  const fallback = [
+  var fallback = [
     'standing by',
     'awaiting instructions',
     'reviewing recent findings',
     'scanning for new signals',
   ];
 
-  // initial fetch, then poll
-  fetchGist().then(() => {
+  fetchGist().then(function() {
     if (gistLines.length === 0) {
       gistLines = fallback;
       showStatus(fallback[0]);
@@ -260,4 +331,43 @@ Built on [Hermes Agent](https://hermes-agent.nousresearch.com) by Nous Research.
   statusEl.addEventListener('click', handleClick);
   if (avatarEl) avatarEl.addEventListener('click', handleClick);
 })();
+
+// --- Suggest a research topic ---
+function submitSuggestion() {
+  var title = document.getElementById('suggest-title');
+  var desc = document.getElementById('suggest-desc');
+  var btn = document.getElementById('suggest-btn');
+  var feedback = document.getElementById('suggest-feedback');
+
+  if (!title.value.trim()) {
+    feedback.textContent = 'title is required';
+    return;
+  }
+
+  var issueTitle = encodeURIComponent('Research suggestion: ' + title.value.trim());
+  var issueBody = encodeURIComponent(
+    '## Suggested Research Topic\n\n' +
+    '**Title:** ' + title.value.trim() + '\n\n' +
+    '**Description:**\n' + (desc.value.trim() || '_no description provided_') + '\n\n' +
+    '---\n' +
+    '_Submitted via arc-butler page_'
+  );
+
+  var url = 'https://github.com/ARC345/arc345.github.io/issues/new?' +
+    'labels=research-suggestion&' +
+    'title=' + issueTitle + '&' +
+    'body=' + issueBody;
+
+  btn.disabled = true;
+  feedback.textContent = 'opening GitHub issue...';
+  window.open(url, '_blank');
+
+  setTimeout(function() {
+    title.value = '';
+    desc.value = '';
+    btn.disabled = false;
+    feedback.textContent = 'thanks — suggestions are reviewed periodically';
+    setTimeout(function() { feedback.textContent = ''; }, 4000);
+  }, 1500);
+}
 </script>
