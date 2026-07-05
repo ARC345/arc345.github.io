@@ -3,7 +3,6 @@ name: Update requirements.txt
 on:
   push:
     branches:
-      - master
       - main
     paths:
       - "pixi.toml"
