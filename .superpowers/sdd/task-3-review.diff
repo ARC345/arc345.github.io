@@ -1,0 +1,219 @@
+diff --git a/.github/workflows/axe.yml b/.github/workflows/axe.yml
+index f9ddd93..3b12581 100644
+--- a/.github/workflows/axe.yml
++++ b/.github/workflows/axe.yml
+@@ -1,21 +1,21 @@
+ name: Axe accessibility testing
+ 
+ on:
+   # if you want to run this on every push uncomment the following lines
+   # push:
+   #   branches:
+-  #     - master
++  #     - main
+   #     - main
+   # pull_request:
+   #   branches:
+-  #     - master
++  #     - main
+   #     - main
+   workflow_dispatch:
+     inputs:
+       url:
+         description: "URL to be checked (e.g.: blog/)"
+         required: false
+ 
+ env:
+   URL: ""
+ 
+diff --git a/.github/workflows/broken-links.yml b/.github/workflows/broken-links.yml
+index 88a2ad4..f798840 100644
+--- a/.github/workflows/broken-links.yml
++++ b/.github/workflows/broken-links.yml
+@@ -1,34 +1,32 @@
+ name: Check for broken links
+ 
+ on:
+   push:
+     branches:
+-      - master
+       - main
+     paths:
+       - "assets/**"
+       - "**.html"
+       - "**.js"
+       - "**.liquid"
+       - "**/*.md"
+       - "**.yml"
+       - "!.github/workflows/axe.yml"
+       - "!.github/workflows/deploy-docker-tag.yml"
+       - "!.github/workflows/deploy-image.yml"
+       - "!.github/workflows/docker-slim.yml"
+       - "!.github/workflows/lighthouse-badger.yml"
+       - "!.github/workflows/prettier.yml"
+       - "!lighthouse_results/**"
+   pull_request:
+     branches:
+-      - master
+       - main
+     paths:
+       - "assets/**"
+       - "**.html"
+       - "**.js"
+       - "**.liquid"
+       - "**/*.md"
+       - "**.yml"
+       - "!.github/workflows/axe.yml"
+       - "!.github/workflows/deploy-docker-tag.yml"
+diff --git a/.github/workflows/deploy-image.yml b/.github/workflows/deploy-image.yml
+index 7ddd8f6..523f788 100644
+--- a/.github/workflows/deploy-image.yml
++++ b/.github/workflows/deploy-image.yml
+@@ -1,16 +1,15 @@
+ name: Docker Image CI
+ 
+ on:
+   push:
+     branches:
+-      - master
+       - main
+     paths:
+       - ".github/workflows/deploy-image.yml"
+       - "bin/entry_point.sh"
+       - "Dockerfile"
+       - "Gemfile"
+       - "Gemfile.lock"
+       - "package.json"
+       - "package-lock.json"
+ 
+diff --git a/.github/workflows/docker-slim.yml b/.github/workflows/docker-slim.yml
+index 3a67d32..1998949 100644
+--- a/.github/workflows/docker-slim.yml
++++ b/.github/workflows/docker-slim.yml
+@@ -1,29 +1,28 @@
+ name: Docker Slim
+ 
+ #Only trigger, when the build workflow succeeded
+ on:
+   push:
+     branches:
+-      - master
+       - main
+     paths:
+       - ".github/workflows/docker-slim.yml"
+   workflow_run:
+     workflows: ["Docker Image CI"]
+     types:
+       - completed
+ 
+ # on:
+ #   push:
+ #     branches:
+-#       - 'master'
++#       - 'main'
+ 
+ jobs:
+   build:
+     # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#running-a-workflow-based-on-the-conclusion-of-another-workflow
+     if: ${{ github.event.workflow_run.conclusion == 'success' && github.repository_owner == 'alshedivat' }}
+     runs-on: ubuntu-latest
+     defaults:
+       run:
+         working-directory: ${{ github.workspace }}
+ 
+diff --git a/.github/workflows/lighthouse-badger.yml b/.github/workflows/lighthouse-badger.yml
+index addec2d..ac97357 100644
+--- a/.github/workflows/lighthouse-badger.yml
++++ b/.github/workflows/lighthouse-badger.yml
+@@ -9,21 +9,21 @@
+ name: "Lighthouse Badger"
+ 
+ ########################################################################
+ # DEFINE YOUR INPUTS AND TRIGGERS IN THE FOLLOWING
+ ########################################################################
+ 
+ # INPUTS as Secrets (env) for not manually triggered workflows
+ env:
+   URLS: https://alshedivat.github.io/al-folio/
+   # If any of the following env is blank, a default value is used instead
+-  REPO_BRANCH: "${{ github.repository }} master" # target repository & branch e.g. 'dummy/mytargetrepo main'
++  REPO_BRANCH: "${{ github.repository }} main" # target repository & branch e.g. 'dummy/mytargetrepo main'
+   MOBILE_LIGHTHOUSE_PARAMS: "--only-categories=performance,accessibility,best-practices,seo --throttling.cpuSlowdownMultiplier=2"
+   DESKTOP_LIGHTHOUSE_PARAMS: "--only-categories=performance,accessibility,best-practices,seo --preset=desktop --throttling.cpuSlowdownMultiplier=1"
+ 
+ # TRIGGERS
+ on:
+   page_build:
+   # schedule: # Check your schedule here => https://crontab.guru/
+   #   - cron: '55 23 * * 0' # e.g. every Sunday at 23:55
+   #
+   # THAT'S IT; YOU'RE DONE;
+diff --git a/.github/workflows/prettier.yml b/.github/workflows/prettier.yml
+index 60446c8..372dc22 100644
+--- a/.github/workflows/prettier.yml
++++ b/.github/workflows/prettier.yml
+@@ -1,20 +1,15 @@
+ name: Prettier code formatter
+ 
+ on:
+   pull_request:
+     branches:
+-      - master
+-      - main
+-  push:
+-    branches:
+-      - master
+       - main
+ 
+ jobs:
+   check:
+     # available images: https://github.com/actions/runner-images#available-images
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout 🛎️
+         uses: actions/checkout@v4
+       - name: Setup Node.js ⚙️
+diff --git a/.github/workflows/update-requirements.yml b/.github/workflows/update-requirements.yml
+index 066fb49..2e6ff7a 100644
+--- a/.github/workflows/update-requirements.yml
++++ b/.github/workflows/update-requirements.yml
+@@ -1,16 +1,15 @@
+ name: Update requirements.txt
+ 
+ on:
+   push:
+     branches:
+-      - master
+       - main
+     paths:
+       - "pixi.toml"
+       - "pixi.lock"
+   workflow_dispatch:
+ 
+ permissions:
+   contents: write
+ 
+ jobs:
+diff --git a/.github/workflows/update-tocs.yml b/.github/workflows/update-tocs.yml
+index 3567ee8..88871e5 100644
+--- a/.github/workflows/update-tocs.yml
++++ b/.github/workflows/update-tocs.yml
+@@ -1,18 +1,17 @@
+ name: Update TOCs
+ # This workflow automatically updates the Table of Contents (TOC) in markdown files
+ 
+ on:
+   push:
+     branches:
+       - main
+-      - master
+     paths:
+       - "*.md"
+   workflow_dispatch:
+ 
+ permissions:
+   contents: write
+ 
+ jobs:
+   build:
+     runs-on: ubuntu-latest
