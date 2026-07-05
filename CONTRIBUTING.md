@@ -6,12 +6,12 @@ This repository uses a protected main branch with the following rules:
 
 1. **Development on `dev` branch**: All feature work happens on branches created from `dev`
 2. **Pull Request Required**: Changes to `main` only via PR
-3. **Approval Required**: PRs to `main` require 1 approval from `@ARC345`
-4. **Automated Checks**: All PRs must pass:
+3. **Automated Checks**: All PRs must pass:
    - Prettier formatting check
    - Jekyll build verification
    - CodeQL security scan
-5. **No Direct Pushes**: Direct pushes to `main` are blocked by GitHub
+4. **No Direct Pushes**: Direct pushes to `main` are blocked by GitHub
+5. **Admin Bypass**: `@ARC345` (repo admin) can merge PRs directly without requiring approval
 
 ## Getting Started
 
@@ -53,10 +53,10 @@ gh auth login
 ```
 
 This configures:
-- Require all PR checks to pass
-- Require 1 approval from `@ARC345`
-- Block direct pushes
+- Require all PR checks to pass (Prettier, Build, CodeQL)
+- Block direct pushes to all users
 - Require linear history
+- Allow `@ARC345` (admin) to merge without approval
 
 ## Questions?
 
