@@ -1,9 +1,11 @@
 github_users:
   - ARC345
+  - arc-butler
 
 repo_description_lines_max: 3
 
 github_repos:
+  - AGS-Lab/tailor
   - ARC345/SudokuSolver
   - ARC345/ARC-Engine
   - ARC345/ARC-SurvivalGame
