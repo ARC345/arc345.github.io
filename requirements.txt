@@ -41,7 +41,7 @@ oauthlib==3.2.2
 packaging==24.0
 pexpect==4.9.0
 pipx==1.8.0
-platformdirs==4.5.1
+platformdirs==4.9.4
 ptyprocess==0.7.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
