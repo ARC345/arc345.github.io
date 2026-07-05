@@ -84,7 +84,12 @@ The workflow only runs when relevant files change (markdown, YAML, JS, CSS, Ruby
 
 ## Resume Sync
 
-The CV PDF is auto-synced from `~/Documents/resume/rendercv_output/`. Run `pixi run update-resume` to sync manually, or it runs automatically as part of `pixi run dev`.
+The CV PDF is auto-fetched from the latest release of the [ARC345/resume](https://github.com/ARC345/resume) repository. The `fetch-resume` task:
+- Fetches the latest `Arnav_Rastogi_research.pdf` from GitHub releases
+- Runs automatically as part of `pixi run dev` and `pixi run build`
+- Ensures the website always has the latest resume on deployment
+
+To manually sync: `pixi run fetch-resume`
 
 ## Automated Workflows
 
