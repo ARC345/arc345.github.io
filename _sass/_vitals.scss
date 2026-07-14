@@ -1,0 +1,279 @@
+/*******************************************************************************
+ * Site Vital Signs - CRT Patient Monitor
+ * Dark phosphor-green medical monitor aesthetic for website analytics.
+ ******************************************************************************/
+
+#vitals-monitor {
+  width: 100%;
+  max-width: 960px;
+  margin: 2rem auto;
+  font-family: 'Courier New', 'Courier', monospace;
+}
+
+#vitals-crt {
+  position: relative;
+  background: #0a0a0a;
+  border: 3px solid #1a3a1a;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow:
+    0 0 30px rgba(0, 255, 65, 0.05),
+    inset 0 0 60px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+}
+
+/* Patient Info Bar */
+#vitals-patient-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 12px;
+  background: #0d0d0d;
+  border: 1px solid #1a3a1a;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-size: 0.75rem;
+  color: #00ff41;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+#vitals-patient-bar span {
+  color: #00ff41;
+}
+
+/* Main Layout */
+#vitals-main {
+  display: flex;
+  gap: 16px;
+  min-height: 320px;
+}
+
+/* Vitals Grid (left) */
+#vitals-grid {
+  flex: 0 0 320px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.vital-box {
+  background: #0d0d0d;
+  border: 1px solid #1a3a1a;
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s;
+}
+
+.vital-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: #1a6a1a;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.vital-value-box {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.vital-value {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #00ff41;
+  line-height: 1;
+  transition: color 0.3s;
+}
+
+.vital-unit {
+  font-size: 0.7rem;
+  color: #1a6a1a;
+  text-transform: uppercase;
+}
+
+.vital-trend {
+  font-size: 0.65rem;
+  color: #0d5a0d;
+  margin-top: 2px;
+}
+
+.vital-pulse {
+  display: inline-block;
+  font-size: 0.8rem;
+  animation: vital-pulse-beat 1s ease-in-out infinite;
+}
+
+@keyframes vital-pulse-beat {
+  0%, 100% { color: #0d5a0d; transform: scale(1); }
+  15% { color: #00ff41; transform: scale(1.3); text-shadow: 0 0 8px #00ff41; }
+  30% { color: #0d5a0d; transform: scale(1); }
+}
+
+/* Progress bar for ACT */
+.vital-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #0a1a0a;
+  border: 1px solid #1a3a1a;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.vital-progress-fill {
+  height: 100%;
+  background: #00ff41;
+  width: 0%;
+  transition: width 1s ease;
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(0, 255, 65, 0.3);
+}
+
+/* EKG Canvas (right) */
+#vitals-ekg-container {
+  flex: 1;
+  min-width: 0;
+}
+
+#vitals-ekg-canvas {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  background: #000;
+  border: 1px solid #1a3a1a;
+  border-radius: 6px;
+  display: block;
+}
+
+/* Diagnosis Panel */
+#vitals-diagnosis {
+  margin-top: 16px;
+  padding: 10px 12px;
+  background: #0d0d0d;
+  border: 1px solid #1a3a1a;
+  border-radius: 6px;
+}
+
+#vitals-diagnosis-line {
+  font-size: 0.8rem;
+  color: #00ff41;
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+
+.vitals-prompt {
+  color: #1a6a1a;
+  margin-right: 8px;
+}
+
+.vitals-cursor {
+  display: inline-block;
+  animation: vital-blink 1s step-end infinite;
+  color: #00ff41;
+  margin-left: 2px;
+}
+
+@keyframes vital-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+#vitals-alerts {
+  font-size: 0.7rem;
+  color: #0d5a0d;
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px solid #1a3a1a;
+}
+
+.vitals-alert-label {
+  color: #1a6a1a;
+  font-weight: bold;
+}
+
+/* Scan Line Overlay */
+#vitals-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 255, 65, 0.08), transparent);
+  pointer-events: none;
+  animation: vital-scan 4s linear infinite;
+  z-index: 5;
+}
+
+@keyframes vital-scan {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+/* Noise overlay */
+#vitals-crt::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* CRT glow effect */
+#vitals-crt::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  z-index: 4;
+  border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #vitals-main {
+    flex-direction: column;
+  }
+
+  #vitals-grid {
+    flex: none;
+    width: 100%;
+  }
+
+  #vitals-ekg-container {
+    width: 100%;
+  }
+
+  #vitals-ekg-canvas {
+    min-height: 200px;
+  }
+
+  #vitals-patient-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    font-size: 0.65rem;
+  }
+}
+
+/* Dark theme support (always dark in this context) */
+[data-theme="light"] #vitals-crt {
+  border-color: #2a4a2a;
+}
