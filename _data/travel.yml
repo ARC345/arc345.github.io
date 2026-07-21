@@ -113,6 +113,13 @@
   description: "Gateway of India"
   country: "India"
 
+- location: "Pune, India"
+  latitude: 18.5204
+  longitude: 73.8567
+  date: "2023-11-03"
+  description: "Cultural capital of Maharashtra"
+  country: "India"
+
 - location: "Delhi, India"
   latitude: 28.7041
   longitude: 77.1025
