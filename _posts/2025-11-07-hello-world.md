@@ -3,7 +3,7 @@ layout: post
 title: hello blog
 date: 2025-11-07 02:04
 description: initial blog post
-tags:
+tags: personal
 categories: personal
 ---
 

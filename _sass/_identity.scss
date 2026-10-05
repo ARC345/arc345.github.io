@@ -1,0 +1,86 @@
+/*******************************************************************************
+ * Site identity: typography, reading width, focus, and motion preferences.
+ * Colors live in _variables.scss / _themes.scss.
+ ******************************************************************************/
+
+// Typography
+
+body {
+  font-family: $font-body;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.post-title,
+.navbar-brand {
+  font-family: $font-heading;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.post-title {
+  font-weight: 800;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: $font-mono;
+}
+
+// Reading width: cap running text at ~70 characters per line while figures,
+// charts, tables, and code blocks keep the full container width.
+
+#markdown-content,
+.post > article {
+  > p,
+  > ul,
+  > ol,
+  > blockquote,
+  > h2,
+  > h3,
+  > h4 {
+    max-width: $prose-max-width;
+  }
+}
+
+// Keyboard focus: a visible ring everywhere, including inputs that set
+// `outline: none` in _base.scss.
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+.newsletter-form-input:focus-visible,
+.bibsearch-form-input:focus-visible {
+  outline: 2px solid var(--global-theme-color);
+  outline-offset: 2px;
+}
+
+// Reduced motion: drop non-essential transitions and animations.
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  html.transition,
+  html.transition *,
+  html.transition *:before,
+  html.transition *:after,
+  *,
+  *:before,
+  *:after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
