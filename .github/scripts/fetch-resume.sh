@@ -7,8 +7,8 @@ OUTPUT_FILE="$OUTPUT_DIR/Arnav_Rastogi_CV.pdf"
 DATA_FILE="_data/cv.yml"
 TAG_FILE="assets/resume-tag.txt"
 
-# ARC345/resume is private. Without a token that can read it (RESUME_TOKEN in
-# CI), keep the copies committed in this repo rather than failing the build.
+# If the release can't be fetched (offline, GitHub outage, no gh auth), keep the
+# copies committed in this repo rather than failing the build.
 use_committed_copy() {
   if [ -s "$OUTPUT_FILE" ] && [ -s "$DATA_FILE" ]; then
     echo "::warning::Could not fetch from $REPO ($1); building with the committed resume ($(cat "$TAG_FILE" 2>/dev/null || echo unknown release))."
