@@ -29,6 +29,9 @@ on:
       - "!INSTALL.md"
       - "!README.md"
   workflow_dispatch:
+  # Fired by ARC345/resume when a new release is published.
+  repository_dispatch:
+    types: [resume-updated]
 
 permissions:
   contents: write
@@ -55,6 +58,8 @@ jobs:
       - name: Install dependencies 📦
         run: pixi run install
       - name: Build site 🔧
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           export JEKYLL_ENV=production
           pixi run build

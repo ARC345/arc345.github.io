@@ -1,0 +1,153 @@
+{
+  "basics": {
+    "name": "Arnav Rastogi",
+    "email": "arnavrastogi.543@gmail.com",
+    "url": "https://arnav.rastogi.net.in/",
+    "summary": "State-Space Models (Mamba/SSD), Linear-Time Sequence Models, Hardware-Aware Selective Scan, Hybrid Attention-SSM Models, Mechanistic Interpretability, Recurrent-Depth & Looped Transformers (Ouro/TRM/HRM), Scaling Laws.",
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "arnav-rastogi-6b868a22a"
+      },
+      {
+        "network": "GitHub",
+        "username": "ARC345"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Hapticware Intelligence",
+      "position": "AI Engineer Intern",
+      "location": "Pune, India",
+      "highlights": [
+        "Built an agentic swarm framework with <strong>LangGraph</strong> to orchestrate and manage a fleet of 30+ agents across complex, decomposable tasks.",
+        "Engineered <strong>RAG</strong> over a 100+ table production database, cutting chatbot query response time by 30-40% and auto-generating result graphs.",
+        "Developed backend <strong>APIs</strong> for a digital-signer product and its admin portal, alongside supporting production services."
+      ],
+      "startDate": "2026-03",
+      "endDate": "2026-06"
+    },
+    {
+      "name": "Abhay Travels",
+      "position": "Research Intern",
+      "highlights": [
+        "Researched demand-forecasting models for time-series data, engineering 15+ features to capture seasonal and non-linear trends.",
+        "Built a predictive pipeline with <strong>CatBoost</strong> that beat baseline ARIMA models on RMSE across 5 years of historical booking data."
+      ],
+      "startDate": "2025-02",
+      "endDate": "2025-03"
+    },
+    {
+      "name": "AMR India",
+      "position": "Data Analyst Intern",
+      "highlights": [
+        "Forecast article-specific demand cycles across 200+ HSN codes from ~50K port transaction records over 4 years, informing quarterly procurement planning."
+      ],
+      "startDate": "2024-11",
+      "endDate": "2024-12"
+    }
+  ],
+  "education": [
+    {
+      "institution": "Indian Institute of Technology, Jodhpur",
+      "area": "Applied AI and Data Science",
+      "studyType": "BS",
+      "courses": ["Core focus on Deep Learning, Linear Algebra, and Statistical Inference."],
+      "startDate": "2025-01",
+      "endDate": "2029-01"
+    },
+    {
+      "institution": "MITx",
+      "area": "Statistics and Data Science",
+      "studyType": "MicroMasters",
+      "courses": ["Advanced training in Probabilistic Modeling, Machine Learning foundations, and Time Series Analysis."],
+      "startDate": "2024-09",
+      "endDate": "2026-09"
+    }
+  ],
+  "projects": [
+    {
+      "name": "LLM Lab",
+      "highlights": [
+        "Built a character-level GPT from scratch in <strong>PyTorch</strong> to study the internal dynamics of <strong>Multi-Head Attention</strong> and <strong>Transformer</strong> blocks.",
+        "Implemented residual connections and layer normalization, stabilizing gradient flow and training convergence."
+      ],
+      "startDate": "2025-01"
+    },
+    {
+      "name": "Lenia & Conway's Game of Life",
+      "highlights": [
+        "Simulated continuous-state artificial life via <strong>Gaussian kernel evolution</strong> and non-linear PDEs, probing emergent dynamics at real-time high resolution."
+      ],
+      "startDate": "2024",
+      "endDate": "2024"
+    },
+    {
+      "name": "rCiv (Knowledge Commons)",
+      "highlights": [
+        "Built a verified knowledge commons for AI-generated research, a <strong>FastAPI</strong> service where agents submit source-referenced claims that resolve into a canonical temporal <strong>knowledge graph</strong>.",
+        "Engineered source-aware <strong>LLM</strong> deduplication and conflict detection over <strong>Graphiti + Neo4j</strong>, fusing semantic, BM25, and graph search served via <strong>RAG</strong>."
+      ],
+      "startDate": "2025"
+    },
+    {
+      "name": "ARC-Engine",
+      "highlights": [
+        "Developed a high-performance OpenGL rendering engine with a custom <strong>Entity Component System (ECS)</strong> for cache-friendly memory layout.",
+        "Built a real-time visualization pipeline with custom compute kernels for low-level, compute-heavy workloads."
+      ],
+      "startDate": "2023",
+      "endDate": "2023"
+    },
+    {
+      "name": "Tailor (AI Framework)",
+      "highlights": [
+        "Built a modular AI framework in <strong>Rust (Tauri)</strong> and <strong>Python</strong> that lets users stitch models and tools into custom assistants."
+      ],
+      "startDate": "2025"
+    },
+    {
+      "name": "Sudoku Solver (Algorithms)",
+      "highlights": [
+        "Investigated <strong>Backtracking vs. Bitmasking</strong> approaches for combinatorial optimization, pruning the search space with heuristics to cut runtime by 80%."
+      ],
+      "startDate": "2023",
+      "endDate": "2023"
+    }
+  ],
+  "publications": [
+    {
+      "name": "Can Mamba Learn, Unlearn, and Retain Noise?",
+      "url": "https://arnav.rastogi.net.in/blog/2026/mamba-noise-learning-unlearning/",
+      "publisher": "Blog",
+      "releaseDate": "2026-02"
+    },
+    {
+      "name": "Multi-Hop Reasoning in Transformers",
+      "url": "https://arnav.rastogi.net.in/blog/2026/multi-hop-reasoning-transformers/",
+      "publisher": "Blog",
+      "releaseDate": "2026-01"
+    },
+    {
+      "name": "ReLU vs GELU",
+      "url": "https://arnav.rastogi.net.in/blog/2026/relu-vs-gelu/",
+      "publisher": "Blog",
+      "releaseDate": "2026-01"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Research",
+      "keywords": ["PyTorch", "State-Space Models (Mamba/SSD)", "Transformers", "Mechanistic Interpretability", "JAX (learning)"]
+    },
+    {
+      "name": "Mathematical Foundations",
+      "keywords": ["Linear Algebra", "Probability & Statistics", "Optimization", "Calculus"]
+    },
+    {
+      "name": "Engineering",
+      "keywords": ["Python", "C++", "CUDA (basics)", "SQL", "Git"]
+    }
+  ]
+}

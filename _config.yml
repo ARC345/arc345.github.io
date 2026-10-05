@@ -626,9 +626,9 @@ third_party_libraries:
 # Get external JSON data
 # -----------------------------------------------------------------------------
 
-jekyll_get_json:
-  - data: resume
-    json: https://gist.githubusercontent.com/ARC345/1803646216d876ace8dd25d5c769b328/raw/resume.json
+# The CV page reads _data/resume.json, generated from the ARC345/resume
+# release by `pixi run fetch-resume` (.github/scripts/fetch-resume.sh).
+jekyll_get_json: []
 
 jsonresume:
   - basics
