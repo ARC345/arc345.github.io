@@ -55,8 +55,7 @@ jobs:
         run: pixi run install
       - name: Build site 🔧
         env:
-          # ARC345/resume is private; RESUME_TOKEN needs read access to it.
-          GH_TOKEN: ${{ secrets.RESUME_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           export JEKYLL_ENV=production
           pixi run build
