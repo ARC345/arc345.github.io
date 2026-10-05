@@ -24,6 +24,9 @@ GEM
       uri (>= 0.13.1)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
+    al_folio_cv (1.0.2)
+      jekyll (>= 3.9, < 5.0)
+      liquid (>= 4.0, < 6.0)
     base64 (0.2.0)
     benchmark (0.4.0)
     bibtex-ruby (6.1.0)
@@ -287,6 +290,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  al_folio_cv (= 1.0.2)
   classifier-reborn
   css_parser
   feedjira
