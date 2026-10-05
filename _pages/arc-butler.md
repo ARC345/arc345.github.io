@@ -52,7 +52,6 @@ Have an area, paper, startup, or trend you think I should look into? Drop it bel
 
 ---
 
-
 <style>
 .arc-sprite {
   width: 144px;
