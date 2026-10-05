@@ -1,0 +1,59 @@
+name: Resume sync
+
+# Redeploys the site when ARC345/resume publishes a new research release, so the
+# CV PDF and /cv/ page pick it up without a push to this repo.
+on:
+  schedule:
+    - cron: "17 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: resume-sync
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Redeploy if the deployed resume is stale 🔄
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # ARC345/resume is private; RESUME_TOKEN needs read access to it.
+          RESUME_TOKEN: ${{ secrets.RESUME_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "$RESUME_TOKEN" ]; then
+            echo "::warning::RESUME_TOKEN secret is not set; cannot read ARC345/resume releases."
+            exit 0
+          fi
+
+          latest=$(GH_TOKEN="$RESUME_TOKEN" gh release list -R ARC345/resume --limit 20 --json tagName \
+            -q '[.[] | select(.tagName | test("research"))][0].tagName // empty')
+          # Missing before the first deploy that records it; treat as stale.
+          deployed=$(gh api -H "Accept: application/vnd.github.raw" \
+            "repos/$REPO/contents/assets/resume-tag.txt?ref=gh-pages" 2>/dev/null) || deployed=""
+          deployed=$(printf '%s' "$deployed" | tr -d '[:space:]')
+
+          echo "Latest release: ${latest:-<none>}"
+          echo "Deployed:       ${deployed:-<none>}"
+
+          if [ -z "$latest" ] || [ "$latest" = "$deployed" ]; then
+            echo "Site is up to date."
+            exit 0
+          fi
+
+          active=$(gh run list -R "$REPO" --workflow deploy.yml --limit 20 --json status \
+            -q '[.[] | select(.status != "completed")] | length')
+          if [ "$active" -gt 0 ]; then
+            echo "A deploy is already queued or running; leaving it to pick up $latest."
+            exit 0
+          fi
+
+          gh workflow run deploy.yml -R "$REPO" --ref main
+          echo "Triggered deploy for $latest."

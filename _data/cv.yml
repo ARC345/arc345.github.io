@@ -1,0 +1,123 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.5/schema.json
+cv:
+  name: Arnav Rastogi
+  email: arnavrastogi.543@gmail.com
+  website: https://arnav.rastogi.net.in/
+  social_networks:
+  - network: LinkedIn
+    username: arnav-rastogi-6b868a22a
+  - network: GitHub
+    username: ARC345
+  sections:
+    research_interests:
+    - State-Space Models (Mamba/SSD), Linear-Time Sequence Models, Hardware-Aware Selective Scan, Hybrid Attention-SSM Models, Mechanistic Interpretability, Recurrent-Depth & Looped Transformers (Ouro/TRM/HRM), Scaling Laws.
+    education:
+    - institution: Indian Institute of Technology, Jodhpur
+      area: Applied AI and Data Science
+      degree: BS
+      start_date: 2025-01
+      end_date: 2029-01
+      highlights:
+      - Core focus on Deep Learning, Linear Algebra, and Statistical Inference.
+    - institution: MITx
+      area: Statistics and Data Science
+      degree: MicroMasters
+      start_date: 2024-09
+      end_date: 2026-09
+      highlights:
+      - Advanced training in Probabilistic Modeling, Machine Learning foundations, and Time Series Analysis.
+    projects:
+    - name: LLM Lab
+      start_date: 2025-01
+      end_date: present
+      highlights:
+      - Built a character-level GPT from scratch in **PyTorch** to study the internal dynamics of **Multi-Head Attention** and **Transformer** blocks.
+      - Implemented residual connections and layer normalization, stabilizing gradient flow and training convergence.
+    - name: Lenia & Conway's Game of Life
+      date: 2024
+      highlights:
+      - Simulated continuous-state artificial life via **Gaussian kernel evolution** and non-linear PDEs, probing emergent dynamics at real-time high resolution.
+    - name: rCiv (Knowledge Commons)
+      start_date: 2025
+      end_date: present
+      highlights:
+      - Built a verified knowledge commons for AI-generated research, a **FastAPI** service where agents submit source-referenced claims that resolve into a canonical temporal **knowledge graph**.
+      - Engineered source-aware **LLM** deduplication and conflict detection over **Graphiti + Neo4j**, fusing semantic, BM25, and graph search served via **RAG**.
+    - name: ARC-Engine
+      date: 2023
+      highlights:
+      - Developed a high-performance OpenGL rendering engine with a custom **Entity Component System (ECS)** for cache-friendly memory layout.
+      - Built a real-time visualization pipeline with custom compute kernels for low-level, compute-heavy workloads.
+    - name: Tailor (AI Framework)
+      start_date: 2025
+      end_date: present
+      highlights:
+      - Built a modular AI framework in **Rust (Tauri)** and **Python** that lets users stitch models and tools into custom assistants.
+    - name: Sudoku Solver (Algorithms)
+      date: 2023
+      highlights:
+      - Investigated **Backtracking vs. Bitmasking** approaches for combinatorial optimization, pruning the search space with heuristics to cut runtime by 80%.
+    technical_writing:
+    - label: Can Mamba Learn, Unlearn, and Retain Noise? ([link](https://arnav.rastogi.net.in/blog/2026/mamba-noise-learning-unlearning/))
+      details: Feb 2026
+    - label: Multi-Hop Reasoning in Transformers ([link](https://arnav.rastogi.net.in/blog/2026/multi-hop-reasoning-transformers/))
+      details: Jan 2026
+    - label: ReLU vs GELU ([link](https://arnav.rastogi.net.in/blog/2026/relu-vs-gelu/))
+      details: Jan 2026
+    experience:
+    - company: Hapticware Intelligence
+      position: AI Engineer Intern
+      location: Pune, India
+      start_date: 2026-03
+      end_date: 2026-06
+      highlights:
+      - Built an agentic swarm framework with **LangGraph** to orchestrate and manage a fleet of 30+ agents across complex, decomposable tasks.
+      - Engineered **RAG** over a 100+ table production database, cutting chatbot query response time by 30-40% and auto-generating result graphs.
+      - Developed backend **APIs** for a digital-signer product and its admin portal, alongside supporting production services.
+    - company: Abhay Travels
+      position: Research Intern
+      location: ''
+      start_date: 2025-02
+      end_date: 2025-03
+      highlights:
+      - Researched demand-forecasting models for time-series data, engineering 15+ features to capture seasonal and non-linear trends.
+      - Built a predictive pipeline with **CatBoost** that beat baseline ARIMA models on RMSE across 5 years of historical booking data.
+    - company: AMR India
+      position: Data Analyst Intern
+      location: ''
+      start_date: 2024-11
+      end_date: 2024-12
+      highlights:
+      - Forecast article-specific demand cycles across 200+ HSN codes from ~50K port transaction records over 4 years, informing quarterly procurement planning.
+    skills:
+    - label: Research
+      details: PyTorch, State-Space Models (Mamba/SSD), Transformers, Mechanistic Interpretability, JAX (learning)
+    - label: Mathematical Foundations
+      details: Linear Algebra, Probability & Statistics, Optimization, Calculus
+    - label: Engineering
+      details: Python, C++, CUDA (basics), SQL, Git
+design:
+  theme: engineeringresumes
+  typography:
+    font_size:
+      body: 9.5pt
+    line_spacing: 0.5em
+  page:
+    top_margin: 0.3in
+    bottom_margin: 0.3in
+    left_margin: 0.3in
+    right_margin: 0.3in
+  header:
+    space_below_name: 0.2cm
+    space_below_headline: 0.1cm
+    space_below_connections: 0.4cm
+  section_titles:
+    space_above: 0.2cm
+    space_below: 0.1cm
+  sections:
+    space_between_regular_entries: 0.06cm
+    space_between_text_based_entries: 0.03cm
+  entries:
+    highlights:
+      space_above: 0.03cm
+      space_between_items: 0.03cm

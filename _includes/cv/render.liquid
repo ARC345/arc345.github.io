@@ -1,0 +1,159 @@
+{% comment %}
+  Renders a RenderCV file (_data/cv.yml, fetched from the ARC345/resume release) as-is.
+
+  Overrides the al_folio_cv gem's render.liquid, which only recognises Title Case section keys. Like RenderCV itself,
+  this picks each section's renderer from the fields of its entries rather than from the section's name, and keeps
+  the sections in file order so the page matches the PDF. Entry templates (cv/experience.liquid, ...) come from the gem.
+{% endcomment %}
+
+{% assign cv = site.data.cv.cv %}
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">
+      {{ page.title }}
+      {% if page.cv_pdf %}
+        <a
+          {% if page.cv_pdf contains '://' %}
+            href="{{ page.cv_pdf }}"
+          {% else %}
+            href="{{ page.cv_pdf | prepend: 'assets/pdf/' | relative_url }}"
+          {% endif %}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="float-right"
+        >
+          <i class="fa-solid fa-file-pdf"></i>
+        </a>
+      {% endif %}
+    </h1>
+    {% if page.description %}
+      <p class="post-description">{{ page.description }}</p>
+    {% endif %}
+  </header>
+
+  <article>
+    <div class="cv">
+      {% if cv %}
+        <a class="anchor" id="contact"></a>
+        <div class="card mt-3 p-3">
+          <h3 class="card-title font-weight-medium">Contact</h3>
+          <table class="table table-cv table-sm table-borderless">
+            {% assign contact_fields = 'name,headline,location,email,phone,website' | split: ',' %}
+            {% for field in contact_fields %}
+              {% assign value = cv[field] %}
+              {% if value and value != '' %}
+                <tr>
+                  <td class="p-1 pr-2 font-weight-bold">
+                    <b>{{ field | capitalize }}</b>
+                  </td>
+                  <td class="p-1 pl-2 font-weight-light">
+                    {% if field == 'email' %}
+                      <a href="mailto:{{ value }}">{{ value }}</a>
+                    {% elsif field == 'phone' %}
+                      <a href="tel:{{ value }}">{{ value }}</a>
+                    {% elsif field == 'website' %}
+                      <a href="{{ value }}" target="_blank" rel="noopener noreferrer">{{ value }}</a>
+                    {% else %}
+                      {{ value }}
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+            {% for social in cv.social_networks %}
+              {% case social.network %}
+                {% when 'LinkedIn' %}
+                  {% assign social_url = 'https://linkedin.com/in/' | append: social.username %}
+                {% when 'GitHub' %}
+                  {% assign social_url = 'https://github.com/' | append: social.username %}
+                {% when 'GitLab' %}
+                  {% assign social_url = 'https://gitlab.com/' | append: social.username %}
+                {% when 'X' %}
+                  {% assign social_url = 'https://x.com/' | append: social.username %}
+                {% when 'Google Scholar' %}
+                  {% assign social_url = 'https://scholar.google.com/citations?user=' | append: social.username %}
+                {% when 'ORCID' %}
+                  {% assign social_url = 'https://orcid.org/' | append: social.username %}
+                {% else %}
+                  {% assign social_url = null %}
+              {% endcase %}
+              <tr>
+                <td class="p-1 pr-2 font-weight-bold">
+                  <b>{{ social.network }}</b>
+                </td>
+                <td class="p-1 pl-2 font-weight-light">
+                  {% if social_url %}
+                    <a href="{{ social_url }}" target="_blank" rel="noopener noreferrer">{{ social.username }}</a>
+                  {% else %}
+                    {{ social.username }}
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+
+        {% for section_pair in cv.sections %}
+          {% assign section_key = section_pair[0] %}
+          {% assign entries = section_pair[1] %}
+          {% if entries == empty %}{% continue %}{% endif %}
+
+          {% comment %} RenderCV title-cases snake_case keys ("technical_writing" -> "Technical Writing") {% endcomment %}
+          {% assign lowered = section_key | downcase %}
+          {% if section_key contains '_' or section_key == lowered %}
+            {% assign words = section_key | replace: '_', ' ' | split: ' ' %}
+            {% assign section_title = '' %}
+            {% for word in words %}
+              {% assign title_word = word | capitalize %}
+              {% assign section_title = section_title | append: ' ' | append: title_word %}
+            {% endfor %}
+            {% assign section_title = section_title | strip %}
+          {% else %}
+            {% assign section_title = section_key %}
+          {% endif %}
+
+          {% assign sample = entries.first %}
+          <a class="anchor" id="{{ section_key | slugify }}"></a>
+          <div class="card mt-3 p-3">
+            <h3 class="card-title font-weight-medium">{{ section_title }}</h3>
+            <div>
+              {% if sample.institution %}
+                {% assign entries = entries | al_cv_sort_by_date %}
+                {% include cv/education.liquid %}
+              {% elsif sample.company %}
+                {% assign entries = entries | al_cv_sort_by_date %}
+                {% include cv/experience.liquid %}
+              {% elsif sample.authors %}
+                {% include cv/publications.liquid %}
+              {% elsif sample.name %}
+                {% include cv/projects.liquid %}
+              {% elsif sample.label %}
+                <ul class="card-text font-weight-light list-group list-group-flush">
+                  {% for entry in entries %}
+                    <li class="list-group-item">
+                      <strong>{{ entry.label | markdownify | remove: '<p>' | remove: '</p>' | strip }}</strong>
+                      {% if entry.details %}
+                        <span class="float-md-right">{{ entry.details | markdownify | remove: '<p>' | remove: '</p>' | strip }}</span>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <ul class="card-text font-weight-light list-group list-group-flush">
+                  {% for entry in entries %}
+                    <li class="list-group-item">
+                      {{ entry.bullet | default: entry | markdownify | remove: '<p>' | remove: '</p>' }}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>CV data is currently unavailable.</p>
+      {% endif %}
+    </div>
+  </article>
+</div>
