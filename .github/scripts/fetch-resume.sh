@@ -4,8 +4,7 @@ set -e
 REPO="ARC345/resume"
 OUTPUT_DIR="assets/pdf"
 OUTPUT_FILE="$OUTPUT_DIR/Arnav_Rastogi_CV.pdf"
-DATA_FILE="_data/resume.json"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DATA_FILE="_data/cv.yml"
 
 echo "Fetching latest research resume from $REPO..."
 
@@ -31,10 +30,6 @@ else
   exit 1
 fi
 
-# Download the rendercv source from the same release and convert it into the
-# JSON Resume data that drives the /cv/ page.
-TMP_DIR=$(mktemp -d)
-trap 'rm -rf "$TMP_DIR"' EXIT
-gh release download "$LATEST_TAG" -R "$REPO" -p "Arnav_Rastogi_research.source.yaml" -D "$TMP_DIR" 2>&1
-ruby "$SCRIPT_DIR/rendercv-to-jsonresume.rb" "$TMP_DIR/Arnav_Rastogi_research.source.yaml" "$DATA_FILE"
+# The release's rendercv source drives the /cv/ page directly (see _includes/cv/render.liquid).
+gh release download "$LATEST_TAG" -R "$REPO" -p "Arnav_Rastogi_research.source.yaml" -O "$DATA_FILE" --clobber 2>&1
 echo "✅ CV page data updated at $DATA_FILE"
