@@ -9,7 +9,7 @@ last_name: Rastogi
 contact_note: >
   Best way to reach me is gmail. Founder of <a href="https://agslab.ceo.in/">AGS Lab</a>.
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
-  A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+  arc-blog: Arnav Rastogi's research notes and writing on AI, reinforcement learning, and agentic systems.
 footer_text: >
   Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
@@ -47,7 +47,7 @@ repo_trophies:
 # -----------------------------------------------------------------------------
 
 navbar_fixed: true
-footer_fixed: true
+footer_fixed: false
 search_enabled: true
 socials_in_search: true
 posts_in_search: true
@@ -225,6 +225,9 @@ defaults:
 
 sass:
   style: compressed
+  # al-folio's stylesheets and the vendored icon fonts still use @import and global
+  # built-ins; both keep working until Dart Sass 3.0. Silenced until a @use migration.
+  silence_deprecations: [import, global-builtin]
 
 # -----------------------------------------------------------------------------
 # Jekyll Minifier
@@ -256,8 +259,8 @@ jekyll-archives:
   books:
     enabled: [year, tags, categories] # enables year, tag and category archives (remove if you need to disable one of them).
 
-display_tags: ["formatting", "images", "links", "math", "code", "blockquotes"] # these tags will be displayed on the front page of your blog
-display_categories: ["external-services"] # these categories will be displayed on the front page of your blog
+display_tags: ["transformers", "mamba", "reasoning", "mechanistic-interpretability", "llm"] # these tags will be displayed on the front page of your blog
+display_categories: ["ai"] # these categories will be displayed on the front page of your blog
 
 # -----------------------------------------------------------------------------
 # Jekyll Scholar
@@ -442,7 +445,7 @@ third_party_libraries:
     version: "5.5.0"
   google_fonts:
     url:
-      fonts: "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&display=swap"
+      fonts: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400..800;1,400..800&family=Material+Icons&display=swap"
   highlightjs:
     integrity:
       css:
@@ -626,20 +629,6 @@ third_party_libraries:
 # Get external JSON data
 # -----------------------------------------------------------------------------
 
-jekyll_get_json:
-  - data: resume
-    json: https://gist.githubusercontent.com/ARC345/1803646216d876ace8dd25d5c769b328/raw/resume.json
-
-jsonresume:
-  - basics
-  - work
-  - education
-  - publications
-  - projects
-  - volunteer
-  - awards
-  - certificates
-  - skills
-  - languages
-  - interests
-  - references
+# The CV page renders _data/cv.yml, the rendercv source fetched from the
+# ARC345/resume release by `pixi run fetch-resume` (.github/scripts/fetch-resume.sh).
+jekyll_get_json: []

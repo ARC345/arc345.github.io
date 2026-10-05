@@ -10,9 +10,8 @@ profile:
   image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>Male</p>
-    <p>04/03/2005</p>
-    <p>Indian</p>
+    <p>Founder, R2GI</p>
+    <p>IIT Jodhpur</p>
 
 selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
@@ -32,8 +31,7 @@ Hi,
 
 I’m **Arnav Rastogi**, an AI researcher and engineer passionate about building intelligent systems that connect ideas from machine learning, reinforcement learning, and agentic AI.
 
-I
-’m currently pursuing MIT’s **MicroMasters in Data Science**, while also studying at **IIT Jodhpur**. My long-term goal is to contribute to research in AI/ML at the PhD level. My interests include **cellular automata, reinforcement learning, and general-purpose AI agents**.
+I’m currently pursuing MIT’s **MicroMasters in Data Science**, while also studying at **IIT Jodhpur**. My long-term goal is to contribute to research in AI/ML at the PhD level. My interests include **cellular automata, reinforcement learning, and general-purpose AI agents**.
 
 Outside of research and coding, I’m passionate about staying active and exploring the world:
 

@@ -32,9 +32,23 @@ $grey-900: #212529;
 $white-color: #ffffff !default;
 $black-color: #000000 !default;
 
+// Site identity (research-lab palette; all pass WCAG AA 4.5:1 on their background)
+$navy-color: #1e3a5f; // links/theme on white, 11.5:1
+$navy-color-light: #7ba4d9; // links/theme on dark bg, 6.6:1
+$ochre-color: #a16207; // sparing accent on white, 4.9:1
+$ochre-color-light: #d4a24c; // sparing accent on dark bg, 7.4:1
+$slate-color: #475569; // muted text on white, 7.6:1
+$slate-color-light: #94a3b8; // muted text on dark bg, 6.6:1
+
+// Fonts (single monospace family site-wide)
+$font-mono: "JetBrains Mono", SFMono-Regular, Menlo, Consolas, monospace;
+$font-heading: $font-mono;
+$font-body: $font-mono;
+$prose-max-width: 70ch;
+
 // Theme colors
 
-$code-bg-color-light: rgba($purple-color, 0.05);
+$code-bg-color-light: rgba($navy-color, 0.05);
 $code-bg-color-dark: #2c3237 !default;
 
 // Font awesome location
