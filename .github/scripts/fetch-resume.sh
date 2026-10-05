@@ -5,6 +5,7 @@ REPO="ARC345/resume"
 OUTPUT_DIR="assets/pdf"
 OUTPUT_FILE="$OUTPUT_DIR/Arnav_Rastogi_CV.pdf"
 DATA_FILE="_data/cv.yml"
+TAG_FILE="assets/resume-tag.txt"
 
 echo "Fetching latest research resume from $REPO..."
 
@@ -33,3 +34,7 @@ fi
 # The release's rendercv source drives the /cv/ page directly (see _includes/cv/render.liquid).
 gh release download "$LATEST_TAG" -R "$REPO" -p "Arnav_Rastogi_research.source.yaml" -O "$DATA_FILE" --clobber 2>&1
 echo "✅ CV page data updated at $DATA_FILE"
+
+# Record which release this build used; resume-sync.yml compares it against
+# the latest release to decide whether the deployed site is stale.
+echo "$LATEST_TAG" > "$TAG_FILE"
