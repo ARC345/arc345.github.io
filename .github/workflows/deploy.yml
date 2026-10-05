@@ -29,9 +29,6 @@ on:
       - "!INSTALL.md"
       - "!README.md"
   workflow_dispatch:
-  # Fired by ARC345/resume when a new release is published.
-  repository_dispatch:
-    types: [resume-updated]
 
 permissions:
   contents: write
