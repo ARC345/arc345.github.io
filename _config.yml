@@ -13,8 +13,7 @@ description: >- # ">-" folds newlines and drops the trailing one (a trailing new
 footer_text: >
   Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
-  Photos from <a href="https://unsplash.com" target="_blank">Unsplash</a>.
-keywords: jekyll, jekyll-theme, academic-website, portfolio-website # add your own keywords or leave empty
+keywords: Arnav Rastogi, machine learning, deep learning, transformers, large language models, state space models, Mamba, reinforcement learning, mechanistic interpretability, agentic AI # add your own keywords or leave empty
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
 icon: favicon-a.svg # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
 apple_touch_icon: # image name in /assets/img/ (or a rooted path / absolute URL) used for iOS home-screen bookmarks; needs a real 180x180 PNG, since Safari ignores the emoji favicon above. Left empty, iOS falls back to a screenshot of the page.
@@ -137,7 +136,7 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # -----------------------------------------------------------------------------
 
 blog_name: arc-blog # blog_name will be displayed in your blog page
-blog_description: a simple whitespace theme for academics
+blog_description: notes and experiments from machine learning research
 permalink: /blog/:year/:title/
 lsi: false # produce an index for related posts
 
@@ -166,7 +165,7 @@ giscus:
   lang: en
 
 # Disqus comments (DEPRECATED)
-disqus_shortname: arc # put your disqus shortname
+disqus_shortname: # put your disqus shortname (unused: comments go through Giscus)
 # https://help.disqus.com/en/articles/1717111-what-s-a-shortname
 
 # External sources.
