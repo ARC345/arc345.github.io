@@ -1,7 +1,7 @@
 ---
 layout: post
 title: One Architecture a Day
-date: 2026-10-09 12:00
+date: 2026-10-09 12:00:00+0530
 description: "Implementing the major LLM architectures from scratch at mini scale, one per day, and comparing them on equal terms"
 tags: ai, llm, transformers, moe, ssm, bitnet, architectures
 categories: ai
