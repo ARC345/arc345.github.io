@@ -8,8 +8,8 @@ middle_name:
 last_name: Rastogi
 contact_note: >
   Best way to reach me is gmail. Founder of <a href="https://agslab.ceo.in/">AGS Lab</a>.
-description: > # the ">" symbol means to ignore newlines until "footer_text:"
-  arc-blog: Arnav Rastogi's research notes and writing on AI, reinforcement learning, and agentic systems.
+description: >- # ">-" folds newlines and drops the trailing one (a trailing newline breaks the Schema.org JSON-LD)
+  Arnav Rastogi's research notes and writing on AI, reinforcement learning, and agentic systems.
 footer_text: >
   Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
@@ -110,9 +110,9 @@ max_width: 1230px
 # -----------------------------------------------------------------------------
 # Display links to the page with a preview object on social media.
 # see https://schema.org/docs/faq.html for more information
-serve_og_meta: false # Include Open Graph meta tags in the HTML head
-serve_schema_org: false # Include Schema.org in the HTML head
-og_image: # The site-wide (default for all links) Open Graph preview image
+serve_og_meta: true # Include Open Graph meta tags in the HTML head
+serve_schema_org: true # Include Schema.org in the HTML head
+og_image: /assets/img/og-card.jpg # site-wide default preview image (rooted path, site url is prepended); pages can override with og_image in front matter
 
 # -----------------------------------------------------------------------------
 # Analytics and search engine verification
