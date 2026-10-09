@@ -29,7 +29,6 @@
 
 - [About](https://arnav.rastogi.net.in/): Full profile, bio, and contact
 - [CV](https://arnav.rastogi.net.in/cv/): Curriculum vitae
-- [Projects](https://arnav.rastogi.net.in/projects/): Portfolio
 
 ## Blog (Technical ML Writing, 2026)
 
