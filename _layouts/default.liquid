@@ -1,5 +1,22 @@
 <!doctype html>
-<html lang="{{ site.lang }}">
+{%- comment -%}
+  al_rtl owns the language and direction attributes when it is installed, because
+  `dir` has to sit on <html> for the browser's bidi handling, CSS logical
+  properties and Tailwind's rtl: variant to apply to the whole document.
+
+  Captured into a variable rather than wrapping the <html> tag in a conditional:
+  a conditional there stops the tag being a single static element, and Prettier
+  then re-indents the entire document body. The guard keeps this parse-safe —
+  without the plugin the tag does not exist and Liquid fails on every page.
+{%- endcomment -%}
+{%- capture html_attributes -%}
+  {%- if site.plugins contains 'al_rtl' -%}
+    {%- include plugins/al_rtl_html_attrs.liquid -%}
+  {%- else -%}
+    lang="{{ site.lang }}"
+  {%- endif -%}
+{%- endcapture -%}
+<html {{ html_attributes }}>
   <!-- Head -->
   <head>
     {% if page.redirect %}
@@ -23,20 +40,34 @@
     <!-- Content -->
     <div class="container mt-5" role="main">
       {% if page.toc and page.toc.sidebar %}
+        {% assign toc_collapse = page.toc.collapse | default: 'expanded' %}
+        {% assign toc_collapse_depth = page.toc.collapse_depth | default: '' %}
         {% if page.toc.sidebar == 'right' %}
           <div class="row">
             <!-- main content area -->
             <div class="col-sm-9">{{ content }}</div>
             <!-- sidebar, which will move to the top on a small screen -->
             <div class="col-sm-3">
-              <nav id="toc-sidebar" class="sticky-top"></nav>
+              <nav
+                id="toc-sidebar"
+                class="sticky-top toc toc-sidebar"
+                aria-label="Table of contents"
+                data-toc-collapse="{{ toc_collapse }}"
+                data-toc-collapse-depth="{{ toc_collapse_depth }}"
+              ></nav>
             </div>
           </div>
         {% else %}
           <div class="row">
             <!-- sidebar, which will move to the top on a small screen -->
             <div class="col-sm-3">
-              <nav id="toc-sidebar" class="sticky-top"></nav>
+              <nav
+                id="toc-sidebar"
+                class="sticky-top toc toc-sidebar"
+                aria-label="Table of contents"
+                data-toc-collapse="{{ toc_collapse }}"
+                data-toc-collapse-depth="{{ toc_collapse_depth }}"
+              ></nav>
             </div>
             <!-- main content area -->
             <div class="col-sm-9">{{ content }}</div>

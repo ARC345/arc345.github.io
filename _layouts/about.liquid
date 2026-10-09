@@ -44,11 +44,18 @@ layout: default
       {% endif %}
 
       {% if site.newsletter and site.newsletter.enabled and site.footer_fixed %}
-        {% include newsletter.liquid center=true %}
+        {% if site.plugins contains 'al_newsletter' %}
+          {% include plugins/al_newsletter_form_center_margin.liquid %}
+        {% else %}
+          {% include newsletter.liquid center=true %}
+        {% endif %}
       {% endif %}
 
       <p class="site-note">
-        &copy; {{ site.time | date: '%Y' }} {{ site.first_name }} {{ site.middle_name }} {{ site.last_name }}.
+        &copy; {{ site.time | date: '%Y' }}
+        {{ site.first_name }}
+        {{ site.middle_name }}
+        {{ site.last_name }}.
         {% if site.last_updated %}Last updated: {{ 'now' | date: '%B %d, %Y' }}.{% endif %}
       </p>
     </div>
@@ -74,7 +81,7 @@ layout: default
         {% endif %}
         {% if page.social %}
           <div class="social">
-            <div class="contact-icons">{% include social.liquid %}</div>
+            <div class="contact-icons">{% social_links %}</div>
             <div class="contact-note">{{ site.contact_note }}</div>
           </div>
         {% endif %}

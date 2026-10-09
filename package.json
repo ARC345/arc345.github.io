@@ -1,7 +1,10 @@
 {
+  "scripts": {
+    "lint:prettier": "prettier . --check"
+  },
   "devDependencies": {
-    "@shopify/prettier-plugin-liquid": "1.4.0",
-    "prettier": "^3.1.1",
+    "@shopify/prettier-plugin-liquid": "^1.10.0",
+    "prettier": "^3.8.0",
     "purgecss": "^6.0.0"
   },
   "dependencies": {
