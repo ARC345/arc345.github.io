@@ -3,16 +3,19 @@ layout: post
 title: ReLU vs GELU
 date: 2026-01-07 02:12
 description: "Impact of Activation Curvature on Transformer Stability: GELU vs. ReLU"
-tags: ai, llm, gpt, gelu, relu
+tags: [ai, llm, gpt, gelu, relu]
 categories: ai
 giscus_comments: true
+citation: true
+toc:
+  sidebar: left
 ---
 
 # Impact of Activation Curvature on Transformer Stability: GELU vs. ReLU
 
 ## Abstract
 
-This study investigates the stability and performance of Gaussian Error Linear Unit (GELU) versus Rectified Linear Unit (ReLU) in a decoder-only Transformer trained on the TinyStories dataset. By subjecting both activation functions to a range of learning rates ($1e-4$, $1e-3$, $3e-3$), we empirically demonstrate that **GELU exhibits significantly greater robustness at high learning rates**. While both perform comparably at lower rates, ReLU suffers from gradient instability and degradation at $3e-3$, whereas GELU maintains stable convergence.
+This study investigates the stability and performance of Gaussian Error Linear Unit (GELU) {% cite hendrycks2016gelu --file references %} versus Rectified Linear Unit (ReLU) in a decoder-only Transformer trained on the TinyStories dataset {% cite eldan2023tinystories --file references %}. By subjecting both activation functions to a range of learning rates ($1e-4$, $1e-3$, $3e-3$), we empirically demonstrate that **GELU exhibits significantly greater robustness at high learning rates**. While both perform comparably at lower rates, ReLU suffers from gradient instability and degradation at $3e-3$, whereas GELU maintains stable convergence.
 
 ## 1. Methodology
 
@@ -98,3 +101,9 @@ While ReLU is competitive and slightly faster in conservative settings, it is br
 The code for these experiments is available in the [`experiment/relu-vs-gelu`](https://github.com/ARC345/llm-lab/tree/experiment/relu-vs-gelu) branch of the following repository:
 
 {% include repository/repo.liquid repository="ARC345/llm-lab" %}
+
+## References
+
+<div class="publications">
+{% bibliography --cited_in_order --file references --group_by none %}
+</div>
