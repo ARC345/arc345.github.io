@@ -44,7 +44,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/arc-butler/";
           },
-        },{id: "post-can-mamba-learn-unlearn-and-retain-noise",
+        },{id: "post-one-architecture-a-day",
+        
+          title: "One Architecture a Day",
+        
+        description: "Implementing the major LLM architectures from scratch at mini scale, one per day, and comparing them on equal terms",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/one-architecture-a-day/";
+          
+        },
+      },{id: "post-can-mamba-learn-unlearn-and-retain-noise",
         
           title: "Can Mamba Learn, Unlearn, and Retain Noise?",
         
@@ -101,6 +112,9 @@ ninja.data = [{
           description: "",
           section: "News",},{id: "news-working-on-r2gi-llm-lab-rciv",
           title: 'working on:     R2GI   LLM Lab   rCiv',
+          description: "",
+          section: "News",},{id: "news-starting-a-new-project-implementing-the-major-llm-architectures-from-scratch-one-a-day-and-comparing-them-on-equal-terms-kickoff-post",
+          title: 'Starting a new project: implementing the major LLM architectures from scratch, one a...',
           description: "",
           section: "News",},{id: "projects-project-1",
           title: 'project 1',
