@@ -3,11 +3,16 @@
  * Colors live in _variables.scss / _themes.scss.
  ******************************************************************************/
 
+@use "variables" as v;
+
 // Typography
 
 body {
-  font-family: $font-body;
+  font-family: v.$font-body;
   font-size: 0.95rem;
+  // The theme's 300 is below the lightest JetBrains Mono weight loaded (400), and
+  // makes `strong` (bolder) resolve to 400, so bold text would not look bold.
+  font-weight: 400;
   line-height: 1.7;
 }
 
@@ -19,7 +24,7 @@ h5,
 h6,
 .post-title,
 .navbar-brand {
-  font-family: $font-heading;
+  font-family: v.$font-heading;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
@@ -32,7 +37,15 @@ code,
 kbd,
 pre,
 samp {
-  font-family: $font-mono;
+  font-family: v.$font-mono;
+}
+
+// The theme only sets `border-top` on hr; without Bootstrap's reset the browser's
+// default inset border still draws a bright line around it.
+// Upstream: https://github.com/al-org-dev/al-folio-core/issues/54
+hr {
+  border: 0;
+  border-top: 1px solid var(--global-divider-color);
 }
 
 // Reading width: cap running text at ~70 characters per line while figures,
@@ -47,12 +60,12 @@ samp {
   > h2,
   > h3,
   > h4 {
-    max-width: $prose-max-width;
+    max-width: v.$prose-max-width;
   }
 }
 
 // Keyboard focus: a visible ring everywhere, including inputs that set
-// `outline: none` in _base.scss.
+// `outline: none` in the theme styles.
 
 a:focus-visible,
 button:focus-visible,
