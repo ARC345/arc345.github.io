@@ -12,3 +12,8 @@ _sass/tabler-icons/*.scss
 _scripts/*
 # Fetched verbatim from the ARC345/resume release
 _data/cv.yml
+# Generated lockfile and agent tooling notes
+pixi.lock
+.cursor/
+.superpowers/
+docs/superpowers/
