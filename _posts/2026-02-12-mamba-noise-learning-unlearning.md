@@ -3,9 +3,12 @@ layout: post
 title: Can Mamba Learn, Unlearn, and Retain Noise?
 date: 2026-02-12 00:00
 description: "Extending the SLM Noise Study to State Space Models — Mamba 1.4B vs Transformers across 4 noise types"
-tags: ai, mamba, ssm, transformers, noise, unlearning
+tags: [ai, mamba, ssm, transformers, noise, unlearning]
 categories: ai
 giscus_comments: true
+citation: true
+toc:
+  sidebar: left
 chart:
   chartjs: true
 ---
@@ -20,9 +23,9 @@ _Part of my research into SSM architectures — documenting experiments extendin
 
 Can a state space model handle noise the same way a transformer does?
 
-This work is an extension of [_Can Small Language Models Learn, Unlearn, and Retain Noise Patterns?_](https://arxiv.org/abs/2407.00996) by Scaria, Kennedy, and Subramani from [QUEST Lab, IISc Bangalore](https://github.com/quest-lab-iisc). Their paper puts four instruction-tuned transformers (Olmo, Qwen, Gemma, Phi2) through a three-phase stress test: finetune on clean QA data, train on noisy data, then retrain on clean data. The results are clean — transformers absorb noise, and clean retraining mostly undoes the damage. The experimental pipeline, datasets, noise types, and training protocol used here are all from their work.
+This work is an extension of [_Can Small Language Models Learn, Unlearn, and Retain Noise Patterns?_](https://arxiv.org/abs/2407.00996) by Scaria, Kennedy, and Subramani {% cite scaria2024noise --file references %} from [QUEST Lab, IISc Bangalore](https://github.com/quest-lab-iisc). Their paper puts four instruction-tuned transformers (Olmo, Qwen, Gemma, Phi2) through a three-phase stress test: finetune on clean QA data, train on noisy data, then retrain on clean data. The results are clean — transformers absorb noise, and clean retraining mostly undoes the damage. The experimental pipeline, datasets, noise types, and training protocol used here are all from their work.
 
-But nobody tested SSMs. Mamba processes sequences through a compressed recurrent state instead of attention. No key-value lookups, no position-independent token access. I wanted to know: does that fundamentally change how noise gets absorbed and released?
+But nobody tested SSMs. Mamba {% cite gu2023mamba --file references %} processes sequences through a compressed recurrent state instead of attention. No key-value lookups, no position-independent token access. I wanted to know: does that fundamentally change how noise gets absorbed and released?
 
 **I expected Mamba to behave roughly like the transformers, maybe with some quantitative differences.** I was wrong in interesting ways.
 
@@ -703,7 +706,11 @@ This project builds entirely on the work by [QUEST Lab, IISc Bangalore](https://
 
 ## References
 
-- Scaria, N., Kennedy, S.J.J., & Subramani, D. (2024). [Can Small Language Models Learn, Unlearn, and Retain Noise Patterns?](https://arxiv.org/abs/2407.00996) — QUEST Lab, IISc Bangalore
-- [Original codebase](https://github.com/quest-lab-iisc/Learn-Unlearn-Relearn-Noise-SLMs)
-- Gu, A. & Dao, T. (2023). [Mamba: Linear-Time Sequence Modeling with Selective State Spaces](https://arxiv.org/abs/2312.00752)
+<div class="publications">
+{% bibliography --cited_in_order --file references --group_by none %}
+</div>
+
+### Code
+
+- [Original codebase](https://github.com/quest-lab-iisc/Learn-Unlearn-Relearn-Noise-SLMs) — QUEST Lab, IISc Bangalore
 - [Our Mamba extension repo](https://github.com/ARC345/learn-unlearn-mamba) — [full results](https://github.com/ARC345/learn-unlearn-mamba/blob/main/mamba/RESULTS.md)

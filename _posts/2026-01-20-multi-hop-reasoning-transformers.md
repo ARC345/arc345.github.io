@@ -3,9 +3,12 @@ layout: post
 title: Multi-Hop Reasoning in Transformers
 date: 2026-01-17 04:00
 description: "A Journey From Confidence to Confusion to Clarity: How RoPE Position Embeddings Enable Length Generalization in Transformer Reasoning"
-tags: ai, llm, transformers, rope, reasoning, mechanistic-interpretability, position-embeddings
+tags: [ai, llm, transformers, rope, reasoning, mechanistic-interpretability, position-embeddings]
 categories: ai
 giscus_comments: true
+citation: true
+toc:
+  sidebar: left
 ---
 
 # Multi-Hop Reasoning in Transformers: A Journey From Confidence to Confusion to Clarity
@@ -213,7 +216,7 @@ This was humbling.
 
 ### Reading: "In-context Learning and Induction Heads"
 
-I needed to understand _why_ my model failed. I read Olsson et al.'s paper on how transformers actually do in-context learning.
+I needed to understand _why_ my model failed. I read Olsson et al.'s paper {% cite olsson2022induction --file references %} on how transformers actually do in-context learning.
 
 **The key mechanism: Induction Heads**
 
@@ -571,22 +574,22 @@ What do the attention patterns look like in RoPE vs absolute position models? Th
 
 **Papers I should have read earlier:**
 
-1. **"RoFormer: Enhanced Transformer with Rotary Position Embedding"** - Su et al., 2021
+1. **"RoFormer: Enhanced Transformer with Rotary Position Embedding"** {% cite su2021roformer --file references %}
    - Explains why relative positions help
    - Length generalization benefits
    - Would have saved me weeks
 
-2. **"Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation"** - Press et al., 2021
+2. **"Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation"** {% cite press2021alibi --file references %}
    - Alternative to RoPE (ALiBi)
    - Same core insight about relative positions
 
 **Papers that explained my probe results:**
 
-3. **"In-context Learning and Induction Heads"** - Olsson et al., 2022
+3. **"In-context Learning and Induction Heads"** {% cite olsson2022induction --file references %}
    - Pattern matching mechanism
    - Why depth alone doesn't help
 
-4. **"Probing Classifiers: Promises, Shortcomings, and Advances"** - Belinkov, 2022
+4. **"Probing Classifiers: Promises, Shortcomings, and Advances"** {% cite belinkov2022probing --file references %}
    - What probe accuracy measures
    - Why 88% ≠ reasoning
 
@@ -669,3 +672,9 @@ _Next: [Coming soon - testing the limits of RoPE generalization]_
 _Breakdown of error types across models. This diagnostic information helps understand failure modes - whether models fail on intermediate steps, query parsing, or random guessing._
 
 _Last updated: January 20, 2026_
+
+## References
+
+<div class="publications">
+{% bibliography --cited_in_order --file references --group_by none %}
+</div>
