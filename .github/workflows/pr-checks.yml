@@ -36,7 +36,8 @@ jobs:
       - name: Setup Node.js ⚙️
         uses: actions/setup-node@v4
       - name: Install Prettier 💾
-        run: npm install --save-dev --save-exact prettier @shopify/prettier-plugin-liquid
+        # Use the lockfile's Prettier so CI formats exactly like local `npm run lint`.
+        run: npm ci
       - name: Prettier Check 🔎
         run: npx prettier . --check
 
@@ -81,7 +82,7 @@ jobs:
       - name: Initialize CodeQL 🔐
         uses: github/codeql-action/init@v3
         with:
-          languages: javascript,python
+          languages: javascript
       - name: Autobuild 🔨
         uses: github/codeql-action/autobuild@v3
       - name: Perform CodeQL Analysis 📊

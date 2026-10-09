@@ -22,6 +22,7 @@ pixi list
 ```
 
 You should see:
+
 - ruby (>=3.4.8)
 - nodejs (>=25.2.1)
 - python (>=3.14.2)
@@ -134,7 +135,8 @@ act -l
 
 ### Issue: Requirements.txt not updating in GitHub Actions
 
-**Solution**: 
+**Solution**:
+
 - Check workflow permissions (should have `contents: write`)
 - Verify the workflow runs on `pixi.toml` changes
 - Check workflow logs for errors
@@ -142,6 +144,7 @@ act -l
 ### Issue: Workflow fails with "pixi: command not found"
 
 **Solution**: The workflow uses `prefix-dev/setup-pixi@v0.10.0` action. If it fails, check:
+
 - The action version is correct
 - GitHub Actions has network access
 - The workflow file syntax is correct
