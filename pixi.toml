@@ -6,7 +6,7 @@ platforms = ["linux-64"]
 version = "0.1.0"
 
 [tasks]
-install = "gem install bundler && bundle install && npm install"
+install = "gem install bundler && bundle install && npm ci"
 fetch-resume = "bash .github/scripts/fetch-resume.sh"
 dev = { cmd = "bundle exec jekyll serve", depends-on = ["fetch-resume"] }
 build = { cmd = "bundle exec jekyll build", depends-on = ["fetch-resume"] }

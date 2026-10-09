@@ -25,7 +25,7 @@ pixi run purgecss  # Remove unused CSS (run after build)
 Direct equivalents if pixi is unavailable:
 
 ```bash
-bundle install && npm install
+bundle install && npm ci
 bundle exec jekyll serve --livereload
 JEKYLL_ENV=production bundle exec jekyll build
 ```
@@ -77,10 +77,27 @@ layout: post
 title: "Post Title"
 date: YYYY-MM-DD HH:MM:SS +0530
 description: Short description
-tags: [tag1, tag2]
+tags: [tag1, tag2] # always a YAML list; `tags: a, b` yields tags "a," and "b"
 categories: category
+citation: true # optional: "cite this post" BibTeX block
+toc:
+  sidebar: left # optional: sidebar table of contents for long posts
 ---
 ```
+
+Optional front matter: `mermaid: {enabled: true}` for ` ```mermaid ` diagrams (Liquid eats `{{ }}`, so avoid the hexagon shape or wrap the block in `{% raw %}`), `pseudocode: true` for ` ```pseudocode ` blocks, and `og_image:` (rooted path or URL) to override the default link-preview card `/assets/img/og-card.jpg`.
+
+**Citing papers:** other people's papers go in `_bibliography/references.bib` (never `papers.bib`, which lists Arnav's own publications). Cite with `{% cite key --file references %}` and end the post with:
+
+```liquid
+## References
+
+<div class="publications">
+  {% bibliography --cited_in_order --file references --group_by none %}
+</div>
+```
+
+Use `arxiv = {id}` / `doi = {...}` fields to get the arXiv and DOI buttons. Don't use `related_publications: true` for this; it renders from `papers.bib`.
 
 **Interactive charts:** Use fenced code blocks with language `chartjs` — `chartjs-setup.js` auto-converts them to Chart.js canvases. Radar charts with the same title are grouped side-by-side.
 
@@ -99,9 +116,11 @@ The workflow only runs when relevant files change (markdown, YAML, JS, CSS, Ruby
 
 ## Resume Sync
 
-The CV PDF is auto-fetched from the latest release of the [ARC345/resume](https://github.com/ARC345/resume) repository. The `fetch-resume` task:
+The CV is auto-fetched from the [ARC345/resume](https://github.com/ARC345/resume) repository by `.github/scripts/fetch-resume.sh`. The `fetch-resume` task:
 
-- Fetches the latest `Arnav_Rastogi_research.pdf` from GitHub releases
+- Takes the newest `research-*` release (not the repo's "Latest", which may be a `base-*` one)
+- Saves `Arnav_Rastogi_research.pdf` as `assets/pdf/Arnav_Rastogi_CV.pdf` (linked from `/cv/` via `cv_pdf`) and `Arnav_Rastogi_research.source.yaml` as `_data/cv.yml` (renders `/cv/`), and records the tag in `assets/resume-tag.txt`
+- Falls back to the committed copies if the fetch fails (e.g. no `gh` login locally), so refresh them occasionally
 - Runs automatically as part of `pixi run dev` and `pixi run build`
 - Ensures the website always has the latest resume on deployment
 
@@ -110,7 +129,8 @@ To manually sync: `pixi run fetch-resume`
 ## Automated Workflows
 
 - **Weekly:** GitHub repo sync, broken link checks, accessibility (axe) tests
-- **On PR:** Prettier formatting check, CodeQL security scan
+- **Every 3 hours:** `resume-sync.yml` redeploys `main` when a new `research-*` resume release appears
+- **On PR:** Prettier formatting check (lockfile Prettier via `npm ci`), CodeQL security scan, build verification, al-folio upgrade audit
 - **On push to main:** Full deploy pipeline + Lighthouse performance badge
 
 ## Pre-commit Hooks

@@ -3,9 +3,13 @@ layout: post
 title: One Architecture a Day
 date: 2026-10-09 12:00:00+0530
 description: "Implementing the major LLM architectures from scratch at mini scale, one per day, and comparing them on equal terms"
-tags: ai, llm, transformers, moe, ssm, bitnet, architectures
+tags: [ai, llm, transformers, moe, ssm, bitnet, architectures]
 categories: ai
 giscus_comments: true
+citation: true
+mermaid:
+  enabled: true
+  zoomable: false
 ---
 
 # One Architecture a Day
@@ -25,6 +29,15 @@ So every architecture goes through the same setup:
 - the same token budget
 - matched parameter counts
 - the same evaluation
+
+```mermaid
+flowchart LR
+    data["Same data"] --> harness
+    budget["Same token budget"] --> harness
+    params["Matched parameter count"] --> harness
+    harness["Shared training harness"] --> arch(["Architecture<br/>(the only thing that changes)"])
+    arch --> evaluation["Same evaluation"]
+```
 
 The first day or two go into building the harness and a GPT-2 baseline, and checking that baseline against published character-level transformer results. If the baseline is off, everything compared to it is off too. After that, it's one architecture a day.
 

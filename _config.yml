@@ -8,13 +8,12 @@ middle_name:
 last_name: Rastogi
 contact_note: >
   Best way to reach me is gmail. Founder of <a href="https://agslab.ceo.in/">AGS Lab</a>.
-description: > # the ">" symbol means to ignore newlines until "footer_text:"
-  arc-blog: Arnav Rastogi's research notes and writing on AI, reinforcement learning, and agentic systems.
+description: >- # ">-" folds newlines and drops the trailing one (a trailing newline breaks the Schema.org JSON-LD)
+  Arnav Rastogi's research notes and writing on AI, reinforcement learning, and agentic systems.
 footer_text: >
   Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
-  Photos from <a href="https://unsplash.com" target="_blank">Unsplash</a>.
-keywords: jekyll, jekyll-theme, academic-website, portfolio-website # add your own keywords or leave empty
+keywords: Arnav Rastogi, machine learning, deep learning, transformers, large language models, state space models, Mamba, reinforcement learning, mechanistic interpretability, agentic AI # add your own keywords or leave empty
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
 icon: favicon-a.svg # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
 apple_touch_icon: # image name in /assets/img/ (or a rooted path / absolute URL) used for iOS home-screen bookmarks; needs a real 180x180 PNG, since Safari ignores the emoji favicon above. Left empty, iOS falls back to a screenshot of the page.
@@ -110,9 +109,9 @@ max_width: 1230px
 # -----------------------------------------------------------------------------
 # Display links to the page with a preview object on social media.
 # see https://schema.org/docs/faq.html for more information
-serve_og_meta: false # Include Open Graph meta tags in the HTML head
-serve_schema_org: false # Include Schema.org in the HTML head
-og_image: # The site-wide (default for all links) Open Graph preview image
+serve_og_meta: true # Include Open Graph meta tags in the HTML head
+serve_schema_org: true # Include Schema.org in the HTML head
+og_image: /assets/img/og-card.jpg # site-wide default preview image (rooted path, site url is prepended); pages can override with og_image in front matter
 
 # -----------------------------------------------------------------------------
 # Analytics and search engine verification
@@ -137,7 +136,7 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # -----------------------------------------------------------------------------
 
 blog_name: arc-blog # blog_name will be displayed in your blog page
-blog_description: a simple whitespace theme for academics
+blog_description: notes and experiments from machine learning research
 permalink: /blog/:year/:title/
 lsi: false # produce an index for related posts
 
@@ -166,7 +165,7 @@ giscus:
   lang: en
 
 # Disqus comments (DEPRECATED)
-disqus_shortname: arc # put your disqus shortname
+disqus_shortname: # put your disqus shortname (unused: comments go through Giscus)
 # https://help.disqus.com/en/articles/1717111-what-s-a-shortname
 
 # External sources.
